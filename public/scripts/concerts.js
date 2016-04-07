@@ -1,7 +1,6 @@
 
-
 $(document).ready(function() {
 
-    console.log('app.js loaded!');
+    console.log('concerts.js loaded!');
 
   });

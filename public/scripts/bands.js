@@ -1,6 +1,6 @@
 
 $(document).ready(function() {
 
-    console.log('app.js loaded!');
+    console.log('bands.js loaded!');
 
   });

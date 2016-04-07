@@ -2,8 +2,7 @@ var mongoose = require("mongoose");
 var Schema = mongoose.Schema;
 
 var Concert = require("./concert.js");
-var Song = require("./song.js");
-var User = require(".user.js");
+var User = require("./user.js");
 
 var BandSchema = new Schema({
     name: String,
@@ -13,7 +12,6 @@ var BandSchema = new Schema({
     description: String,
     genres: Array,
     concerts: [Concert.schema],
-    songs: [Song.schema],
     followers: [User.schema]
 });
 

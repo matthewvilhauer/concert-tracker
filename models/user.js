@@ -6,7 +6,7 @@ var UserProfile = require("./user_profile.js");
 var UserSchema = new Schema({
     username: String,
     password: String,
-    userProfile: UserProfile.schema,
+    userProfile: UserProfile.schema
 });
 
 var User = mongoose.model('User', UserSchema);

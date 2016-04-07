@@ -2,7 +2,8 @@ var mongoose = require("mongoose");
 var Schema = mongoose.Schema;
 
 var Song = require("./song.js");
-var User = require(".user.js");
+var User = require("./user.js");
+var Recording = require("./recording.js");
 
 var ConcertSchema = new Schema({
     eventName: String,
@@ -11,7 +12,7 @@ var ConcertSchema = new Schema({
     description: String,
     location: String,
     eventURL: String,
-    setlist: [Song.schema],
+    songs: [Song.schema],
     attendees: [User.schema]
 });
 
