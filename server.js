@@ -41,11 +41,16 @@ app.get('/members', function homepage (req, res) {
  * JSON API Endpoints
  */
 
- app.get('/api', controllers.api.index);
+// API endpoint for describing all endpoints
+app.get('/api', controllers.api.index);
 
- //Get all albums
- app.get('/api/concerts', controllers.concerts.index);
 
+// BAND CRUD
+
+//Get all bands
+app.get('/api/bands', controllers.bands.index);
+//Get all bands
+app.get('/api/bands', controllers.bands.index);
 
 
 /**********

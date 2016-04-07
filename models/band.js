@@ -6,12 +6,15 @@ var User = require("./user.js");
 
 var BandSchema = new Schema({
     name: String,
-    artistName: String,
     formationDate: String,
-    label: String,
+    recordLabel: String,
     description: String,
+    image_url: String,
     genres: Array,
-    concerts: [Concert.schema],
+    concerts: {
+      type: Schema.Types.ObjectId,
+      ref: 'Concert'
+    },
     followers: [User.schema]
 });
 

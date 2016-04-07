@@ -1,0 +1,27 @@
+.jumbotron {
+  background-image: url(../images/cheese_front_row.jpg);
+  background-size: cover;
+  background-repeat: no-repeat;
+}
+.jumbotron .container {
+  height: 550px;
+}
+
+#site-header {
+  color: white;
+}
+#site-sub-header {
+  color: white;
+}
+#bands-header {
+  text-align: center;
+}
+.band-name {
+  text-align: center;
+}
+.band-image {
+  width:100%;
+}
+.band-row {
+  padding-left: 10px;
+}

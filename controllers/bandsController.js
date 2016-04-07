@@ -3,11 +3,23 @@ var db = require('../models');
 
 // GET /api/bands
 function index(req, res) {
-
+  db.Band.find( function(err, bands){
+    if (err) {
+      return console.log("Band Index Error: " + err);
+    }
+    res.json(bands);
+  });
 }
 
 function create(req, res) {
-
+  console.log('bands create', req.body);
+  var newBand = new db.Band(req.body);
+  newBand.save(function BandSaved(err, savedBand) {
+    if (err) {
+     return console.log("Could not save band. Error:" + err);
+   }
+    res.json(savedBand);
+  });
 }
 
 function show(req, res) {
