@@ -25,10 +25,26 @@ app.get('/', function homepage (req, res) {
   res.sendFile(__dirname + '/views/index.html');
 });
 
+app.get('/bands', function homepage (req, res) {
+  res.sendFile(__dirname + '/views/bands.html');
+});
+
+app.get('/concerts', function homepage (req, res) {
+  res.sendFile(__dirname + '/views/concerts.html');
+});
+
+app.get('/members', function homepage (req, res) {
+  res.sendFile(__dirname + '/views/user_profiles.html');
+});
+
 /*
  * JSON API Endpoints
  */
 
+ app.get('/api', controllers.api.index);
+
+ //Get all albums
+ app.get('/api/concerts', controllers.concerts.index);
 
 
 

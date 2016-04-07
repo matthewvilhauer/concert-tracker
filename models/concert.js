@@ -1,0 +1,20 @@
+var mongoose = require("mongoose");
+var Schema = mongoose.Schema;
+
+var Song = require("./song.js");
+var User = require("./user.js");
+var Recording = require("./recording.js");
+
+var ConcertSchema = new Schema({
+    eventName: String,
+    date: Date,
+    time: String,
+    description: String,
+    location: String,
+    eventURL: String,
+    songs: [Song.schema],
+    attendees: [User.schema]
+});
+
+var Concert = mongoose.model('Concert', ConcertSchema);
+module.exports = Concert;
