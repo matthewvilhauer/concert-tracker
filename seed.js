@@ -9,7 +9,7 @@ bandsList.push({
               formationDate: '1996',
               recordLabel: '1320 Records',
               description: 'Serious space funk.',
-              image_url: 'http://www.glidemagazine.com/glide/wp-content/uploads/2014/02/sts9-2012_press65.jpg',
+              image_url: 'http://cdn.phillymag.com/wp-content/uploads/2014/10/STS9-e1413212404996-937x541.jpg',
               genres: [ 'Jamband, Electronic, Jamtronica' ]
             });
 bandsList.push({

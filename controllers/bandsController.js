@@ -24,10 +24,34 @@ function create(req, res) {
 
 function show(req, res) {
 
+  var bandId = req.params.id;
+
+    // find band in db by id
+    db.Band.findOne({ _id: bandId }, function (err, foundBand) {
+      if (err) {
+        if (err.name === "CastError") {
+          res.status(404).json({ error: "Nothing found by this ID." });
+        } else {
+          res.status(500).json({ error: err.message });
+        }
+      } else {
+        res.json(foundBand);
+      }
+    });
+
 }
 
 function destroy(req, res) {
-
+  bandId = req.params.id;
+  console.log("Req params"+req.params);
+  db.Band.findOneAndRemove({ _id: bandId }, function (err, deletedBand) {
+    db.Band.find( function(err, bands){
+      if (err) {
+        return console.log("Band Index Error: " + err);
+      }
+      res.json(bands);
+    });
+  });
 }
 
 function update(req, res) {

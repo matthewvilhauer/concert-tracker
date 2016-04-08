@@ -51,7 +51,10 @@ app.get('/api', controllers.api.index);
 app.get('/api/bands', controllers.bands.index);
 //Create a band
 app.post('/api/bands', controllers.bands.create);
-
+//Show a band
+app.get('/api/bands/:id', controllers.bands.show);
+//Delete a band
+app.delete('/api/bands/:id', controllers.bands.destroy);
 
 /**********
 * SERVER *
