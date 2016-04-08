@@ -56,6 +56,18 @@ app.get('/api/bands/:id', controllers.bands.show);
 //Delete a band
 app.delete('/api/bands/:id', controllers.bands.destroy);
 
+
+// CONCERT CRUD
+
+//Get all bands
+app.get('/api/concerts', controllers.concerts.index);
+//Create a concert
+app.post('/api/concerts', controllers.concerts.create);
+//Show a concert
+app.get('/api/concerts/:id', controllers.concerts.show);
+//Delete a concert
+app.delete('/api/concerts/:id', controllers.concerts.destroy);
+
 /**********
 * SERVER *
 **********/

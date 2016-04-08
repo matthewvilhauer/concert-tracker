@@ -32,12 +32,26 @@ $(document).ready(function() {
       });
     });
 
-    // //If the Add Songs button is clicked, activate the modal  handleDeleteBandClick
-    // $('.update-band-button').on('click', function() {
-    //     var bandIden = $('.update-band-button').attr('data-id', id);
-    //     console.log('id',bandIden);
-    // $('#myModal').attr('data-id', bandIden);
-    // });
+    //Get all Concerts
+    $.ajax({
+      method: 'GET',
+      url: '/api/concerts',
+      success: handleConcertSuccess,
+      error: handleConcertError
+    });
+
+    //Add an Concert
+    $('#concert-form').on('submit', function(e) {
+      e.preventDefault();
+      $.ajax({
+        method: 'POST',
+        url: '/api/concerts',
+        data: $(this).serialize(),
+        success: createConcertSuccess,
+        error: createConcertError
+      });
+    });
+
 });
 
 // this function takes a single band and renders it to the page
