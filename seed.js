@@ -5,12 +5,12 @@ var db = require("./models");
 
 var bandsList = [];
 bandsList.push({
-              name: 'Sound Tribe Sector 9',
-              formationDate: '1996',
-              recordLabel: '1320 Records',
-              description: 'Serious space funk.',
-              image_url: 'http://cdn.phillymag.com/wp-content/uploads/2014/10/STS9-e1413212404996-937x541.jpg',
-              genres: [ 'Jamband, Electronic, Jamtronica' ]
+              name: 'The String Cheese Incident',
+              formationDate: '1993',
+              recordLabel: 'SCI Fidelity Records',
+              description: 'Best band in the world!',
+              image_url: '../images/String-cheese.jpg',
+              genres: 'Jamband, Rock'
             });
 bandsList.push({
               name: 'Keller Williams',
@@ -21,13 +21,15 @@ bandsList.push({
               genres: [ 'Jamband, Rock, Funk, Bluegrass' ]
             });
 bandsList.push({
-              name: 'The String Cheese Incident',
-              formationDate: '1993',
-              recordLabel: 'SCI Fidelity Records',
-              description: 'Best band in the world!',
-              image_url: '../images/String-cheese.jpg',
-              genres: 'Jamband, Rock'
+              name: 'Sound Tribe Sector 9',
+              formationDate: '1996',
+              recordLabel: '1320 Records',
+              description: 'Serious space funk.',
+              image_url: 'http://cdn.phillymag.com/wp-content/uploads/2014/10/STS9-e1413212404996-937x541.jpg',
+              genres: [ 'Jamband, Electronic, Jamtronica' ]
             });
+
+
 
 db.Band.remove({}, function(err, bands){
 

@@ -20,7 +20,7 @@
     <script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/handlebars.js/4.0.5/handlebars.min.js"></script>
 
     <!-- APPLICATION SCRIPTS -->
-    <script type="text/javascript" src="scripts/bands.js"></script>
+    <script type="text/javascript" src="/scripts/bands.js"></script>
 
   </head>
 
@@ -67,7 +67,7 @@
 
     </section>
       <!-- bands! -->
-      <div id='bands' data-band-id={{band._id}}>
+      <div id='bands' data-band-id="{{band._id}}">
 
         <!-- handlebars template -->
         <script id="band-template" type="text/x-handlebars-template">
@@ -93,7 +93,7 @@
                       <ul class="list-group" id="add-songs">
                         <li class="list-group-item">
                           <h4 class='inline-header'>Formation Date:</h4>
-                          <span class='artist-name'>{{band.formationDate}}</span>
+                          <span class='band-formationDate'>{{band.formationDate}}</span>
                         </li>
                         <li class="list-group-item">
                           <h4 class='inline-header'>Record Label:</h4>
@@ -109,12 +109,13 @@
                         </li>
                         <li class="list-group-item">
                           <h4 class='inline-header'>ID:</h4>
-                          <span class='band-id'>{{band._id}}</span>
+                          <span class='band-Id'>{{band._id}}</span>
                         </li>
                       </ul>
                     </div>
                   </div>
-                  <button type="button" name="delete-band-button" class="delete-band-button btn btn-danger pull-right" data-band-id={{band._id}}>Delete</button>
+
+                  <button type="button" class="delete-band-button btn btn-md btn-danger pull-right" data-band-id="{{band._id}}">Delete</button>
                   <!-- end of band internal row -->
 
                 </div>
@@ -192,7 +193,7 @@
               <!-- Button -->
               <div class="form-group">
                 <div class="col-md-4">
-                  <button id="singlebutton" name="submit" class="btn btn-primary">Submit</button>
+                  <button id="singlebutton" name="submit" class="btn btn-lg btn-primary add-band-submit">Submit</button>
                 </div>
               </div>
 
