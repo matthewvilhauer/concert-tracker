@@ -39,15 +39,14 @@ $(document).ready(function() {
 function renderBand(band) {
 
   // var $concerts = band.concerts;
-
   console.log('rendering band');
-  // $bandsList.empty();
-  // pass `allSnippets` into the template function
+
+  // pass the band into the template function
   var bandHtml = template({ band: band});
 
   // append html to the view
   $bandsList.prepend(bandHtml);
-  //$('#add-songs').append(songsFormatted);
+
 }
 
 
@@ -62,6 +61,7 @@ function handleBandError(e) {
   $('#bandTarget').text('Failed to load bands, is the server working?');
 }
 
+
 // On creation of an Album, render it
 function createBandSuccess(band) {
     renderBand(band);
@@ -69,4 +69,18 @@ function createBandSuccess(band) {
 function createBandError(e) {
   console.log('Error creating band');
   $('#bandTarget').text('Failed to create band, is the server working?');
+}
+
+//Turn an image file into a URL
+function readURL(input) {
+   if (input.files && input.files[0]) {
+       var reader = new FileReader();
+
+       reader.onload = function (e) {
+           $('.band-image')
+               .attr('src', e.target.result);
+       };
+
+       reader.readAsDataURL(input.files[0]);
+   }
 }

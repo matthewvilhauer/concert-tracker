@@ -49,8 +49,8 @@ app.get('/api', controllers.api.index);
 
 //Get all bands
 app.get('/api/bands', controllers.bands.index);
-//Get all bands
-app.get('/api/bands', controllers.bands.index);
+//Create a band
+app.post('/api/bands', controllers.bands.create);
 
 
 /**********

@@ -10,7 +10,7 @@ var BandSchema = new Schema({
     recordLabel: String,
     description: String,
     image_url: String,
-    genres: Array,
+    genres: String,
     concerts: {
       type: Schema.Types.ObjectId,
       ref: 'Concert'

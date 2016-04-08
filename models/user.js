@@ -6,6 +6,7 @@ var UserProfile = require("./user_profile.js");
 var UserSchema = new Schema({
     username: String,
     password: String,
+    email: String,
     userProfile: UserProfile.schema
 });
 

@@ -86,9 +86,8 @@
                       <h3 class='band-name'>{{band.name}}</h3>
                     </div>
                     <div class="col-md-3 col-xs-12 thumbnail album-art">
-                      <span class='band-image'><img class="img-responsive band-image" src="/images/String-cheese.jpg"/></span>
+                      <img class="img-responsive band-image" src="{{band.image_url}}" alt="band image"/>
                     </div>
-
                     <div class="col-md-9 col-xs-12">
                       <ul class="list-group" id="add-songs">
                         <li class="list-group-item">
@@ -109,6 +108,9 @@
                         </li>
                       </ul>
                     </div>
+                    <div class="col-xs-12">
+                      <button class='btn btn-danger delete-band pull-right' data-id={{_id}}>Delete Band</button>
+                    </div>
                   </div>
                   <!-- end of album internal row -->
 
@@ -126,7 +128,7 @@
 
       <section class="container">
         <div class="row">
-          <div class="col-md-10 col-md-offset-1">
+          <div class="col-md-10 col-offset-1">
 
             <form id='band-form' class="form-horizontal">
               <fieldset>
@@ -137,16 +139,15 @@
               <!-- Text input-->
               <div class="form-group">
                 <label class="col-md-4 control-label" for="name">Band Name</label>
-                <div class="col-md-4">
+                <div class="col-md-8">
                 <input id="band-name" name="name" type="text" placeholder="" class="form-control input-md" required="">
-
                 </div>
               </div>
 
               <!-- Text input-->
               <div class="form-group">
-                <label class="col-md-4 control-label" for="artistName">Formation Date</label>
-                <div class="col-md-4">
+                <label class="col-md-4 control-label" for="formationDate">Formation Date</label>
+                <div class="col-md-8">
                 <input id="band-formationDate" name="formationDate" type="text" placeholder="" class="form-control input-md">
 
                 </div>
@@ -154,27 +155,34 @@
 
               <!-- Text input-->
               <div class="form-group">
-                <label class="col-md-4 control-label" for="releaseDate">Record Label</label>
-                <div class="col-md-4">
+                <label class="col-md-4 control-label" for="recordLabel">Record Label</label>
+                <div class="col-md-8">
                 <input id="band-recordLabel" name="recordLabel" type="text" placeholder="Enter Record Label here" class="form-control input-md">
 
+                </div>
+              </div>
+
+              <!-- Text input-->
+              <div class="form-group">
+                <label class="col-md-4 control-label" for="image_url">Image URL</label>
+                <div class="col-md-8">
+                <input id="band-image-url" name="image_url" type="text" placeholder="Upload an Image" class="form-control input-md">
                 </div>
               </div>
 
               <!-- Textarea-->
               <div class="form-group">
                 <label class="col-md-4 control-label" for="releaseDate">Description</label>
-                <div class="col-md-4">
-                <textarea id="band-description" name="description" type="text" placeholder="Enter Description here" class="form-control input-md"></textarea>
-
+                <div class="col-md-8">
+                  <textarea class="form-control input-md" id="band-description" name="description" type="text" placeholder="Enter Description here" class="form-control input-md"></textarea>
                 </div>
               </div>
 
               <!-- Textarea -->
               <div class="form-group">
-                <label class="col-md-4 control-label" for="genres">Genres (separated by commas)</label>
-                <div class="col-md-4">
-                  <textarea class="form-control input-md" id="band-genres" name="genres">rock, pop</textarea>
+                <label class="col-md-4 control-label" for="genres">Genres</label>
+                <div class="col-md-8">
+                  <textarea class="form-control input-md" id="band-genres" name="genres" type="text" placeholder="Enter Genres here. Separate with commas."></textarea>
                 </div>
               </div>
 
@@ -192,7 +200,7 @@
     </section>
 
     <div class='panel-footer'>
-      <button class='btn btn-success btn-group-lg add-band' data-toggle="modal" data-target="#myModal" data-id="myModal">Add Band</button>
+      <button class='btn btn-group-lg btn-success add-band' data-toggle="modal" data-target="#myModal" data-id="myModal">Add Band</button>
     </div>
 
   </body>
