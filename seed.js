@@ -10,7 +10,8 @@ bandsList.push({
               recordLabel: 'SCI Fidelity Records',
               description: 'Best band in the world!',
               image_url: '../images/String-cheese.jpg',
-              genres: 'Jamband, Rock'
+              genres: 'Jamband, Rock',
+              concerts: []
             });
 bandsList.push({
               name: 'Keller Williams',
@@ -18,7 +19,8 @@ bandsList.push({
               recordLabel: 'SCI Fidelity Records',
               description: 'A ninja of love that keeps his kidney in a cooler.',
               image_url: 'http://www.thedistrictsf.com/images/events/KW1.jpg',
-              genres: [ 'Jamband, Rock, Funk, Bluegrass' ]
+              genres: 'Jamband, Rock, Funk, Bluegrass',
+              concerts: []
             });
 bandsList.push({
               name: 'Sound Tribe Sector 9',
@@ -26,9 +28,25 @@ bandsList.push({
               recordLabel: '1320 Records',
               description: 'Serious space funk.',
               image_url: 'http://cdn.phillymag.com/wp-content/uploads/2014/10/STS9-e1413212404996-937x541.jpg',
-              genres: [ 'Jamband, Electronic, Jamtronica' ]
+              genres: 'Jamband, Electronic, Jamtronica',
+              concerts: []
             });
 
+// var concertsList = [];
+//
+// concertsList.push({
+//               eventName: "String Cheese at Merriwhether",
+//               date: "10/31/2015",
+//               time: "6:30pm doors",
+//               description: "Maryland Music Festival",
+//               location: "Merriwhether Post Pavilion",
+//               event_url: "http://www.930.com/event/1049801-rjd2-washington/",
+//               image_url: "http://cdn.ticketfly.com/i/00/01/86/24/87-elg.png",
+//             });
+//
+// bandsList.forEach(function(band) {
+//   band.concerts = concertsList;
+// });
 
 
 db.Band.remove({}, function(err, bands){

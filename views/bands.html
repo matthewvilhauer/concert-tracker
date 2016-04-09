@@ -109,6 +109,10 @@
                           <span class='band-releaseDate'>{{band.genres}}</span>
                         </li>
                         <li class="list-group-item">
+                          <h4 class='inline-header'>ID:</h4>
+                          <span class='band-Id'>{{band._id}}</span>
+                        </li>
+                        <li class="list-group-item">
                           <h4 class='inline-header'>Concerts:</h4>
                           <span class='band-Id'>{{band.concerts}}</span>
                         </li>
@@ -186,6 +190,13 @@
               <label class="col-md-2 col-md-offset-1 control-label" for="genres">Genres</label>
               <div class="col-md-8">
                 <textarea class="form-control input-md" id="band-genres" name="genres" placeholder="Enter Genres (separated by commas)"></textarea>
+              </div>
+            </div>
+            <!-- Textarea -->
+            <div class="form-group">
+              <label class="col-md-2 col-md-offset-1 control-label" for="concerts">Concerts</label>
+              <div class="col-md-8">
+                <input class="form-control input-md" id="band-concerts" name="concerts" placeholder="Enter Concert IDs"></input>
               </div>
             </div>
 

@@ -41,7 +41,7 @@
         <!-- Collect the nav links, forms, and other content for toggling -->
         <div class="collapse navbar-collapse" id="bs-example-navbar-collapse-1">
           <ul class="nav navbar-nav">
-            <li><a href="/concerts">Bands</a></li>
+            <li><a href="/bands">Bands</a></li>
             <li class="active"><a href="/concerts">Concerts<span class="sr-only">(current)</span></a></li>
             <li><a href="/members">Members</a></li>
           </ul>
@@ -92,30 +92,28 @@
                       <ul class="list-group" id="add-concerts">
                         <li class="list-group-item">
                           <h4 class='inline-header'>Band</h4>
-                          <span class='concert-formationDate'>{{concert.eventName}}</span>
+                          <span class='concert-band' band-data-id="{{concert.band}}"></span>
                         </li>
                         <li class="list-group-item">
                           <h4 class='inline-header'>Date</h4>
-                          <span class='concert-formationDate'>{{concert.date}}</span>
+                          <span class='concertDate'></span>
                         </li>
                         <li class="list-group-item">
                           <h4 class='inline-header'>Location:</h4>
                           <span class='concert-releaseDate'>{{concert.location}}</span>
                         </li>
                         <li class="list-group-item">
-                          <h4 class='inline-header'>Time:</h4>
-                          <span class='concert-releaseDate'>{{concert.time}}</span>
-                        </li>
-                        <li class="list-group-item">
                           <h4 class='inline-header'>Description:</h4>
                           <span class='concert-releaseDate'>{{concert.description}}</span>
                         </li>
                         <li class="list-group-item">
-                          <h4 class='inline-header'>Event Link:</h4>
-                          <span class='concert-Id'>{{concert.event_url}}</span>
+                          <h4 class='inline-header'>ID</h4>
+                          <span class='concert-event-url'>{{concert._id}}</span>
                         </li>
                       </ul>
-                    </div>
+                      <div class="music-player">
+
+                      </div>
                   </div>
 
                   <button type="button" class="delete-concert-button btn btn-md btn-danger pull-right" data-concert-id="{{concert._id}}">Delete</button>
@@ -152,13 +150,7 @@
             <div class="form-group">
               <label class="col-md-2 col-md-offset-1 control-label" for="band">Band</label>
               <div class="col-md-8">
-
-                <select id="concert-band" name="band" class="form-control input-md" required="">
-                    <option value="" disabled="disabled" selected="selected">Please select a name</option>
-                    <option value="1">One</option>
-                    <option value="2">Two</option>
-                </select>
-
+                <textarea id="concert-band" name="band" type="text" placeholder="Enter Band IDs, separated by commas" class="form-control input-md"></textarea>
               </div>
             </div>
 
@@ -189,17 +181,17 @@
 
             <!-- Text input-->
             <div class="form-group">
-              <label class="col-md-2 col-md-offset-1 control-label" for="event_url">Event URL</label>
+              <label class="col-md-2 col-md-offset-1 control-label" for="image_url">Image URL</label>
               <div class="col-md-8">
-              <input id="concert-event-url" name="event_url" type="text" placeholder="Enter Event URL here" class="form-control input-md">
+              <input id="concert-image-url" name="image_url" type="text" placeholder="Enter Image URL here" class="form-control input-md">
               </div>
             </div>
 
             <!-- Text input-->
             <div class="form-group">
-              <label class="col-md-2 col-md-offset-1 control-label" for="image_url">Image URL</label>
+              <label class="col-md-2 col-md-offset-1 control-label" for="recording_url">Recording URL</label>
               <div class="col-md-8">
-              <input id="concert-image-url" name="image_url" type="text" placeholder="Enter Image URL here" class="form-control input-md">
+                <input id="concert-recording-url" name="recording_url" type="text" placeholder="Enter Archive.org URL here" class="form-control input-md">
               </div>
             </div>
 

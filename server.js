@@ -68,6 +68,21 @@ app.get('/api/concerts/:id', controllers.concerts.show);
 //Delete a concert
 app.delete('/api/concerts/:id', controllers.concerts.destroy);
 
+
+
+
+function getRecording() {
+
+  var archiveEndpoint = "https://archive.org/details/sci2004-06-19.flac16?output=json";
+
+  $.ajax({
+    method: "GET",
+    url: archiveEndpoint,
+    success: onRecordingSuccess,
+    error: onRecordingError
+  });
+}
+
 /**********
 * SERVER *
 **********/

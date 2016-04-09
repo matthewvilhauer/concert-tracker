@@ -3,12 +3,13 @@ var db = require('../models');
 
 // GET /api/concerts
 function index(req, res) {
-  db.Concert.find( function(err, concerts){
-    if (err) {
-      return console.log("Concert Index Error: " + err);
-    }
-    res.json(concerts);
-  });
+  db.Concert.find(function(err, concerts) {
+      if (err) {
+        console.log("Error retrieving all bands", err);
+      }
+      console.log(concerts);
+      res.json(concerts);
+    });
 }
 
 function create(req, res) {

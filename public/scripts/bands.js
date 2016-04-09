@@ -32,45 +32,23 @@ $(document).ready(function() {
       });
     });
 
-    //Get all Concerts
-    $.ajax({
-      method: 'GET',
-      url: '/api/concerts',
-      success: handleConcertSuccess,
-      error: handleConcertError
-    });
-
-    //Add an Concert
-    $('#concert-form').on('submit', function(e) {
-      e.preventDefault();
-      $.ajax({
-        method: 'POST',
-        url: '/api/concerts',
-        data: $(this).serialize(),
-        success: createConcertSuccess,
-        error: createConcertError
-      });
-    });
-
 });
 
 // this function takes a single band and renders it to the page
 function renderBand(band) {
   console.log('rendering band');
-  // $bandsList.empty();
-  // pass `allSnippets` into the template function
+
+  // pass the band into the template function
   var bandHtml = template({ band: band});
 
   // append html to the view
   $bandsList.append(bandHtml);
-
 }
-
 
 //Render all the bands in the Bands array
 function handleBandSuccess(bands) {
   $bandsList.empty();
-
+  console.log(bands);
   bands.forEach(function(band) {
     renderBand(band);
     $('.delete-band-button').on('click', handleDeleteBandClick);
