@@ -33,12 +33,10 @@ $(document).ready(function() {
       });
     });
 
-  });
+});
 
 // this function takes a single concert and renders it to the page
 function renderConcert(concert) {
-
-  var formattedDate = concert.date.substr(0,10);
 
   console.log('rendering concert');
 
@@ -54,7 +52,6 @@ function renderConcert(concert) {
   var recordingLink = concert.recording_url;
   console.log("Recording: "+recordingLink);
   renderRecording(recordingLink);
-  $(".concertDate").append(formattedDate);
 }
 
 //Render all the concerts in the Concerts array
@@ -72,18 +69,19 @@ function handleConcertError(e) {
   $('#concertTarget').text('Failed to load concerts, is the server working?');
 }
 
+
 // On creation of an Concert, render it
 function createConcertSuccess(concert) {
   $('#concert-form input').val('');
   $('#concert-form textarea').val('');
     renderConcert(concert);
     $('.delete-concert-button').on('click', handleDeleteConcertClick);
-
 }
 function createConcertError(e) {
   console.log('Error creating concert');
   $('#concertTarget').text('Failed to create concert, is the server working?');
 }
+
 
 // On deletion of an Concert, render new concert list
 function handleDeleteConcertClick(e) {
@@ -96,34 +94,40 @@ function handleDeleteConcertClick(e) {
     error: deleteConcertError
   });
 }
-
 function deleteConcertError(e) {
   console.log('Error deleting concert');
   $('#concertTarget').text('Failed to delete concert, is the server working?');
 }
 
-// function getRecording() {
-//
-//   var archiveEndpoint = "https://archive.org/details/sci2004-06-19.flac16?output=json";
-//
-//   $.ajax({
-//     method: "GET",
-//     headers: { 'Access-Control-Allow-Origin': 'Access-Control-Allow-Origin' },
-//     url: archiveEndpoint,
-//     success: onRecordingSuccess,
-//     error: onRecordingError
-//   });
-// }
-//
-// function onRecordingSuccess(data) {
-//   console.log(data);
-// }
-// function onRecordingError(err) {
-//   console.log('Error getting data!');
-// }
-
+// Create the iFrame HTML from the Recording Link
 function renderRecording(link) {
-  iframe_link = '<iframe src='+link+'&playlist=1 width="900" height="500" frameborder="0" webkitallowfullscreen="true" mozallowfullscreen="true" allowfullscreen></iframe>';
+  iframe_link = '<iframe src='+link+'&playlist=1 frameborder="0" webkitallowfullscreen="true" mozallowfullscreen="true" allowfullscreen></iframe>';
   console.log("iFrame Link: "+iframe_link);
   $('.music-player').html(iframe_link);
+}
+
+
+function getRecordingLink() {
+
+  var archiveEndpoint = "https://archive.org/embed/";
+  var outputJSON = "?output=json";
+
+  $.ajax({
+    method: "GET",
+    header: {'Access-Control-Allow-Origin':'Access-Control-Allow-Origin'},
+    url: archiveEndpoint,
+    data: outputJSON,
+    success: onRecordingSuccess,
+    error: onRecordingError
+  });
+
+  function onRecordingSuccess(archiveJSON) {
+    var concertIdentifier = archiveJSON.metadata.identifier;
+    console.log(concertIdentifier);
+    var concertLink = archiveEndpoint+concertIdentifier;
+    renderRecording(concertLink);
+  }
+  function onRecordingError(err) {
+    console.log("Error Retrieving Archive data: ", err);
+  }
 }

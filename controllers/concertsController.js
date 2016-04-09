@@ -19,6 +19,9 @@ function create(req, res) {
     if (err) {
      return console.log("Could not save concert. Error:" + err);
    }
+    var concertDate = savedConcert.date;
+    console.log("Concert Date: "+concertDate);
+    //var formattedAddress= concert.substr(0, concert.indexOf('T'));
     res.json(savedConcert);
   });
 }
