@@ -123,27 +123,16 @@
                         </ul>
                       </div>
                     </div>
-                    <!-- end of band internal row -->
                   </div>
-
                   <div class='panel-footer'>
-                    <button class="delete-band-button btn btn-md btn-danger pull-right"
-                            data-band-id="{{band._id}}">
-                            Delete
-                    </button>
-                    <button class="update-band-button btn btn-md btn-primary pull-right"
-                            data="{{ band._id }}">
-                            Update
-                    </button>
-                    <button class="save-band-button btn btn-success pull-right hidden"
-                            data="{{ band._id }}">
-                            Save Changes
-                    </button>
+                    <button class="delete-band-button btn btn-md btn-danger pull-right" data-band-id="{{band._id}}">Delete</button>
+                    <button class="update-band-button btn btn-md btn-primary pull-right" data-band-id="{{ band._id }}">Update</button>
+                    <button class="save-band-button btn btn-success pull-right hidden" data-band-id="{{ band._id }}">Save Changes</button>
                   </div>
-
                 </div>
               </div>
             </div>
+            <!-- end of band internal row -->
           {{/each}}
         </script>
       </div>

@@ -7,6 +7,9 @@ var template;
 var $bandsList;
 var allBands = {};
 
+
+//************* Document Ready *********************
+
 $(document).ready(function() {
 
     console.log('bands.js loaded!');
@@ -17,102 +20,65 @@ $(document).ready(function() {
     var source = $('#band-template').html();
     template = Handlebars.compile(source);
 
-    //Get all Bands
-    $.ajax({
-      method: 'GET',
-      url: '/api/bands',
-      success: indexBandSuccess,
-      error: indexBandError
-    });
-
-    //Add an Band
-    $('#add-band-form').on('submit', handleAddBandClick);
+    renderBandIndex();
 
 });
 
-
 /**********
-* RENDER BAND TEMPLATE *
+* INDEX *
 **********/
 
-// this function takes a single band and renders it to the page
-function renderBands(bands) {
+//Get all Bands
+function renderBandIndex() {
 
-  console.log('rendering bands', bands);
+  $.ajax({
+    method: 'GET',
+    url: '/api/bands',
+    success: renderBandIndexSuccess,
+    error: renderBandIndexError
+  });
+}
 
+//Display Index of all the Bands in the Bands array
+function renderBandIndexSuccess(bands) {
+
+  bands.forEach( function(band) {
+    allBands[band._id] = band;
+  });
+  //Empty the old list of bands
+  $bandsList.empty();
+
+  console.log('renderBandIndex allBands value: ', allBands);
   // pass the band into the template function
   var bandHtml = template({ bands: bands});
   // append html to the view
   $bandsList.append(bandHtml);
 
   //************* Add click handlers for each band button *********************
-
+  //Add an Band
+  $('#add-band-form').on('submit', handleAddBandClick);
   //Delete band click handler
-  // $('.delete-band-button').on('click', handleDeleteBandClick);
+  $('.delete-band-button').on('click', handleDeleteBandClick);
   //Update band click handler
   $('.update-band-button').on('click', handleUpdateBandClick);
   //Save band click handler
   $('.save-band-button').on('click', handleSaveChangesClick);
 }
-
-
-/**********
-* CRUD Success/Error Handlers*
-**********/
-
-//Display Index of all the Bands in the Bands array
-function indexBandSuccess(bands) {
-  // debugger
-  // // $bandsList.empty();
-  // [].forEach.call(bands, function(band) {
-  //   allBands[band._id] = band;
-    renderBands(bands);
-
-}
-function indexBandError(e) {
+function renderBandIndexError(e) {
   console.log('Error loading bands');
 }
 
 
-// On creation of a single Band, render it
-function createBandSuccess(band) {
-  $('#add-band-form input').val('');
-  $('#add-band-form textarea').val('');
-  allBands[band._id] = band;
-  renderBands(allBands);
-}
-function createBandError(e) {
-  console.log('Error creating band');
-}
-
-
-function deleteBandSuccess(band) {
-  // $bandsList.empty();
-  delete allBands[band._id];
-
-  renderBands(allBands);
-  // bands.forEach(function(band) {
-  //   allBands[band._id] = band;
-  //   renderBand(band);
-  // });
-}
-function indexBandError(e) {
-  console.log('Error loading bands');
-}
-
-// On error deletion of a single Band, render it
-function deleteBandError(e) {
-  console.log('Error deleting band');
-}
-
-
 /**********
-* Click Handlers *
+* CREATE *
 **********/
 
-// What happens when the Add Band button is clicked
+// Send the new band data to the server when the Add Band button is clicked
 function handleAddBandClick(e) {
-  e.preventDefault();
+
+  console.log("All bands before add:", allBands);
+  // e.preventDefault();
+
   $.ajax({
     method: 'POST',
     url: '/api/bands',
@@ -120,21 +86,35 @@ function handleAddBandClick(e) {
     success: createBandSuccess,
     error: createBandError
   });
+
+  renderBandIndex();
 }
-function deleteBand(element) {
-  var bandId = $(element).data('band-id');
-  $.ajax({
-    method: 'DELETE',
-    url: '/api/bands/' + bandId,
-    success: deleteBandSuccess,
-    error: deleteBandError
-  });
-  allBands[bandId] = null;
+// On creation of a single Band, re-render the list of bands
+function createBandSuccess(band) {
+
+  console.log("Band: ", band);
+  $('#add-band-form input').val('');
+  $('#add-band-form textarea').val('');
+
+  allBands[band._id] = band;
+  console.log("On createBandSuccess allBands value: ", allBands);
+
 }
-// On deletion of an Band, render new band list
+function createBandError(e) {
+  console.log('Error creating band');
+}
+
+
+/**********
+* DELETE *
+**********/
+
+// Send the ID of the band to be deleted to the server
 function handleDeleteBandClick(e) {
   var $bandRow = $(this).closest('.band');
   var bandId = $bandRow.data('band-id');
+  delete allBands[bandId];
+  console.log("On handleDeleteBandClick allBands value: ", allBands);
   console.log('someone wants to delete band id=' + bandId );
   $.ajax({
     method: 'DELETE',
@@ -143,11 +123,39 @@ function handleDeleteBandClick(e) {
     error: deleteBandError
   });
 }
+// Remove the deleted band from allBands and re-render the list of bands
+function deleteBandSuccess(band) {
+
+  // delete allBands[band._id];
+
+  console.log("On deleteBandSuccess allBands value: ", allBands);
+
+  renderBandIndex();
+  location.reload();
+}
+function deleteBandError(e) {
+  console.log('Error deleting band');
+}
+// function deleteBand(element) {
+//   var bandId = $(element).data('band-id');
+//   $.ajax({
+//     method: 'DELETE',
+//     url: '/api/bands/' + bandId,
+//     success: deleteBandSuccess,
+//     error: deleteBandError
+//   });
+//   allBands[bandId] = null;
+// }
+
+/**********
+* UPDATE *
+**********/
 
 // when the Edit button for an band is clicked
 function handleUpdateBandClick(e) {
   var $bandRow = $(this).closest('.band');
   var bandId = $bandRow.data('band-id');
+
   console.log('edit band', bandId);
 
 // debugger;
@@ -155,7 +163,7 @@ function handleUpdateBandClick(e) {
   $(this).parent().find('.save-band-button').toggleClass('hidden');
 
   // hide the edit button
-    $(this).parent().find('.update-band-button').toggleClass('hidden');
+  $(this).parent().find('.update-band-button').toggleClass('hidden');
 
   // get the band name and replace its field with an input element
   var bandName = $bandRow.find('span.band-name').text();
@@ -187,22 +195,21 @@ function handleSaveChangesClick(e) {
     success: handleUpdatedBandResponse,
     error: handleUpdatedBandError
   });
+  location.reload();
 }
 
 function handleUpdatedBandResponse(band) {
   console.log('response to update', band);
-
-  var bandId = band._id;
   allBands[band._id] = band;
+  var bandId = band._id;
   // scratch this band from the page
   $('[data-band-id=' + bandId + ']').remove();
   // and then re-draw it with the updates ;-)
-  renderBand(band);
+  renderBandIndex();
 
   // BONUS: scroll the change into view ;-)
   // $('[data-band-id=' + bandId + ']')[0].scrollIntoView();
 }
-
 function handleUpdatedBandError(err) {
   console.log('Error updating band: ', err);
 }
