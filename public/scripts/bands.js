@@ -158,25 +158,28 @@ function handleUpdateBandClick(e) {
 
   console.log('edit band', bandId);
 
-// debugger;
   // show the save changes button
   $(this).parent().find('.save-band-button').toggleClass('hidden');
-
   // hide the edit button
   $(this).parent().find('.update-band-button').toggleClass('hidden');
 
-  // get the band name and replace its field with an input element
-  var bandName = $bandRow.find('span.band-name').text();
-  $bandRow.find('span.band-name').html('<input class="update-band-name" value="' + bandName + '"></input>');
+  $bandRow.find('.edit-band-image').toggleClass('hidden');
 
-  // // get the artist name and replace its field with an input element
-  // var artistName = $bandRow.find('span.artist-name').text();
-  // $bandRow.find('span.artist-name').html('<input class="edit-artist-name" value="' + artistName + '"></input>');
-  //
-  // // get the releasedate and replace its field with an input element
-  // var releaseDate = $bandRow.find('span.band-releaseDate').text();
-  // $bandRow.find('span.band-releaseDate').html('<input class="edit-band-releaseDate" value="' + releaseDate + '"></input>');
+  // get the band attributes and replace their fields with an input element
+  var bandName = $bandRow.find('span.band-name').text();
+  $bandRow.find('span.band-name').html('<input class="update-band update-band-name" value="' + bandName + '"></input>');
+  var formationDate = $bandRow.find('span.band-formationDate').text();
+  $bandRow.find('span.band-formationDate').html('<input class="update-band update-band-formationDate" value="' + formationDate + '"></input>');
+  var recordLabel = $bandRow.find('span.band-recordLabel').text();
+  $bandRow.find('span.band-recordLabel').html('<input class="update-band update-band-recordLabel" value="' + recordLabel + '"></input>');
+  var description = $bandRow.find('span.band-description').text();
+  $bandRow.find('span.band-description').html('<textarea class="update-band update-band-description">' + description + '</textarea>');
+  var genres = $bandRow.find('span.band-genres').text();
+  $bandRow.find('span.band-genres').html('<textarea class="update-band update-band-genres">' + genres + '</textarea>');
+  var imageURL = $bandRow.find('span.band-image-url').text();
+  $bandRow.find('span.band-image-url').html('<input class="update-band update-band-image-url" value="' + imageURL + '"></input>');
 }
+
 
 // after editing an band, when the save changes button is clicked
 function handleSaveChangesClick(e) {
@@ -184,7 +187,12 @@ function handleSaveChangesClick(e) {
   var $bandRow = $('[data-band-id=' + bandId + ']');
 
   var data = {
-    name: $bandRow.find('.update-band-name').val()
+    name: $bandRow.find('.update-band-name').val(),
+    formationDate: $bandRow.find('.update-band-formationDate').val(),
+    recordLabel: $bandRow.find('.update-band-recordLabel').val(),
+    description: $bandRow.find('.update-band-description').val(),
+    genres: $bandRow.find('.update-band-genres').val(),
+    image_url: $bandRow.find('.update-band-image-url').val(),
   };
   console.log('PUTing data for band', bandId, 'with data', data);
 

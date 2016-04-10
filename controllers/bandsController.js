@@ -70,6 +70,11 @@ function update(req, res) {
     if(err) { console.log('bandsController.update error', err); }
 
     foundBand.name = req.body.name;
+    foundBand.formationDate = req.body.formationDate;
+    foundBand.recordLabel = req.body.recordLabel;
+    foundBand.description = req.body.description;
+    foundBand.genres = req.body.genres;
+    foundBand.image_url = req.body.image_url;
 
     foundBand.save(function(err, savedBand) {
       if(err) { console.log('saving altered band failed'); }
