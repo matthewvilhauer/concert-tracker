@@ -41,3 +41,7 @@
 .update-band {
   width: 100%;
 }
+iframe {
+  width: 100%;
+  height: 350px;
+}

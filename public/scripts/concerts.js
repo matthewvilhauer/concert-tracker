@@ -22,7 +22,7 @@ $(document).ready(function() {
     });
 
     //Add an Concert
-    $('#concert-form').on('submit', function(e) {
+    $('.add-concert-submit').on('submit', function(e) {
       e.preventDefault();
       $.ajax({
         method: 'POST',
