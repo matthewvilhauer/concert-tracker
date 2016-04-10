@@ -68,65 +68,83 @@
 
     <section>
       <!-- bands! -->
-      <div id='bands' data-band-id="{{band._id}}">
+      <div id='bands'>
 
         <!-- handlebars template -->
         <script id="band-template" type="text/x-handlebars-template">
 
-          <!-- one band -->
-          <div class="row band">
+          {{#each bands}}
+            <!-- one band -->
+            <div class="row band" data-band-id="{{_id}}">
 
-            <div class="col-md-10 col-md-offset-1">
-              <div class="panel panel-default">
-                <div class="panel-body">
+              <div class="col-md-10 col-md-offset-1">
+                <div class="panel panel-default">
+                  <div class="panel-body">
 
 
-                <!-- begin band internal row -->
-                  <div class='row band-row'>
-                    <div class="col-xs-12">
-                      <h3 class='band-name'>{{band.name}}</h3>
+                  <!-- begin band internal row -->
+                    <div class="row">
+
+                      <!-- band image column -->
+                      <div class="col-md-3 col-xs-12 thumbnail band-art">
+                        <span class='band-image'><img class="img-responsive band-image" src="{{image_url}}"/></span>
+                      </div>
+
+                      <!-- band information column -->
+                      <div class="col-md-9 col-xs-12">
+                        <ul class="list-group">
+                          <li class="list-group-item">
+                            <h3><span class='band-name'>{{name}}</span></h3>
+                          </li>
+                          <li class="list-group-item">
+                            <h4 class='inline-header'>Formation Date:</h4>
+                            <span class='band-formationDate'>{{formationDate}}</span>
+                          </li>
+                          <li class="list-group-item">
+                            <h4 class='inline-header'>Record Label:</h4>
+                            <span class='band-releaseDate'>{{recordLabel}}</span>
+                          </li>
+                          <li class="list-group-item">
+                            <h4 class='inline-header'>Description:</h4>
+                            <span class='band-releaseDate'>{{description}}</span>
+                          </li>
+                          <li class="list-group-item">
+                            <h4 class='inline-header'>Genres:</h4>
+                            <span class='band-releaseDate'>{{genres}}</span>
+                          </li>
+                          <li class="list-group-item">
+                            <h4 class='inline-header'>ID:</h4>
+                            <span class='band-Id'>{{_id}}</span>
+                          </li>
+                          <!-- <li class="list-group-item">
+                            <h4 class='inline-header'>Concerts:</h4>
+                            <span class='band-Id'>{{band.concerts}}</span>
+                          </li> -->
+                        </ul>
+                      </div>
                     </div>
-                    <div class="col-md-3 col-xs-12 thumbnail band-art">
-                      <span class='band-image'><img class="img-responsive band-image" src="{{band.image_url}}"/></span>
-                    </div>
-
-                    <div class="col-md-9 col-xs-12">
-                      <ul class="list-group" id="add-songs">
-                        <li class="list-group-item">
-                          <h4 class='inline-header'>Formation Date:</h4>
-                          <span class='band-formationDate'>{{band.formationDate}}</span>
-                        </li>
-                        <li class="list-group-item">
-                          <h4 class='inline-header'>Record Label:</h4>
-                          <span class='band-releaseDate'>{{band.recordLabel}}</span>
-                        </li>
-                        <li class="list-group-item">
-                          <h4 class='inline-header'>Description:</h4>
-                          <span class='band-releaseDate'>{{band.description}}</span>
-                        </li>
-                        <li class="list-group-item">
-                          <h4 class='inline-header'>Genres:</h4>
-                          <span class='band-releaseDate'>{{band.genres}}</span>
-                        </li>
-                        <li class="list-group-item">
-                          <h4 class='inline-header'>ID:</h4>
-                          <span class='band-Id'>{{band._id}}</span>
-                        </li>
-                        <li class="list-group-item">
-                          <h4 class='inline-header'>Concerts:</h4>
-                          <span class='band-Id'>{{band.concerts}}</span>
-                        </li>
-                      </ul>
-                    </div>
+                    <!-- end of band internal row -->
                   </div>
 
-                  <button type="button" class="delete-band-button btn btn-md btn-danger pull-right" data-band-id="{{band._id}}">Delete</button>
-                  <!-- end of band internal row -->
+                  <div class='panel-footer'>
+                    <button class="delete-band-button btn btn-md btn-danger pull-right"
+                            data-band-id="{{band._id}}">
+                            Delete
+                    </button>
+                    <button class="update-band-button btn btn-md btn-primary pull-right"
+                            data="{{ band._id }}">
+                            Update
+                    </button>
+                    <button class="save-band-button btn btn-success pull-right hidden"
+                            data="{{ band._id }}">
+                            Save Changes
+                    </button>
+                  </div>
 
                 </div>
               </div>
             </div>
-          </div>
+          {{/each}}
         </script>
       </div>
 
@@ -137,7 +155,7 @@
       <div class="row">
         <div class="col-md-10 col-md-offset-1">
 
-          <form id='band-form' class="form-horizontal">
+          <form id='add-band-form' class="form-horizontal">
             <fieldset>
 
             <!-- Form Name -->
@@ -147,44 +165,37 @@
             <div class="form-group">
               <label class="col-md-2 col-md-offset-1 control-label" for="name">Band Name</label>
               <div class="col-md-8">
-              <input id="band-name" name="name" type="text" placeholder="" class="form-control input-md" required="">
-
+                <input id="band-name" name="name" type="text" placeholder="" class="form-control input-md" required="">
               </div>
             </div>
-
             <!-- Text input-->
             <div class="form-group">
               <label class="col-md-2 col-md-offset-1 control-label" for="formationDate">Formation Date</label>
               <div class="col-md-8">
-              <input id="band-formationDate" name="formationDate" type="text" placeholder="" class="form-control input-md">
-
+                <input id="band-formationDate" name="formationDate" type="text" placeholder="" class="form-control input-md">
               </div>
             </div>
-
             <!-- Text input-->
             <div class="form-group">
               <label class="col-md-2 col-md-offset-1 control-label" for="recordLabal">Record Label</label>
               <div class="col-md-8">
-              <input id="band-recordLabel" name="recordLabel" type="text" placeholder="Enter Record Label here" class="form-control input-md">
+                <input id="band-recordLabel" name="recordLabel" type="text" placeholder="Enter Record Label here" class="form-control input-md">
               </div>
             </div>
-
             <!-- Text input-->
             <div class="form-group">
               <label class="col-md-2 col-md-offset-1 control-label" for="image_url">Image URL</label>
               <div class="col-md-8">
-              <input id="band-image" name="image_url" type="text" placeholder="Enter Image URL here" class="form-control input-md">
+                <input id="band-image" name="image_url" type="text" placeholder="Enter Image URL here" class="form-control input-md">
               </div>
             </div>
-
             <!-- Textarea-->
             <div class="form-group">
               <label class="col-md-2 col-md-offset-1 control-label" for="description">Description</label>
               <div class="col-md-8">
-              <textarea id="band-description" name="description" type="text" placeholder="Enter Description here" class="form-control input-md"></textarea>
+                <textarea id="band-description" name="description" type="text" placeholder="Enter Description here" class="form-control input-md"></textarea>
               </div>
             </div>
-
             <!-- Textarea -->
             <div class="form-group">
               <label class="col-md-2 col-md-offset-1 control-label" for="genres">Genres</label>
@@ -193,17 +204,17 @@
               </div>
             </div>
             <!-- Textarea -->
-            <div class="form-group">
+            <!-- <div class="form-group">
               <label class="col-md-2 col-md-offset-1 control-label" for="concerts">Concerts</label>
               <div class="col-md-8">
                 <input class="form-control input-md" id="band-concerts" name="concerts" placeholder="Enter Concert IDs"></input>
               </div>
-            </div>
+            </div> -->
 
             <!-- Button -->
             <div class="form-group">
               <div class="col-md-4">
-                <button id="singlebutton" name="submit" class="btn btn-lg btn-primary add-band-submit">Submit</button>
+                <button id="add-band-button" name="submit" class="btn btn-lg btn-primary add-band-button">Add Band</button>
               </div>
             </div>
 

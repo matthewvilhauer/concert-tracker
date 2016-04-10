@@ -99,6 +99,7 @@ function deleteConcertError(e) {
   $('#concertTarget').text('Failed to delete concert, is the server working?');
 }
 
+
 // Create the iFrame HTML from the Recording Link
 function renderRecording(link) {
   iframe_link = '<iframe src='+link+'&playlist=1 frameborder="0" webkitallowfullscreen="true" mozallowfullscreen="true" allowfullscreen></iframe>';
@@ -106,7 +107,7 @@ function renderRecording(link) {
   $('.music-player').html(iframe_link);
 }
 
-
+// GET Request from Archive.org
 function getRecordingLink() {
 
   var archiveEndpoint = "https://archive.org/embed/";

@@ -52,9 +52,11 @@ app.get('/api/bands', controllers.bands.index);
 //Create a band
 app.post('/api/bands', controllers.bands.create);
 //Show a band
-app.get('/api/bands/:id', controllers.bands.show);
+app.get('/api/bands/:bandId', controllers.bands.show);
+//Show a band
+app.put('/api/bands/:bandId', controllers.bands.update);
 //Delete a band
-app.delete('/api/bands/:id', controllers.bands.destroy);
+app.delete('/api/bands/:bandId', controllers.bands.destroy);
 
 
 // CONCERT CRUD
@@ -67,32 +69,6 @@ app.post('/api/concerts', controllers.concerts.create);
 app.get('/api/concerts/:id', controllers.concerts.show);
 //Delete a concert
 app.delete('/api/concerts/:id', controllers.concerts.destroy);
-
-
-
-
-function getRecording() {
-
-  var archiveEndpoint = "https://archive.org/details/";
-  var outputJSON = "?output=json";
-
-  $.ajax({
-    method: "GET",
-    url: archiveEndpoint,
-    data: outputJSON,
-    success: onRecordingSuccess,
-    error: onRecordingError
-  });
-
-  function onRecordSuccess(archiveJSON) {
-    var concertIdentifier = archiveJSON.metadata.identifier;
-    var concertLink = archiveEndpoint+concertIdentifier+outputJSON;
-  }
-  function onRecordingError(err) {
-    console.log("Error Retrieving Archive data: ", err);
-  }
-}
-
 
 
 /**********
