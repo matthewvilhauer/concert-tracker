@@ -30,8 +30,9 @@ var concertsList = [];
 concertsList.push({
               eventName: "String Cheese Incident at Horning's Hideout",
               date: "2004-06-19",
-              description: "Guests: with Zach Velmer and Jeffree Lerner on percussion, Hunter Brown on guitar, and David Phipps on keyboards (all from Sound Tribe Sector 9) and Shaman (?) on percussion with Scott Law on guitar, Jamie Janover on percussion, Aaron Holstein on guitar, Keller Williams, and all members of Sound Tribe Sector 9 ",
               location: "Horning's Hideout - North Plains, OR",
+              setlist: "Set 1: One Step Closer, Rhum 'n' Zouc, Rhythm of the Road > 45th of November, Water, Sweet Melinda^ > Orion's Belt",
+              description: "Guests: with Zach Velmer and Jeffree Lerner on percussion, Hunter Brown on guitar, and David Phipps on keyboards (all from Sound Tribe Sector 9) and Shaman (?) on percussion with Scott Law on guitar, Jamie Janover on percussion, Aaron Holstein on guitar, Keller Williams, and all members of Sound Tribe Sector 9 ",
               image_url: "http://www.livedownloads.com/images/shows/sci050807_03.jpg",
               recording_url: "https://archive.org/embed/sci2004-06-19.flac16",
               band: newBand
@@ -44,18 +45,6 @@ db.Concert.remove({}, function(err, concerts){
     console.log("all concerts:", concerts);
     console.log("created", concerts.length, "concerts");
     process.exit();
-
-    // db.Concert.find({  eventName: "String Cheese at Merriwhether"}, function(err, fuckYes) {
-    //   if (err) { console.log("Shat a brick" , err);}
-    //   console.log(fuckYes);
-    //   fuckYes.save(function actuallyWork(no, yes) {
-    //     if (no) { console.log("Damnit" , no);}
-    //       console.log('Yes!!! ' , yes);
-    //       process.exit();
-    //   });
-    // });
   });
-
-
 
 });

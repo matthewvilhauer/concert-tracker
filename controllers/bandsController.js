@@ -47,16 +47,10 @@ function show(req, res) {
 function destroy(req, res) {
 
   bandId = req.params.bandId;
-
   console.log("Req params"+req.params);
 
   db.Band.findOneAndRemove({ _id: bandId }, function (err, deletedBand) {
-    // db.Band.find( function(err, bands){
-    //   if (err) {
-    //     return console.log("Band Index Error: " + err);
-    //   }
-    //   res.json(bands);
-    // });
+
     res.json(deletedBand);
   });
 }

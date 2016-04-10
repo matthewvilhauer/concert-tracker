@@ -1,7 +1,7 @@
 
 var template;
 var $concertsList;
-var allConcerts;
+var allConcerts = {};
 
 $(document).ready(function() {
 
@@ -13,91 +13,298 @@ $(document).ready(function() {
     var source = $('#concert-template').html();
     template = Handlebars.compile(source);
 
-    //Get all Concerts
-    $.ajax({
-      method: 'GET',
-      url: '/api/concerts',
-      success: handleConcertSuccess,
-      error: handleConcertError
-    });
+    renderConcertIndex();
 
     //Add an Concert
-    $('.add-concert-submit').on('submit', function(e) {
-      e.preventDefault();
-      $.ajax({
-        method: 'POST',
-        url: '/api/concerts',
-        data: $(this).serialize(),
-        success: createConcertSuccess,
-        error: createConcertError
-      });
-    });
+    $('#add-concert-form').on('submit', handleAddConcertClick);
 
 });
 
-// this function takes a single concert and renders it to the page
-function renderConcert(concert) {
+/**********
+* INDEX *
+**********/
 
-  console.log('rendering concert');
+//Get all Concerts
+function renderConcertIndex() {
 
-  // pass the concert into the template function
-  var concertHtml = template({ concert: concert});
-
-  // append html to the view
-  $concertsList.append(concertHtml);
-
-  var $band = concert.band;
-  $(".concert-band").text($band);
-  console.log($band);
-  var recordingLink = concert.recording_url;
-  console.log("Recording: "+recordingLink);
-  renderRecording(recordingLink);
-}
-
-//Render all the concerts in the Concerts array
-function handleConcertSuccess(concerts) {
-  $concertsList.empty();
-  console.log("concerts: ", concerts);
-  concerts.forEach(function(concert) {
-    renderConcert(concert);
-    $('.delete-concert-button').on('click', handleDeleteConcertClick);
+  $.ajax({
+    method: 'GET',
+    url: '/api/concerts',
+    success: renderConcertIndexSuccess,
+    error: renderConcertIndexError
   });
 }
 
-function handleConcertError(e) {
+//Display Index of all the Concerts in the Concerts array
+function renderConcertIndexSuccess(concerts) {
+  //Empty the old list of concerts
+  $concertsList.empty();
+
+  concerts.forEach( function(concert) {
+    allConcerts[concert._id] = concert;
+  });
+
+
+  console.log('renderConcertIndex allConcerts value: ', allConcerts);
+  // pass the concert into the template function
+  var concertHtml = template({ concerts: concerts});
+  // append html to the view
+  $concertsList.append(concertHtml);
+
+  //************* Add click handlers for each concert button *********************
+  //Show single concert click handler
+  $('.show-single-concert').on('click', handleSingleConcertClick);
+  //Delete concert click handler
+  $('.delete-concert-button').on('click', handleDeleteConcertClick);
+  //Update concert click handler
+  $('.update-concert-button').on('click', handleUpdateConcertClick);
+  //Save concert click handler
+  $('.save-concert-button').on('click', handleSaveChangesClick);
+}
+function renderConcertIndexError(e) {
   console.log('Error loading concerts');
-  $('#concertTarget').text('Failed to load concerts, is the server working?');
 }
 
+/**********
+* CREATE *
+**********/
 
-// On creation of an Concert, render it
+// Send the new concert data to the server when the Add Concert button is clicked
+
+function handleAddConcertClick(e) {
+
+  console.log("All concerts before add:", allConcerts);
+
+  $.ajax({
+    method: 'POST',
+    url: '/api/concerts',
+    data: $(this).serialize(),
+    success: createConcertSuccess,
+    error: createConcertError
+  });
+}
+
+// On creation of a single Concert, re-render the list of concerts
 function createConcertSuccess(concert) {
-  $('#concert-form input').val('');
-  $('#concert-form textarea').val('');
-    renderConcert(concert);
-    $('.delete-concert-button').on('click', handleDeleteConcertClick);
+
+  console.log("Concert: ", concert);
+
+  $('#add-concert-form input').val('');
+  $('#add-concert-form textarea').val('');
+
+  allConcerts[concert._id] = concert;
+  renderConcertIndex();
+
+  console.log("On createConcertSuccess allConcerts value: ", allConcerts);
 }
 function createConcertError(e) {
   console.log('Error creating concert');
-  $('#concertTarget').text('Failed to create concert, is the server working?');
 }
 
+/**********
+* DELETE *
+**********/
 
-// On deletion of an Concert, render new concert list
+// Send the ID of the concert to be deleted to the server
 function handleDeleteConcertClick(e) {
-  var concertId = $(this).attr('data-concert-id');
+  var $concertRow = $(this).closest('.concert');
+  var concertId = $concertRow.data('concert-id');
+
+  delete allConcerts[concertId];
+
+  console.log("On handleDeleteConcertClick allConcerts value: ", allConcerts);
   console.log('someone wants to delete concert id=' + concertId );
   $.ajax({
     method: 'DELETE',
     url: '/api/concerts/' + concertId,
-    success: handleConcertSuccess,
+    success: deleteConcertSuccess,
     error: deleteConcertError
   });
 }
+// Remove the deleted concert from allConcerts and re-render the list of concerts
+function deleteConcertSuccess(concert) {
+
+  delete allConcerts[concert._id];
+
+  console.log("On deleteConcertSuccess allConcerts value: ", allConcerts);
+
+  renderConcertIndex();
+
+}
 function deleteConcertError(e) {
   console.log('Error deleting concert');
-  $('#concertTarget').text('Failed to delete concert, is the server working?');
 }
+
+/**********
+* SHOW *
+**********/
+
+function handleSingleConcertClick(e) {
+
+  var $concertRow = $(this).closest('.concert');
+  var concertId = $concertRow.data('concert-id');
+
+  console.log('someone wants to show concert id=' + concertId );
+
+  $.ajax({
+    method: 'GET',
+    url: '/api/concerts/' + concertId,
+    success: showConcertSuccess,
+    error: showConcertError
+  });
+}
+
+function showConcertSuccess(concert) {
+  console.log("Success - show concert: ", concert);
+}
+function showConcertError(e) {
+  console.log('Error showing single concert');
+}
+
+
+/**********
+* UPDATE *
+**********/
+
+// when the Edit button for an band is clicked
+function handleUpdateConcertClick(e) {
+  var $concertRow = $(this).closest('.concert');
+  var concertId = $concertRow.data('concert-id');
+
+  console.log('edit concert', concertId);
+
+  // show the save changes button
+  $(this).parent().find('.save-concert-button').toggleClass('hidden');
+  // hide the edit button
+  $(this).parent().find('.update-concert-button').toggleClass('hidden');
+
+  $concertRow.find('.edit-concert-image').toggleClass('hidden');
+  $concertRow.find('.edit-concert-recording').toggleClass('hidden');
+
+  // get the concert attributes and replace their fields with an input element
+  var concertName = $concertRow.find('span.concert-eventName').text();
+  $concertRow.find('span.concert-eventName').html('<input class="update-concert update-concert-eventName" value="' + concertName + '"></input>');
+  var bandId = $concertRow.find('span.concert-bandId').text();
+  $concertRow.find('span.concert-bandId').html('<input class="update-concert update-concert-bandId" value="' + bandId + '"></input>');
+  var date = $concertRow.find('span.concert-date').text();
+  $concertRow.find('span.concert-date').html('<input class="update-concert update-concert-date" value="' + date + '"></input>');
+  var location = $concertRow.find('span.concert-location').text();
+  $concertRow.find('span.concert-location').html('<input class="update-concert update-concert-location" value="' + location + '"></input>');
+  var setlist = $concertRow.find('span.concert-setlist').text();
+  $concertRow.find('span.concert-setlist').html('<pre><textarea class="update-concert update-concert-setlist">' + setlist + '</textarea></pre>');
+  var description = $concertRow.find('span.concert-description').text();
+  $concertRow.find('span.concert-description').html('<textarea class="update-concert update-concert-description">' + description + '</textarea>');
+  var imageURL = $concertRow.find('span.concert-image-url').text();
+  $concertRow.find('span.concert-image-url').html('<input class="update-concert update-concert-image-url" value="' + imageURL + '"></input>');
+  var recordingURL = $concertRow.find('span.concert-recording-url').text();
+  $concertRow.find('span.concert-recording-url').html('<input class="update-concert update-concert-recording-url" value="' + recordingURL + '"></input>');
+}
+
+// after editing an concert, when the save changes button is clicked
+function handleSaveChangesClick(e) {
+  var concertId = $(this).parents('.concert').data('concert-id'); // $(this).closest would have worked fine too
+  var $concertRow = $('[data-concert-id=' + concertId + ']');
+
+  var data = {
+    eventName: $concertRow.find('.update-concert-eventName').val(),
+    bandId: $concertRow.find('.update-concert-bandId').val(),
+    date: $concertRow.find('.update-concert-date').val(),
+    location: $concertRow.find('.update-concert-location').val(),
+    setlist: $concertRow.find('.update-concert-setlist').val(),
+    description: $concertRow.find('.update-concert-description').val(),
+    image_url: $concertRow.find('.update-concert-image-url').val(),
+    recording_url: $concertRow.find('.update-concert-recording-url').val(),
+  };
+  console.log('PUTing data for concert', concertId, 'with data:', data);
+
+  $.ajax({
+    method: 'PUT',
+    url: '/api/concerts/' + concertId,
+    data: data,
+    success: handleUpdatedConcertResponse,
+    error: handleUpdatedConcertError
+  });
+}
+
+function handleUpdatedConcertResponse(concert) {
+  console.log('response to update', concert);
+  allConcerts[concert._id] = concert;
+  var concertId = concert._id;
+  renderConcertIndex();
+  // scratch this concert from the page
+  $('[data-concert-id=' + concertId + ']').remove();
+  // and then re-draw it with the updates ;-)
+
+  // BONUS: scroll the change into view ;-)
+  // $('[data-concert-id=' + concertId + ']')[0].scrollIntoView();
+}
+function handleUpdatedConcertError(err) {
+  console.log('Error updating band: ', err);
+}
+
+// // this function takes a single concert and renders it to the page
+// function renderConcert(concert) {
+//
+//   console.log('rendering concert');
+//
+//   // pass the concert into the template function
+//   var concertHtml = template({ concert: concert});
+//
+//   // append html to the view
+//   $concertsList.append(concertHtml);
+//
+//   var $band = concert.band;
+//   $(".concert-band").text($band);
+//   console.log($band);
+//   var recordingLink = concert.recording_url;
+//   console.log("Recording: "+recordingLink);
+//   renderRecording(recordingLink);
+// }
+//
+// //Render all the concerts in the Concerts array
+// function handleConcertSuccess(concerts) {
+//   $concertsList.empty();
+//   console.log("concerts: ", concerts);
+//   concerts.forEach(function(concert) {
+//     renderConcert(concert);
+//     $('.delete-concert-button').on('click', handleDeleteConcertClick);
+//   });
+// }
+//
+// function handleConcertError(e) {
+//   console.log('Error loading concerts');
+//   $('#concertTarget').text('Failed to load concerts, is the server working?');
+// }
+//
+//
+// // On creation of an Concert, render it
+// function createConcertSuccess(concert) {
+//   $('#concert-form input').val('');
+//   $('#concert-form textarea').val('');
+//     renderConcert(concert);
+//     $('.delete-concert-button').on('click', handleDeleteConcertClick);
+// }
+// function createConcertError(e) {
+//   console.log('Error creating concert');
+//   $('#concertTarget').text('Failed to create concert, is the server working?');
+// }
+//
+//
+// // On deletion of an Concert, render new concert list
+// function handleDeleteConcertClick(e) {
+//   var concertId = $(this).attr('data-concert-id');
+//   console.log('someone wants to delete concert id=' + concertId );
+//   $.ajax({
+//     method: 'DELETE',
+//     url: '/api/concerts/' + concertId,
+//     success: handleConcertSuccess,
+//     error: deleteConcertError
+//   });
+// }
+// function deleteConcertError(e) {
+//   console.log('Error deleting concert');
+//   $('#concertTarget').text('Failed to delete concert, is the server working?');
+// }
 
 
 // Create the iFrame HTML from the Recording Link

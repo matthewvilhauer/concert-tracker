@@ -29,9 +29,6 @@
 .update-band-button {
   margin-right: 10px;
 }
-.add-band-modal {
-  margin-right: 10px;
-}
 .save-band-button {
   margin-right: 10px;
 }
@@ -39,6 +36,21 @@
   height: 55px;
 }
 .update-band {
+  width: 100%;
+}
+
+
+/* Refactor to share class with band*/
+.concert-row {
+  padding-left: 10px;
+}
+.update-concert-button {
+  margin-right: 10px;
+}
+.save-concert-button {
+  margin-right: 10px;
+}
+.update-concert {
   width: 100%;
 }
 iframe {

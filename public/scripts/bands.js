@@ -22,6 +22,9 @@ $(document).ready(function() {
 
     renderBandIndex();
 
+    //Add an Band
+    $('#add-band-form').on('submit', handleAddBandClick);
+
 });
 
 /**********
@@ -42,11 +45,12 @@ function renderBandIndex() {
 //Display Index of all the Bands in the Bands array
 function renderBandIndexSuccess(bands) {
 
+  //Empty the old list of bands
+  $bandsList.empty();
+
   bands.forEach( function(band) {
     allBands[band._id] = band;
   });
-  //Empty the old list of bands
-  $bandsList.empty();
 
   console.log('renderBandIndex allBands value: ', allBands);
   // pass the band into the template function
@@ -55,8 +59,7 @@ function renderBandIndexSuccess(bands) {
   $bandsList.append(bandHtml);
 
   //************* Add click handlers for each band button *********************
-  //Add an Band
-  $('#add-band-form').on('submit', handleAddBandClick);
+
   //Show single band click handler
   $('.show-single-band').on('click', handleSingleBandClick);
   //Delete band click handler
@@ -89,16 +92,18 @@ function handleAddBandClick(e) {
     error: createBandError
   });
 
-  renderBandIndex();
 }
 // On creation of a single Band, re-render the list of bands
 function createBandSuccess(band) {
 
   console.log("Band: ", band);
+  
   $('#add-band-form input').val('');
   $('#add-band-form textarea').val('');
 
   allBands[band._id] = band;
+  renderBandIndex();
+
   console.log("On createBandSuccess allBands value: ", allBands);
 
 }
@@ -115,9 +120,12 @@ function createBandError(e) {
 function handleDeleteBandClick(e) {
   var $bandRow = $(this).closest('.band');
   var bandId = $bandRow.data('band-id');
+
   delete allBands[bandId];
+
   console.log("On handleDeleteBandClick allBands value: ", allBands);
   console.log('someone wants to delete band id=' + bandId );
+
   $.ajax({
     method: 'DELETE',
     url: '/api/bands/' + bandId,
@@ -128,12 +136,12 @@ function handleDeleteBandClick(e) {
 // Remove the deleted band from allBands and re-render the list of bands
 function deleteBandSuccess(band) {
 
-  // delete allBands[band._id];
+  delete allBands[band._id];
 
   console.log("On deleteBandSuccess allBands value: ", allBands);
 
   renderBandIndex();
-  location.reload();
+  // location.reload();
 }
 function deleteBandError(e) {
   console.log('Error deleting band');
@@ -159,12 +167,12 @@ function handleSingleBandClick(e) {
 }
 
 function showBandSuccess(band) {
-
   console.log("Success - show band: ", band);
 }
 function showBandError(e) {
   console.log('Error showing single band');
 }
+
 /**********
 * UPDATE *
 **********/
@@ -221,17 +229,17 @@ function handleSaveChangesClick(e) {
     success: handleUpdatedBandResponse,
     error: handleUpdatedBandError
   });
-  location.reload();
 }
 
 function handleUpdatedBandResponse(band) {
   console.log('response to update', band);
   allBands[band._id] = band;
   var bandId = band._id;
+  renderBandIndex();
   // scratch this band from the page
   $('[data-band-id=' + bandId + ']').remove();
   // and then re-draw it with the updates ;-)
-  renderBandIndex();
+
 
   // BONUS: scroll the change into view ;-)
   // $('[data-band-id=' + bandId + ']')[0].scrollIntoView();

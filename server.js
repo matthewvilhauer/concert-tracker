@@ -34,7 +34,7 @@ app.get('/concerts', function homepage (req, res) {
 });
 
 app.get('/members', function homepage (req, res) {
-  res.sendFile(__dirname + '/views/user_profiles.html');
+  res.sendFile(__dirname + '/views/users.html');
 });
 
 /*
@@ -53,7 +53,7 @@ app.get('/api/bands', controllers.bands.index);
 app.post('/api/bands', controllers.bands.create);
 //Show a band
 app.get('/api/bands/:bandId', controllers.bands.show);
-//Show a band
+//Update a band
 app.put('/api/bands/:bandId', controllers.bands.update);
 //Delete a band
 app.delete('/api/bands/:bandId', controllers.bands.destroy);
@@ -66,9 +66,11 @@ app.get('/api/concerts', controllers.concerts.index);
 //Create a concert
 app.post('/api/concerts', controllers.concerts.create);
 //Show a concert
-app.get('/api/concerts/:id', controllers.concerts.show);
+app.get('/api/concerts/:concertId', controllers.concerts.show);
+//Update a band
+app.put('/api/concerts/:concertId', controllers.concerts.update);
 //Delete a concert
-app.delete('/api/concerts/:id', controllers.concerts.destroy);
+app.delete('/api/concerts/:concertId', controllers.concerts.destroy);
 
 
 /**********

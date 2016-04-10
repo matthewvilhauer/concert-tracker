@@ -116,18 +116,18 @@
                             <h4 class='inline-header'>Image URL</h4>
                             <span class='band-image-url'>{{image_url}}</span>
                           </li>
-                          <!-- <li class="list-group-item">
-                            <h4 class='inline-header'>Concerts:</h4>
-                            <span class='band-Id'>{{band.concerts}}</span>
-                          </li> -->
+                          <li class="list-group-item">
+                            <h4 class='inline-header'>ID:</h4>
+                            <span class='band-Id'>{{_id}}</span>
+                          </li>
                         </ul>
                       </div>
                     </div>
                   </div>
                   <div class='panel-footer'>
-                    <button class="delete-band-button btn btn-md btn-danger pull-right" data-band-id="{{band._id}}">Delete</button>
-                    <button class="update-band-button btn btn-md btn-primary pull-right" data-band-id="{{ band._id }}">Update</button>
-                    <button class="save-band-button btn btn-success pull-right hidden" data-band-id="{{ band._id }}">Save Changes</button>
+                    <button class="delete-band-button btn btn-md btn-danger pull-right" data-band-id="{{ _id }}">Delete</button>
+                    <button class="update-band-button btn btn-md btn-primary pull-right" data-band-id="{{ _id }}">Update</button>
+                    <button class="save-band-button btn btn-success pull-right hidden" data-band-id="{{ _id }}">Save Changes</button>
                   </div>
                 </div>
               </div>
