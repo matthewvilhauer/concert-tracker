@@ -57,6 +57,8 @@ function renderBandIndexSuccess(bands) {
   //************* Add click handlers for each band button *********************
   //Add an Band
   $('#add-band-form').on('submit', handleAddBandClick);
+  //Show single band click handler
+  $('.show-single-band').on('click', handleSingleBandClick);
   //Delete band click handler
   $('.delete-band-button').on('click', handleDeleteBandClick);
   //Update band click handler
@@ -136,17 +138,33 @@ function deleteBandSuccess(band) {
 function deleteBandError(e) {
   console.log('Error deleting band');
 }
-// function deleteBand(element) {
-//   var bandId = $(element).data('band-id');
-//   $.ajax({
-//     method: 'DELETE',
-//     url: '/api/bands/' + bandId,
-//     success: deleteBandSuccess,
-//     error: deleteBandError
-//   });
-//   allBands[bandId] = null;
-// }
 
+/**********
+* SHOW *
+**********/
+
+function handleSingleBandClick(e) {
+
+  var $bandRow = $(this).closest('.band');
+  var bandId = $bandRow.data('band-id');
+
+  console.log('someone wants to show band id=' + bandId );
+
+  $.ajax({
+    method: 'GET',
+    url: '/api/bands/' + bandId,
+    success: showBandSuccess,
+    error: showBandError
+  });
+}
+
+function showBandSuccess(band) {
+
+  console.log("Success - show band: ", band);
+}
+function showBandError(e) {
+  console.log('Error showing single band');
+}
 /**********
 * UPDATE *
 **********/
