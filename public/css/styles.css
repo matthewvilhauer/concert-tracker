@@ -57,3 +57,9 @@ iframe {
   width: 100%;
   height: 350px;
 }
+#concert-select {
+  width:100%;
+}
+.add-concerts-button {
+  margin-right: 10px;
+}
