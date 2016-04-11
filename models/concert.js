@@ -13,7 +13,6 @@ var ConcertSchema = new Schema({
     image_url: String,
     recording_url: String,
     setlist: String,
-    attendees: [User.schema],
     band: {type : Schema.Types.ObjectId, ref : 'Band'}
 });
 

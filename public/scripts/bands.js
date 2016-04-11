@@ -9,6 +9,7 @@ var $addBandForm;
 var addBandFormTemplate;
 var allBands = {};
 var allConcerts = {};
+var bandConcerts;
 
 
 //************* Document Ready *********************
@@ -69,24 +70,32 @@ function showBandList() {
   $.get('/api/bandsList').success( function(response) {
     $bands = response.bands;
     $concerts = response.concerts;
+    console.log("ShowBandList: "+$bands);
+    console.log("ShowConcertList: "+$concerts);
     //Add bands to the hash map
     $bands.forEach( function(band) {
+      // console.log(band.concerts);
       allBands[band._id] = band;
     });
+
+    // $bands.forEach( function(band) {
+    //   bandConcerts[band._id] = $concerts;
+    // });
     //Add bands to the hash map
     $concerts.forEach( function(concert) {
       allConcerts[concert._id] = concert;
     });
-    renderBandList(allBands);
+    renderBandList(allBands, bandConcerts);
   });
 }
 
 //Render all Bands
-function renderBandList (bands) {
+function renderBandList (bands, bandConcerts) {
   //Empty the old list of bands
   //Set the object for the template
   var bandHtml = template({
-    bands: allBands
+    bands: allBands,
+    concerts: bandConcerts
   });
 
   console.info('renderBandList allBands value: ', allBands);
@@ -255,8 +264,8 @@ function handleUpdateBandClick(e) {
   $bandRow.find('span.band-genres').html('<textarea class="update-band update-band-genres">' + genres + '</textarea>');
   var imageURL = $bandRow.find('span.band-image-url').text();
   $bandRow.find('span.band-image-url').html('<input class="update-band update-band-image-url" value="' + imageURL + '"></input>');
-  // var concerts = $bandRow.find('span.band-concerts').val();
-  // $bandRow.find('span.band-concerts').html('<input class="update-band update-band-concerts" value="' + concerts + '"></input>');
+  var concerts = $bandRow.find('span.band-concerts').val();
+  $bandRow.find('span.band-concerts').html('<input class="update-band update-band-concerts" value="' + concerts + '"></input>');
 }
 
 // after editing an band, when the save changes button is clicked
@@ -271,7 +280,7 @@ function handleSaveChangesClick(e) {
     description: $bandRow.find('.update-band-description').val(),
     genres: $bandRow.find('.update-band-genres').val(),
     image_url: $bandRow.find('.update-band-image-url').val(),
-    // concerts: $bandRow.find('.update-band-concerts').val(),
+    concerts: $bandRow.find('.update-band-concerts').val(),
   };
   console.log('PUTing data for band', bandId, 'with data', data);
 

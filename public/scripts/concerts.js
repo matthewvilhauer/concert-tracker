@@ -282,8 +282,9 @@ function handleUpdatedConcertError(err) {
 **********/
 
 // Create the iFrame HTML from the Recording Link
-function renderRecording(link) {
-  iframe_link = '<iframe src='+link+'&playlist=1 frameborder="0" webkitallowfullscreen="true" mozallowfullscreen="true" allowfullscreen></iframe>';
+function renderRecording(concert) {
+  var recordingLink = concert.recording_url;
+  iframe_link = '<iframe src='+recordingLink+'&playlist=1 frameborder="0" webkitallowfullscreen="true" mozallowfullscreen="true" allowfullscreen></iframe>';
   console.log("iFrame Link: "+iframe_link);
   $('.music-player').html(iframe_link);
 }
