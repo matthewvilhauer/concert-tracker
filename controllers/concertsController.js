@@ -141,7 +141,7 @@ function update(req, res) {
         });
       });
     });
-  });
+  }).populate('band').exec();
 }
 
 // export public methods here
