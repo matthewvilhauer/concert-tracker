@@ -81,7 +81,7 @@
                       <div class="col-md-9 col-xs-12">
                         <ul class="list-group" id="add-concerts">
                           <li class="list-group-item">
-                            <h3><span class='concert-eventName'>{{eventName}}</span></h3>
+                            <a href="/concerts/{{_id}}" onclick="handleSingleConcertClick()"><h3><span class='concert-eventName'>{{eventName}}</span></h3></a>
                             <span class='concertId'>{{_id}}</span>
                           </li>
                           <li class="list-group-item">

@@ -33,6 +33,10 @@ app.get('/concerts', function homepage (req, res) {
   res.sendFile(__dirname + '/views/concerts.html');
 });
 
+app.get('/concerts/:concertId', function homepage (req, res) {
+  res.sendFile(__dirname + '/views/concert.html');
+});
+
 app.get('/myprofile', function homepage (req, res) {
   res.sendFile(__dirname + '/views/profile.html');
 });
@@ -78,7 +82,6 @@ app.delete('/api/concerts/:concertId', controllers.concerts.destroy);
 
 //Get all concerts and all bands to populate select list on the add concert form
 app.get('/api/concertsList', controllers.concerts.list);
-
 
 /**********
 * SERVER *

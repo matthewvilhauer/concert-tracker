@@ -185,18 +185,18 @@ function handleSingleConcertClick(e) {
 
   $.ajax({
     method: 'GET',
-    url: '/api/concerts/' + concertId,
-    success: showConcertSuccess,
+    url: '/concerts/' + concertId,
+    success: showSingleConcertSuccess,
     error: showConcertError
   });
-}
-function showConcertSuccess(concert) {
-  console.log("Success - show concert: ", concert);
 }
 function showConcertError(e) {
   console.log('Error showing single concert');
 }
 
+function showSingleConcertSuccess(concert) {
+  singleConcert = concert;
+}
 
 /**********
 * UPDATE *

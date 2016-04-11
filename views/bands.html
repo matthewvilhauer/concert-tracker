@@ -55,10 +55,9 @@
     <section>
       <!-- bands! -->
       <div id='bands'>
-
         <!-- handlebars template -->
         <script id="band-list-template" type="text/x-handlebars-template">
-          <span class='band-concerts'>{{concerts}}</span>
+
           {{#each bands}}
             <!-- one band -->
             <div class="row band" data-band-id="{{_id}}">
