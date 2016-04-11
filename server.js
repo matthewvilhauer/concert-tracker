@@ -61,18 +61,19 @@ app.delete('/api/bands/:bandId', controllers.bands.destroy);
 
 // CONCERT CRUD
 
-//Get all bands
+//Get all concerts
 app.get('/api/concerts', controllers.concerts.index);
-app.get('/api/concertsList', controllers.concerts.list);
 //Create a concert
 app.post('/api/concerts', controllers.concerts.create);
 //Show a concert
 app.get('/api/concerts/:concertId', controllers.concerts.show);
-//Update a band
+//Update a concert
 app.put('/api/concerts/:concertId', controllers.concerts.update);
 //Delete a concert
 app.delete('/api/concerts/:concertId', controllers.concerts.destroy);
 
+//Get all concerts and all bands to populate select list on the add concert form
+app.get('/api/concertsList', controllers.concerts.list);
 
 /**********
 * SERVER *

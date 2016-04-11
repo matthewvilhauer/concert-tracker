@@ -10,8 +10,7 @@ bandsList.push({
               recordLabel: 'SCI Fidelity Records',
               description: 'Best band in the world!',
               image_url: '../images/String-cheese.jpg',
-              genres: 'Jamband, Rock',
-              concerts: []
+              genres: 'Jamband, Rock'
             });
 bandsList.push({
               name: 'Keller Williams',
@@ -19,8 +18,7 @@ bandsList.push({
               recordLabel: 'SCI Fidelity Records',
               description: 'A ninja of love that keeps his kidney in a cooler.',
               image_url: 'http://www.thedistrictsf.com/images/events/KW1.jpg',
-              genres: 'Jamband, Rock, Funk, Bluegrass',
-              concerts: []
+              genres: 'Jamband, Rock, Funk, Bluegrass'
             });
 bandsList.push({
               name: 'Sound Tribe Sector 9',
@@ -28,8 +26,7 @@ bandsList.push({
               recordLabel: '1320 Records',
               description: 'Serious space funk.',
               image_url: 'http://cdn.phillymag.com/wp-content/uploads/2014/10/STS9-e1413212404996-937x541.jpg',
-              genres: 'Jamband, Electronic, Jamtronica',
-              concerts: []
+              genres: 'Jamband, Electronic, Jamtronica'
             });
 
 // var concertsList = [];

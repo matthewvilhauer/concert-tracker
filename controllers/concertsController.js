@@ -68,7 +68,9 @@ function create(req, res) {
     newConcert.save(function ConcertSaved(err, savedConcert) {
       if (err) {
        return console.log("Could not save concert. Error:" + err);
-     }
+      }
+      updatedBand.concerts.push(savedConcert._id);
+      console.log("Updated band: ", updatedBand);
       res.json(savedConcert);
     });
   });

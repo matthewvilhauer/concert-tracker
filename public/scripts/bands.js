@@ -204,6 +204,8 @@ function handleUpdateBandClick(e) {
   $bandRow.find('span.band-genres').html('<textarea class="update-band update-band-genres">' + genres + '</textarea>');
   var imageURL = $bandRow.find('span.band-image-url').text();
   $bandRow.find('span.band-image-url').html('<input class="update-band update-band-image-url" value="' + imageURL + '"></input>');
+  var concerts = $bandRow.find('span.band-concerts').text();
+  $bandRow.find('span.band-concerts').html('<input class="update-band update-band-concerts" value="' + concerts + '"></input>');
 }
 
 
@@ -219,6 +221,7 @@ function handleSaveChangesClick(e) {
     description: $bandRow.find('.update-band-description').val(),
     genres: $bandRow.find('.update-band-genres').val(),
     image_url: $bandRow.find('.update-band-image-url').val(),
+    concerts: $bandRow.find('.update-band-concerts').val(),
   };
   console.log('PUTing data for band', bandId, 'with data', data);
 

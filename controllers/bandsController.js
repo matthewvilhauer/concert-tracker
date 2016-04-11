@@ -70,6 +70,8 @@ function update(req, res) {
     foundBand.genres = req.body.genres;
     foundBand.image_url = req.body.image_url;
 
+    foundBand.concerts = req.body.concerts;
+
     foundBand.save(function(err, savedBand) {
       if(err) { console.log('saving altered band failed'); }
       res.json(savedBand);
