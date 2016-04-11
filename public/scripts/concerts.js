@@ -44,12 +44,15 @@ function renderConcertIndexSuccess(concerts) {
     allConcerts[concert._id] = concert;
   });
 
-
   console.log('renderConcertIndex allConcerts value: ', allConcerts);
   // pass the concert into the template function
-  var concertHtml = template({ concerts: concerts});
+  var concertHtml = template({concerts: concerts});
   // append html to the view
   $concertsList.append(concertHtml);
+
+  concerts.forEach( function(concert) {
+    renderRecording(allConcerts[concert._id].recording_url);
+  });
 
   //************* Add click handlers for each concert button *********************
   //Show single concert click handler
@@ -180,6 +183,7 @@ function handleUpdateConcertClick(e) {
 
   $concertRow.find('.edit-concert-image').toggleClass('hidden');
   $concertRow.find('.edit-concert-recording').toggleClass('hidden');
+  $concertRow.find('.music-player').toggleClass('hidden');
 
   // get the concert attributes and replace their fields with an input element
   var concertName = $concertRow.find('span.concert-eventName').text();
@@ -242,70 +246,10 @@ function handleUpdatedConcertError(err) {
   console.log('Error updating band: ', err);
 }
 
-// // this function takes a single concert and renders it to the page
-// function renderConcert(concert) {
-//
-//   console.log('rendering concert');
-//
-//   // pass the concert into the template function
-//   var concertHtml = template({ concert: concert});
-//
-//   // append html to the view
-//   $concertsList.append(concertHtml);
-//
-//   var $band = concert.band;
-//   $(".concert-band").text($band);
-//   console.log($band);
-//   var recordingLink = concert.recording_url;
-//   console.log("Recording: "+recordingLink);
-//   renderRecording(recordingLink);
-// }
-//
-// //Render all the concerts in the Concerts array
-// function handleConcertSuccess(concerts) {
-//   $concertsList.empty();
-//   console.log("concerts: ", concerts);
-//   concerts.forEach(function(concert) {
-//     renderConcert(concert);
-//     $('.delete-concert-button').on('click', handleDeleteConcertClick);
-//   });
-// }
-//
-// function handleConcertError(e) {
-//   console.log('Error loading concerts');
-//   $('#concertTarget').text('Failed to load concerts, is the server working?');
-// }
-//
-//
-// // On creation of an Concert, render it
-// function createConcertSuccess(concert) {
-//   $('#concert-form input').val('');
-//   $('#concert-form textarea').val('');
-//     renderConcert(concert);
-//     $('.delete-concert-button').on('click', handleDeleteConcertClick);
-// }
-// function createConcertError(e) {
-//   console.log('Error creating concert');
-//   $('#concertTarget').text('Failed to create concert, is the server working?');
-// }
-//
-//
-// // On deletion of an Concert, render new concert list
-// function handleDeleteConcertClick(e) {
-//   var concertId = $(this).attr('data-concert-id');
-//   console.log('someone wants to delete concert id=' + concertId );
-//   $.ajax({
-//     method: 'DELETE',
-//     url: '/api/concerts/' + concertId,
-//     success: handleConcertSuccess,
-//     error: deleteConcertError
-//   });
-// }
-// function deleteConcertError(e) {
-//   console.log('Error deleting concert');
-//   $('#concertTarget').text('Failed to delete concert, is the server working?');
-// }
 
+/**********
+* RENDER RECORDING *
+**********/
 
 // Create the iFrame HTML from the Recording Link
 function renderRecording(link) {

@@ -33,8 +33,8 @@ app.get('/concerts', function homepage (req, res) {
   res.sendFile(__dirname + '/views/concerts.html');
 });
 
-app.get('/members', function homepage (req, res) {
-  res.sendFile(__dirname + '/views/users.html');
+app.get('/myprofile', function homepage (req, res) {
+  res.sendFile(__dirname + '/views/profile.html');
 });
 
 /*

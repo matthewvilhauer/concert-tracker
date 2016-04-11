@@ -97,7 +97,7 @@ function handleAddBandClick(e) {
 function createBandSuccess(band) {
 
   console.log("Band: ", band);
-  
+
   $('#add-band-form input').val('');
   $('#add-band-form textarea').val('');
 
