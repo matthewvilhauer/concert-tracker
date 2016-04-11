@@ -1,59 +1,32 @@
 
 var template;
 var $concertsList;
+var $addConcertForm;
+var addConcertFormTemplate;
 var allConcerts = {};
+var allBands = {};
 
 $(document).ready(function() {
 
     console.log('concerts.js loaded!');
 
     $concertsList = $('#concerts');
+    $addConcertForm = $('#add-concert-form-container');
 
     // compile handlebars template
     var source = $('#concert-template').html();
+    var addConcertForm = $('#add-concert-form-template').html();
     template = Handlebars.compile(source);
+    addConcertFormTemplate = Handlebars.compile(addConcertForm);
 
     renderConcertIndex();
 
     //Add an Concert
-    $('#add-concert-form').on('submit', handleAddConcertClick);
+    // $('#add-concert-form').on('submit', handleAddConcertClick);
 
 });
 
-/**********
-* INDEX *
-**********/
-
-//Get all Concerts
-function renderConcertIndex() {
-
-  $.ajax({
-    method: 'GET',
-    url: '/api/concerts',
-    success: renderConcertIndexSuccess,
-    error: renderConcertIndexError
-  });
-}
-
-//Display Index of all the Concerts in the Concerts array
-function renderConcertIndexSuccess(concerts) {
-  //Empty the old list of concerts
-  $concertsList.empty();
-
-  concerts.forEach( function(concert) {
-    allConcerts[concert._id] = concert;
-  });
-
-  console.log('renderConcertIndex allConcerts value: ', allConcerts);
-  // pass the concert into the template function
-  var concertHtml = template({concerts: concerts});
-  // append html to the view
-  $concertsList.append(concertHtml);
-
-  concerts.forEach( function(concert) {
-    renderRecording(allConcerts[concert._id].recording_url);
-  });
-
+function addClickHandlers() {
   //************* Add click handlers for each concert button *********************
   //Show single concert click handler
   $('.show-single-concert').on('click', handleSingleConcertClick);
@@ -63,6 +36,64 @@ function renderConcertIndexSuccess(concerts) {
   $('.update-concert-button').on('click', handleUpdateConcertClick);
   //Save concert click handler
   $('.save-concert-button').on('click', handleSaveChangesClick);
+}
+
+/**********
+* INDEX *
+**********/
+
+//Get all Concerts
+function renderConcertIndex() {
+  $.ajax({
+    method: 'GET',
+    url: '/api/concerts',
+    success: renderConcertList,
+    error: renderConcertIndexError
+  });
+}
+
+function renderConcertList (response) {
+  //Empty the old list of concerts
+  $concertsList.empty();
+  //Add concerts to the hash map
+  response.concerts.forEach( function(concert) {
+    allConcerts[concert._id] = concert;
+  });
+  //Set the object for the template
+  var concertHtml = template({
+    concerts: allConcerts
+  });
+
+  console.info('renderConcertList allConcerts value: ', allConcerts);
+  // append concert list html to the view
+  $concertsList.append(concertHtml);
+  addClickHandlers();
+}
+
+//Display Index of all the Concerts in the Concerts array
+function renderAddConcertFormSuccess(response) {
+  //Empty the old list of concerts
+  $concertsList.empty();
+  $addConcertForm.empty();
+
+  response.concerts.forEach( function(concert) {
+    allConcerts[concert._id] = concert;
+  });
+  response.bands.forEach( function(band) {
+    allBands[band._id] = band;
+  });
+
+  console.info('renderConcertIndex allConcerts value: ', allConcerts);
+  console.info('renderConcertIndex allBands value: ', allBands);
+  // pass the concert into the template function
+
+  var addConcertFormHtml = addConcertFormTemplate({
+    bands: allBands
+  });
+
+  $addConcertForm.append(addConcertFormHtml);
+  addClickHandlers();
+
 }
 function renderConcertIndexError(e) {
   console.log('Error loading concerts');
@@ -74,14 +105,15 @@ function renderConcertIndexError(e) {
 
 // Send the new concert data to the server when the Add Concert button is clicked
 
-function handleAddConcertClick(e) {
+function handleAddConcertClick() {
+  var formData = $('#add-concert-form').serialize();
 
   console.log("All concerts before add:", allConcerts);
 
   $.ajax({
     method: 'POST',
     url: '/api/concerts',
-    data: $(this).serialize(),
+    data: formData,
     success: createConcertSuccess,
     error: createConcertError
   });
@@ -89,6 +121,7 @@ function handleAddConcertClick(e) {
 
 // On creation of a single Concert, re-render the list of concerts
 function createConcertSuccess(concert) {
+  debugger;
 
   console.log("Concert: ", concert);
 

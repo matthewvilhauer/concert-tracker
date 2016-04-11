@@ -3,16 +3,30 @@ var db = require('../models');
 
 // GET /api/concerts
 function index(req, res) {
+  var allConcerts;
+  var allBands;
+
   db.Concert.find(function(err, concerts) {
-      if (err) {
-        console.log("Error retrieving all concerts", err);
-      }
-      res.json(concerts);
+      if (err) { console.log("Error retrieving all concerts", err); }
+      allConcerts = concerts;
+
+      // find Bands to use to populate band select options on concerts index.
+      db.Band.find(function(err, bands) {
+          if (err) { console.log("Error retrieving all bands", err); }
+          allBands = bands;
+
+          // return concerts and bands as JSON
+          res.json({
+            concerts: allConcerts,
+            bands: allBands
+          });
+        });
     });
 }
 
 function create(req, res) {
   console.log('concerts create', req.body);
+  // var newBand = req.body.bandId;
 
   var newConcert = new db.Concert(req.body);
 
@@ -25,31 +39,24 @@ function create(req, res) {
 }
 
 function show(req, res) {
-
   var concertId = req.params.concertId;
-
   // find concert in db by id
   db.Concert.findOne({ _id: concertId }, function (err, foundConcert) {
     if (err) {
       if (err.name === "CastError") {
         res.status(404).json({ error: "Nothing found by this ID." });
-      } else {
-        res.status(500).json({ error: err.message });
       }
-    } else {
-      res.json(foundConcert);
-    }
+      else { res.status(500).json({ error: err.message }); }
+      }
+      else { res.json(foundConcert); }
   });
-
 }
 
 function destroy(req, res) {
-
   concertId = req.params.concertId;
   console.log("Req params"+req.params);
 
   db.Concert.findOneAndRemove({ _id: concertId }, function (err, deletedConcert) {
-
     res.json(deletedConcert);
   });
 }

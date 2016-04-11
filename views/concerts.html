@@ -62,6 +62,7 @@
         <!-- handlebars template -->
         <script id="concert-template" type="text/x-handlebars-template">
 
+
           {{#each concerts}}
           <!-- one concert -->
             <div class="row concert" data-concert-id="{{_id}}">
@@ -137,92 +138,104 @@
     <section class="container">
       <div class="row">
         <div class="col-md-10 col-md-offset-1">
+          <div id="add-concert-form-container">
+            <script id="add-concert-form-template" type="text/x-handlebars-template">
+              <form id='add-concert-form' class="form-horizontal">
+                <fieldset>
 
-          <form id='add-concert-form' class="form-horizontal">
-            <fieldset>
+                <!-- Form Name -->
+                <legend>Add New Concert</legend>
 
-            <!-- Form Name -->
-            <legend>Add New Concert</legend>
+                <!-- Text input-->
+                <div class="form-group">
+                  <label class="col-md-2 col-md-offset-1 control-label" for="eventName">Event Name</label>
+                  <div class="col-md-8">
+                  <input id="concert-eventName" name="eventName" type="text" placeholder="" class="form-control input-md" required="">
+                  </div>
+                </div>
 
-            <!-- Text input-->
-            <div class="form-group">
-              <label class="col-md-2 col-md-offset-1 control-label" for="eventName">Event Name</label>
-              <div class="col-md-8">
-              <input id="concert-eventName" name="eventName" type="text" placeholder="" class="form-control input-md" required="">
-              </div>
-            </div>
+                <div class="form-group">
+                  <label class="col-md-2 col-md-offset-1 control-label" for="bandId">Band</label>
+                  <div class="col-md-8">
+                    <select name="bandId">
+                      <option value="" selected disabled="">select band</option>
+                      {{#each bands}}
+                        <option value="{{this._id}}">{{this.name}}</option>
+                      {{/each}}
+                    </select>
+                    <!-- <input id="concert-bandId" name="bandId" type="text" placeholder="Enter Band ID" class="form-control input-md" required=""></input> -->
+                    <!-- <select class="" name="">
+                      {#each bands}
+                      <option name="{{ band.name }}" value="{{ band._id }}">{{ band.name }}</option>
+                      {/each}
+                    </select> -->
+                  </div>
+                </div>
 
-            <div class="form-group">
-              <label class="col-md-2 col-md-offset-1 control-label" for="bandId">Band</label>
-              <div class="col-md-8">
-                <input id="concert-bandId" name="bandId" type="text" placeholder="Enter Band ID" class="form-control input-md" required=""></input>
-                <!-- <select class="" name="">
-                  {#each bands}
-                  <option name="{{ band.name }}" value="{{ band._id }}">{{ band.name }}</option>
-                  {/each}
-                </select> -->
-              </div>
-            </div>
+                <!-- Text input-->
+                <div class="form-group">
+                  <label class="col-md-2 col-md-offset-1 control-label" for="date">Date</label>
+                  <div class="col-md-8">
+                    <input id="concert-date" name="concertDate" type="date" placeholder="" class="form-control input-md">
+                  </div>
+                </div>
 
-            <!-- Text input-->
-            <div class="form-group">
-              <label class="col-md-2 col-md-offset-1 control-label" for="date">Date</label>
-              <div class="col-md-8">
-                <input id="concert-date" name="concertDate" type="date" placeholder="" class="form-control input-md">
-              </div>
-            </div>
+                <!-- Text input-->
+                <div class="form-group">
+                  <label class="col-md-2 col-md-offset-1 control-label" for="location">Location</label>
+                  <div class="col-md-8">
+                  <input id="concert-location" name="location" type="text" placeholder="" class="form-control input-md">
+                  </div>
+                </div>
 
-            <!-- Text input-->
-            <div class="form-group">
-              <label class="col-md-2 col-md-offset-1 control-label" for="location">Location</label>
-              <div class="col-md-8">
-              <input id="concert-location" name="location" type="text" placeholder="" class="form-control input-md">
-              </div>
-            </div>
+                <!-- Textarea-->
+                <div class="form-group">
+                  <label class="col-md-2 col-md-offset-1 control-label" for="setlist">Setlist</label>
+                  <div class="col-md-8">
+                  <textarea id="concert-setlist" name="setlist" type="text" placeholder="Enter Setlist here" class="form-control input-md"></textarea>
+                  </div>
+                </div>
 
-            <!-- Textarea-->
-            <div class="form-group">
-              <label class="col-md-2 col-md-offset-1 control-label" for="setlist">Setlist</label>
-              <div class="col-md-8">
-              <textarea id="concert-setlist" name="setlist" type="text" placeholder="Enter Setlist here" class="form-control input-md"></textarea>
-              </div>
-            </div>
+                <!-- Textarea-->
+                <div class="form-group">
+                  <label class="col-md-2 col-md-offset-1 control-label" for="description">Description</label>
+                  <div class="col-md-8">
+                  <textarea id="concert-description" name="description" type="text" placeholder="Enter Description here" class="form-control input-md"></textarea>
+                  </div>
+                </div>
 
-            <!-- Textarea-->
-            <div class="form-group">
-              <label class="col-md-2 col-md-offset-1 control-label" for="description">Description</label>
-              <div class="col-md-8">
-              <textarea id="concert-description" name="description" type="text" placeholder="Enter Description here" class="form-control input-md"></textarea>
-              </div>
-            </div>
+                <!-- Text input-->
+                <div class="form-group">
+                  <label class="col-md-2 col-md-offset-1 control-label" for="image_url">Image URL</label>
+                  <div class="col-md-8">
+                  <input id="concert-image-url" name="image_url" type="text" placeholder="Enter Image URL here" class="form-control input-md">
+                  </div>
+                </div>
 
-            <!-- Text input-->
-            <div class="form-group">
-              <label class="col-md-2 col-md-offset-1 control-label" for="image_url">Image URL</label>
-              <div class="col-md-8">
-              <input id="concert-image-url" name="image_url" type="text" placeholder="Enter Image URL here" class="form-control input-md">
-              </div>
-            </div>
+                <!-- Text input-->
+                <div class="form-group">
+                  <label class="col-md-2 col-md-offset-1 control-label" for="recording_url">Recording URL</label>
+                  <div class="col-md-8">
+                    <input id="concert-recording-url" name="recording_url" type="text" placeholder="Enter Archive.org URL here" class="form-control input-md">
+                  </div>
+                </div>
 
-            <!-- Text input-->
-            <div class="form-group">
-              <label class="col-md-2 col-md-offset-1 control-label" for="recording_url">Recording URL</label>
-              <div class="col-md-8">
-                <input id="concert-recording-url" name="recording_url" type="text" placeholder="Enter Archive.org URL here" class="form-control input-md">
-              </div>
-            </div>
-
-            <!-- Button -->
-            <div class="form-group">
-              <div class="col-md-4">
-                <button id="add-concert-button" name="submit" class="btn btn-lg btn-primary add-concert-button">Submit</button>
-              </div>
-            </div>
-            </fieldset>
-          </form>
+                <!-- Button -->
+                <div class="form-group">
+                  <div class="col-md-4">
+                    <a id="add-concert-button" onclick="handleAddConcertClick(this.form)" name="submit" class="btn btn-lg btn-primary add-concert-button">Submit</a>
+                  </div>
+                </div>
+                </fieldset>
+              </form>
+            </script>
+          </div>
         </div>
       </div>
     </section>
+
+
+
 
   </body>
 </html>
