@@ -72,6 +72,12 @@ function renderSingleConcert (concert) {
   console.info('renderSingleConcert concert value: ', concert);
   // append concert list html to the view
   $concertSingle.html(concertHtml);
+
+  if (concert.recording_url) {
+    renderRecording(concert);
+  } else {
+    console.log("No recording to render for concert: ", concert);
+  }
   addClickHandlers();
 }
 
