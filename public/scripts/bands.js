@@ -35,6 +35,7 @@ function compileBandListTemplate() {
   var source = $('#band-list-template').html();
   template = Handlebars.compile(source);
 }
+
 function compileAddBandFormTemplate() {
   $addBandForm = $('#add-band-form-container');
   var addBandForm = $('#add-band-form-template').html();
@@ -80,17 +81,16 @@ function showBandList() {
     $concerts.forEach( function(concert) {
       allConcerts[concert._id] = concert;
     });
-    renderBandList(allBands, bandConcerts);
+    renderBandList(allBands);
   });
 }
 
 //Render all Bands
-function renderBandList (bands, bandConcerts) {
+function renderBandList (bands) {
 
   //Set the object for the template
   var bandHtml = template({
     bands: allBands,
-    concerts: bandConcerts
   });
 
   console.info('renderBandList allBands value: ', allBands);
@@ -243,6 +243,8 @@ function handleUpdateBandClick(e) {
   $(this).parent().find('.update-band-button').toggleClass('hidden');
   // hide the add concerts button
   $(this).parent().find('.add-concerts-button').toggleClass('hidden');
+  // hide the add concerts button
+  // $(this).parent().find('span.band-concerts').toggleClass('hidden');
 
   $bandRow.find('.edit-band-image').toggleClass('hidden');
 
@@ -260,7 +262,7 @@ function handleUpdateBandClick(e) {
   var imageURL = $bandRow.find('span.band-image-url').text();
   $bandRow.find('span.band-image-url').html('<input class="update-band update-band-image-url" value="' + imageURL + '"></input>');
   var concerts = $bandRow.find('span.band-concerts').val();
-  $bandRow.find('span.band-concerts').html('<input class="update-band update-band-concerts" value="' + concerts + '"></input>');
+  // $bandRow.find('span.band-concerts').html('<input class="update-band update-band-concerts" value="' + concerts + '"></input>');
 }
 
 // after editing an band, when the save changes button is clicked
@@ -275,6 +277,7 @@ function handleSaveChangesClick(e) {
     description: $bandRow.find('.update-band-description').val(),
     genres: $bandRow.find('.update-band-genres').val(),
     image_url: $bandRow.find('.update-band-image-url').val(),
+    concerts: $bandRow.find('span.band-concerts').val()
   };
 
   var newConcert = {
@@ -326,9 +329,7 @@ function handleUpdatedBandError(err) {
 
 // when the add concerts button is clicked, display the modal
 function handleAddConcertsToBandClick(e) {
-  console.log('add-concerts clicked!');
-  var currentBandId = $(this).closest('.band').data('band-id'); // "5665ff1678209c64e51b4e7b"
-  console.log('id',currentBandId);
-  $('#addConcertsToBandModal').data('band-id', currentBandId);
-  $('#addConcertsToBandModal').modal('show');  // display the modal!
+
+  window.location.href = "/concerts#add-concert-form";
+
 }

@@ -16,7 +16,9 @@ function list(req, res) {
   var allBands;
   var allConcerts;
 
-  db.Band.find(function(err, bands) {
+  db.Band.find()
+  .populate('concerts')
+  .exec(function(err, bands) {
       if (err) { console.log("Error retrieving all bands", err); }
       allBands = bands;
 
@@ -32,40 +34,6 @@ function list(req, res) {
           });
       });
   });
-}
-
-function concerts(req, res) {
-
-  var newBandConcert = new db.Concert(req.body);
-
-  newBandConcert.save(function BandSaved(err, savedConcert) {
-    if (err) {
-     return console.log("Could not save band. Error:" + err);
-   }
-    res.json(savedConcert);
-  });
-
-  // var bandConcerts;
-  // var bandId = req.params.bandId;
-
-  // find band in db by id
-  // db.Band.findOne({ _id: bandId }, function (err, foundBand) {
-  //   if (err) {
-  //     if (err.name === "CastError") {
-  //       res.status(404).json({ error: "Nothing found by this ID." });
-  //     } else {
-  //       res.status(500).json({ error: err.message });
-  //     }
-  //   } else {
-  //
-  //     for (concerts in foundBand) {
-  //       console.log(concerts);
-  //       console.log(foundBand[concerts]);
-  //     }
-  //   }
-  // });
-
-
 }
 
 function create(req, res) {
@@ -121,12 +89,10 @@ function update(req, res) {
 
     foundBand.name = req.body.name;
     foundBand.formationDate = req.body.formationDate;
-    foundBand.recordLabel = req.body.recordLabel;
+    foundBand.recordLabel = req.body.srecordLabel;
     foundBand.description = req.body.description;
     foundBand.genres = req.body.genres;
     foundBand.image_url = req.body.image_url;
-
-    foundBand.concerts = req.body.concerts;
 
     foundBand.save(function(err, savedBand) {
       if(err) { console.log('saving altered band failed'); }
@@ -144,5 +110,4 @@ module.exports = {
   destroy: destroy,
   update: update,
   list: list,
-  concerts: concerts
 };

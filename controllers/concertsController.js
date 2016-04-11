@@ -16,7 +16,9 @@ function list(req, res) {
   var allConcerts;
   var allBands;
 
-  db.Concert.find(function(err, concerts) {
+  db.Concert.find()
+  .populate('band')
+  .exec(function(err, concerts) {
       if (err) { console.log("Error retrieving all concerts", err); }
       allConcerts = concerts;
 
@@ -119,9 +121,25 @@ function update(req, res) {
     foundConcert.image_url = req.body.image_url;
     foundConcert.recording_url = req.body.recording_url;
 
+
+
     foundConcert.save(function(err, savedConcert) {
-      if(err) { console.log('saving altered concert failed'); }
-      res.json(savedConcert);
+
+      var concertBandId = savedConcert.band;
+
+      db.Band.findById(concertBandId, function(err, foundBand) {
+
+        indexConcert = foundBand.concerts.indexOf(savedConcert._id);
+        foundBand.concerts.splice(indexConcert, 1);
+        foundBand.concerts.push(savedConcert._id);
+
+        if(err) { console.log('saving altered concert failed'); }
+
+        foundBand.save(function(err, savedBand){
+          console.log("Updated band: ", savedBand);
+          res.json(savedConcert);
+        });
+      });
     });
   });
 }

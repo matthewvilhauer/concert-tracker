@@ -104,8 +104,13 @@
                           </li>
                           <li class="list-group-item">
                             <h4 class='inline-header'>Concerts:</h4>
-                            <span class='band-concerts'>{{concerts}}</span>
-
+                            <span class='band-concerts'>
+                              {{#each concerts}}
+                              <ul>
+                                <a href="/concerts/{{_id}}"><li>{{eventName}}</li></a>
+                              </ul>
+                              {{/each}}
+                            </span>
                           </li>
                         </ul>
                       </div>
@@ -115,7 +120,7 @@
                     <button class="delete-band-button btn btn-md btn-danger pull-right" data-band-id="{{ _id }}">Delete</button>
                     <button class="update-band-button btn btn-md btn-primary pull-right" data-band-id="{{ _id }}">Update</button>
                     <button class="save-band-button btn btn-success pull-right hidden" data-band-id="{{ _id }}">Save Changes</button>
-                    <button type="button" class="add-concerts-button btn btn-success pull-right" data-toggle="modal" data-target="#addConcertsToBandModal">Add Concerts</button>
+                    <button type="button" class="add-concerts-button btn btn-success pull-right" data-band-id="{{ _id }}">Add Concerts</button>
                   </div>
                 </div>
               </div>

@@ -32,7 +32,7 @@ function compileAddConcertFormTemplate() {
 }
 function addClickHandlers() {
   //Show single concert click handler
-  $('.show-single-concert').on('click', handleSingleConcertClick);
+  // $('.show-single-concert').on('click', handleSingleConcertClick);
   //Delete concert click handler
   $('.delete-concert-button').on('click', handleDeleteConcertClick);
   //Update concert click handler
@@ -176,27 +176,28 @@ function deleteConcertError(e) {
 * SHOW *
 **********/
 
-function handleSingleConcertClick(e) {
+// function handleSingleConcertClick(e) {
+//
+//   var $concertRow = $(this).closest('.concert');
+//   var concertId = $concertRow.data('concert-id');
+//
+//   console.log('someone wants to show concert id=' + concertId );
+//
+//   $.ajax({
+//     method: 'GET',
+//     url: '/concerts/' + concertId,
+//     success: showSingleConcertSuccess,
+//     error: showConcertError
+//   });
+// }
+// function showSingleConcertSuccess(concert) {
+//   singleConcert = concert;
+// }
+// function showConcertError(e) {
+//   console.log('Error showing single concert');
+// }
 
-  var $concertRow = $(this).closest('.concert');
-  var concertId = $concertRow.data('concert-id');
 
-  console.log('someone wants to show concert id=' + concertId );
-
-  $.ajax({
-    method: 'GET',
-    url: '/concerts/' + concertId,
-    success: showSingleConcertSuccess,
-    error: showConcertError
-  });
-}
-function showConcertError(e) {
-  console.log('Error showing single concert');
-}
-
-function showSingleConcertSuccess(concert) {
-  singleConcert = concert;
-}
 
 /**********
 * UPDATE *
