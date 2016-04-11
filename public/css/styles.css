@@ -63,3 +63,19 @@ iframe {
 .add-concerts-button {
   margin-right: 10px;
 }
+
+.thumbnail {
+  height: 100px;
+  width: 100px;
+  }
+
+.col-xs-12 {
+  text-align: center;
+}
+
+.col-xs-12 .concert-image {
+  margin: 0 auto;
+}
+pre {
+  text-align: justify;
+}

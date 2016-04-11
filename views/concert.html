@@ -73,7 +73,7 @@
                   <!-- begin concert internal row -->
                     <div class='row concert-row'>
 
-                      <div class="col-md-3 col-xs-12 thumbnail concert-art">
+                      <div class="col-md-3 col-xs-12 concert-image">
                         <span class='concert-image'><img class="img-responsive concert-image" src="{{concert.image_url}}"/></span>
                       </div>
 
@@ -85,7 +85,7 @@
                           </li>
                           <li class="list-group-item">
                             <h4 class='inline-header'>Artist</h4>
-                            <span class='concert-bandId'>{{concert.band}}</span>
+                            <a href="/bands/{{band._id}}"><span class='concert-bandId'>{{concert.band.name}}</span></a>
                           </li>
                           <li class="list-group-item">
                             <h4 class='inline-header'>Date</h4>

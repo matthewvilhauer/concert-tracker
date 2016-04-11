@@ -93,7 +93,7 @@ function show(req, res) {
       else { res.status(500).json({ error: err.message }); }
       }
       else { res.json(foundConcert); }
-  });
+  }).populate('band').exec();
 }
 
 function destroy(req, res) {

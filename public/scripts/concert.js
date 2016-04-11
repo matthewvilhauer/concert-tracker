@@ -36,10 +36,10 @@ function addClickHandlers() {
   // $('.show-single-concert').on('click', handleSingleConcertClick);
   // Delete concert click handler
   $('.delete-concert-button').on('click', handleDeleteConcertClick);
-  // //Update concert click handler
-  // $('.update-concert-button').on('click', handleUpdateConcertClick);
-  // //Save concert click handler
-  // $('.save-concert-button').on('click', handleSaveChangesClick);
+  //Update concert click handler
+  $('.update-concert-button').on('click', handleUpdateConcertClick);
+  //Save concert click handler
+  $('.save-concert-button').on('click', handleSaveChangesClick);
 }
 
 /**********
@@ -73,11 +73,18 @@ function renderSingleConcert (concert) {
   // append concert list html to the view
   $concertSingle.html(concertHtml);
 
-  if (concert.recording_url) {
-    renderRecording(concert);
+  if (concert.image_url) {
+    if (concert.recording_url) {
+      renderRecording(concert);
+    } else {
+      console.log("No recording to render for concert: ", concert);
+    }
   } else {
-    console.log("No recording to render for concert: ", concert);
+    $('.concert-image').addClass('hidden');
   }
+
+
+
   addClickHandlers();
 }
 
@@ -138,113 +145,87 @@ function redirect() {
 }
 
 /**********
-* SHOW *
+* UPDATE *
 **********/
 
-// function handleSingleConcertClick(e) {
-//
-//   var $concertRow = $(this).closest('.concert');
-//   var concertId = $concertRow.data('concert-id');
-//
-//   console.log('someone wants to show concert id=' + concertId );
-//
-//   $.ajax({
-//     method: 'GET',
-//     url: '/api/concerts/' + concertId,
-//     success: showConcertSuccess,
-//     error: showConcertError
-//   });
-// }
-// function showConcertSuccess(concert) {
-//   console.log("Success - show concert: ", concert);
-// }
-// function showConcertError(e) {
-//   console.log('Error showing single concert');
-// }
-//
-//
-// /**********
-// * UPDATE *
-// **********/
-//
-// // when the Edit button for an band is clicked
-// function handleUpdateConcertClick(e) {
-//   var $concertRow = $(this).closest('.concert');
-//   var concertId = $concertRow.data('concert-id');
-//
-//   console.log('edit concert', concertId);
-//
-//   // show the save changes button
-//   $(this).parent().find('.save-concert-button').toggleClass('hidden');
-//   // hide the edit button
-//   $(this).parent().find('.update-concert-button').toggleClass('hidden');
-//
-//   $concertRow.find('.edit-concert-image').toggleClass('hidden');
-//   $concertRow.find('.edit-concert-recording').toggleClass('hidden');
-//   $concertRow.find('.music-player').toggleClass('hidden');
-//
-//   // get the concert attributes and replace their fields with an input element
-//   var concertName = $concertRow.find('span.concert-eventName').text();
-//   $concertRow.find('span.concert-eventName').html('<input class="update-concert update-concert-eventName" value="' + concertName + '"></input>');
-//   // var bandId = $concertRow.find('span.concert-bandId').text();
-//   // $concertRow.find('span.concert-bandId').html('<input class="update-concert update-concert-bandId" value="' + bandId + '"></input>');
-//   var concertDate = $concertRow.find('span.concert-date').val();
-//   $concertRow.find('span.concert-date').html('<input class="update-concert update-concert-date" type="date" value="' + concertDate + '"></input>');
-//   var location = $concertRow.find('span.concert-location').text();
-//   $concertRow.find('span.concert-location').html('<input class="update-concert update-concert-location" value="' + location + '"></input>');
-//   var setlist = $concertRow.find('span.concert-setlist').text();
-//   $concertRow.find('span.concert-setlist').html('<textarea class="update-concert update-concert-setlist">' + setlist + '</textarea>');
-//   var description = $concertRow.find('span.concert-description').text();
-//   $concertRow.find('span.concert-description').html('<textarea class="update-concert update-concert-description">' + description + '</textarea>');
-//   var imageURL = $concertRow.find('span.concert-image-url').text();
-//   $concertRow.find('span.concert-image-url').html('<input class="update-concert update-concert-image-url" value="' + imageURL + '"></input>');
-//   var recordingURL = $concertRow.find('span.concert-recording-url').text();
-//   $concertRow.find('span.concert-recording-url').html('<input class="update-concert update-concert-recording-url" value="' + recordingURL + '"></input>');
-// }
-//
-// // after editing an concert, when the save changes button is clicked
-// function handleSaveChangesClick(e) {
-//   var concertId = $(this).parents('.concert').data('concert-id'); // $(this).closest would have worked fine too
-//   var $concertRow = $('[data-concert-id=' + concertId + ']');
-//
-//   var data = {
-//     eventName: $concertRow.find('.update-concert-eventName').val(),
-//     // bandId: $concertRow.find('.update-concert-bandId').val(),
-//     concertDate: $concertRow.find('.update-concert-date').val(),
-//     location: $concertRow.find('.update-concert-location').val(),
-//     setlist: $concertRow.find('.update-concert-setlist').val(),
-//     description: $concertRow.find('.update-concert-description').val(),
-//     image_url: $concertRow.find('.update-concert-image-url').val(),
-//     recording_url: $concertRow.find('.update-concert-recording-url').val(),
-//   };
-//   console.log('PUTing data for concert', concertId, 'with data:', data);
-//
-//   $.ajax({
-//     method: 'PUT',
-//     url: '/api/concerts/' + concertId,
-//     data: data,
-//     success: handleUpdatedConcertResponse,
-//     error: handleUpdatedConcertError
-//   });
-// }
-//
-// function handleUpdatedConcertResponse(concert) {
-//   console.log('response to update', concert);
-//   allConcerts[concert._id] = concert;
-//   var concertId = concert._id;
-//
-//   renderConcertList(allConcerts);
-//
-//   // BONUS: scroll the change into view ;-)
-//   $('[data-concert-id=' + concertId + ']')[0].scrollIntoView();
-// }
-// function handleUpdatedConcertError(err) {
-//   console.log('Error updating band: ', err);
-// }
-//
-// /**********
-// * RENDER RECORDING *
-// **********/
+// when the Edit button for an band is clicked
+function handleUpdateConcertClick(e) {
+  var $concertRow = $(this).closest('.concert');
+  var concertId = $concertRow.data('concert-id');
+
+  console.log('edit concert', concertId);
+
+  // show the save changes button
+  $(this).parent().find('.save-concert-button').toggleClass('hidden');
+  // hide the edit button
+  $(this).parent().find('.update-concert-button').toggleClass('hidden');
+
+  $concertRow.find('.edit-concert-image').toggleClass('hidden');
+  $concertRow.find('.edit-concert-recording').toggleClass('hidden');
+  $concertRow.find('.music-player').toggleClass('hidden');
+
+  // get the concert attributes and replace their fields with an input element
+  var concertName = $concertRow.find('span.concert-eventName').text();
+  $concertRow.find('span.concert-eventName').html('<input class="update-concert update-concert-eventName" value="' + concertName + '"></input>');
+  // var bandId = $concertRow.find('span.concert-bandId').text();
+  // $concertRow.find('span.concert-bandId').html('<input class="update-concert update-concert-bandId" value="' + bandId + '"></input>');
+  var concertDate = $concertRow.find('span.concert-date').val();
+  $concertRow.find('span.concert-date').html('<input class="update-concert update-concert-date" type="date" value="' + concertDate + '"></input>');
+  var location = $concertRow.find('span.concert-location').text();
+  $concertRow.find('span.concert-location').html('<input class="update-concert update-concert-location" value="' + location + '"></input>');
+  var setlist = $concertRow.find('span.concert-setlist').text();
+  $concertRow.find('span.concert-setlist').html('<textarea class="update-concert update-concert-setlist">' + setlist + '</textarea>');
+  var description = $concertRow.find('span.concert-description').text();
+  $concertRow.find('span.concert-description').html('<textarea class="update-concert update-concert-description">' + description + '</textarea>');
+  var imageURL = $concertRow.find('span.concert-image-url').text();
+  $concertRow.find('span.concert-image-url').html('<input class="update-concert update-concert-image-url" value="' + imageURL + '"></input>');
+  var recordingURL = $concertRow.find('span.concert-recording-url').text();
+  $concertRow.find('span.concert-recording-url').html('<input class="update-concert update-concert-recording-url" value="' + recordingURL + '"></input>');
+}
+
+// after editing an concert, when the save changes button is clicked
+function handleSaveChangesClick(e) {
+  var concertId = $(this).parents('.concert').data('concert-id'); // $(this).closest would have worked fine too
+  var $concertRow = $('[data-concert-id=' + concertId + ']');
+
+  var data = {
+    eventName: $concertRow.find('.update-concert-eventName').val(),
+    // bandId: $concertRow.find('.update-concert-bandId').val(),
+    concertDate: $concertRow.find('.update-concert-date').val(),
+    location: $concertRow.find('.update-concert-location').val(),
+    setlist: $concertRow.find('.update-concert-setlist').val(),
+    description: $concertRow.find('.update-concert-description').val(),
+    image_url: $concertRow.find('.update-concert-image-url').val(),
+    recording_url: $concertRow.find('.update-concert-recording-url').val(),
+  };
+  console.log('PUTing data for concert', concertId, 'with data:', data);
+
+  $.ajax({
+    method: 'PUT',
+    url: '/api/concerts/' + concertId,
+    data: data,
+    success: handleUpdatedConcertResponse,
+    error: handleUpdatedConcertError
+  });
+}
+
+function handleUpdatedConcertResponse(concert) {
+  console.log('response to update', concert);
+  allConcerts[concert._id] = concert;
+  var concertId = concert._id;
+
+  renderSingleConcert(concert);
+
+  // BONUS: scroll the change into view ;-)
+  $('[data-concert-id=' + concertId + ']')[0].scrollIntoView();
+}
+function handleUpdatedConcertError(err) {
+  console.log('Error updating band: ', err);
+}
+
+/**********
+* RENDER RECORDING *
+**********/
 
 // Create the iFrame HTML from the Recording Link
 function renderRecording(concert) {
@@ -253,29 +234,3 @@ function renderRecording(concert) {
   console.log("iFrame Link: "+iframe_link);
   $('.music-player').html(iframe_link);
 }
-
-// // GET Request from Archive.org
-// function getRecordingLink() {
-//
-//   var archiveEndpoint = "https://archive.org/embed/";
-//   var outputJSON = "?output=json";
-//
-//   $.ajax({
-//     method: "GET",
-//     header: {'Access-Control-Allow-Origin':'Access-Control-Allow-Origin'},
-//     url: archiveEndpoint,
-//     data: outputJSON,
-//     success: onRecordingSuccess,
-//     error: onRecordingError
-//   });
-//
-//   function onRecordingSuccess(archiveJSON) {
-//     var concertIdentifier = archiveJSON.metadata.identifier;
-//     console.log(concertIdentifier);
-//     var concertLink = archiveEndpoint+concertIdentifier;
-//     renderRecording(concertLink);
-//   }
-//   function onRecordingError(err) {
-//     console.log("Error Retrieving Archive data: ", err);
-//   }
-// }
