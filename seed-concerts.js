@@ -35,7 +35,15 @@ concertsList.push({
               description: "Guests: with Zach Velmer and Jeffree Lerner on percussion, Hunter Brown on guitar, and David Phipps on keyboards (all from Sound Tribe Sector 9) and Shaman (?) on percussion with Scott Law on guitar, Jamie Janover on percussion, Aaron Holstein on guitar, Keller Williams, and all members of Sound Tribe Sector 9 ",
               image_url: "http://www.livedownloads.com/images/shows/sci050807_03.jpg",
               recording_url: "https://archive.org/embed/sci2004-06-19.flac16",
-              band: newBand
+              band: {
+    _id: '570b40aa45e20dfe72ed4337',
+    genres: 'Jamband, Rock',
+    image_url: '../images/String-cheese.jpg',
+    description: 'Best band in the world!',
+    recordLabel: 'SCI Fidelity Records',
+    formationDate: '1993',
+    name: 'The String Cheese Incident',
+    __v: 0 }
             });
 
 db.Concert.remove({}, function(err, concerts){

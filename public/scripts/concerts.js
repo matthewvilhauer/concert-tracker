@@ -114,7 +114,7 @@ function renderAddConcertFormError(e) {
 function handleAddConcertClick() {
   var formData = $('#add-concert-form').serialize();
 
-  console.log("All concerts before add:", allConcerts);
+  console.log("Form data to be added: ", formData);
 
   $.ajax({
     method: 'POST',
@@ -225,14 +225,14 @@ function handleUpdateConcertClick(e) {
   // get the concert attributes and replace their fields with an input element
   var concertName = $concertRow.find('span.concert-eventName').text();
   $concertRow.find('span.concert-eventName').html('<input class="update-concert update-concert-eventName" value="' + concertName + '"></input>');
-  var bandId = $concertRow.find('span.concert-bandId').text();
-  $concertRow.find('span.concert-bandId').html('<input class="update-concert update-concert-bandId" value="' + bandId + '"></input>');
-  var date = $concertRow.find('span.concert-date').text();
-  $concertRow.find('span.concert-date').html('<input class="update-concert update-concert-date" value="' + date + '"></input>');
+  // var bandId = $concertRow.find('span.concert-bandId').text();
+  // $concertRow.find('span.concert-bandId').html('<input class="update-concert update-concert-bandId" value="' + bandId + '"></input>');
+  var concertDate = $concertRow.find('span.concert-date').val();
+  $concertRow.find('span.concert-date').html('<input class="update-concert update-concert-date" type="date" value="' + concertDate + '"></input>');
   var location = $concertRow.find('span.concert-location').text();
   $concertRow.find('span.concert-location').html('<input class="update-concert update-concert-location" value="' + location + '"></input>');
   var setlist = $concertRow.find('span.concert-setlist').text();
-  $concertRow.find('span.concert-setlist').html('<pre><textarea class="update-concert update-concert-setlist">' + setlist + '</textarea></pre>');
+  $concertRow.find('span.concert-setlist').html('<textarea class="update-concert update-concert-setlist">' + setlist + '</textarea>');
   var description = $concertRow.find('span.concert-description').text();
   $concertRow.find('span.concert-description').html('<textarea class="update-concert update-concert-description">' + description + '</textarea>');
   var imageURL = $concertRow.find('span.concert-image-url').text();
@@ -248,8 +248,8 @@ function handleSaveChangesClick(e) {
 
   var data = {
     eventName: $concertRow.find('.update-concert-eventName').val(),
-    bandId: $concertRow.find('.update-concert-bandId').val(),
-    date: $concertRow.find('.update-concert-date').val(),
+    // bandId: $concertRow.find('.update-concert-bandId').val(),
+    concertDate: $concertRow.find('.update-concert-date').val(),
     location: $concertRow.find('.update-concert-location').val(),
     setlist: $concertRow.find('.update-concert-setlist').val(),
     description: $concertRow.find('.update-concert-description').val(),
@@ -274,11 +274,8 @@ function handleUpdatedConcertResponse(concert) {
 
   renderConcertList(allConcerts);
 
-  // $('[data-concert-id=' + concertId + ']').remove();
-
-
   // BONUS: scroll the change into view ;-)
-  // $('[data-concert-id=' + concertId + ']')[0].scrollIntoView();
+  $('[data-concert-id=' + concertId + ']')[0].scrollIntoView();
 }
 function handleUpdatedConcertError(err) {
   console.log('Error updating band: ', err);

@@ -36,15 +36,41 @@ function list(req, res) {
 
 function create(req, res) {
   console.log('concerts create', req.body);
-  // var newBand = req.body.bandId;
 
-  var newConcert = new db.Concert(req.body);
+  var eventName = req.body.eventName;
+  var concertDate = req.body.concertDate;
+  var location = req.body.location;
+  var setlist = req.body.setlist;
+  var description = req.body.description;
+  var image_url = req.body.image_url;
+  var recording_url = req.body.recording_url;
 
-  newConcert.save(function ConcertSaved(err, savedConcert) {
-    if (err) {
-     return console.log("Could not save concert. Error:" + err);
-   }
-    res.json(savedConcert);
+  var bandId = req.body.bandId;
+
+  // find band in db by id
+  db.Band.findOne({ _id: bandId }, function (err, foundBand) {
+    var updatedBand = foundBand;
+    var updatedBandId = updatedBand._id;
+
+    var newConcertEntry = {
+      eventName: eventName,
+      band: updatedBand._id,
+      date: concertDate,
+      location: location,
+      setlist: setlist,
+      description: description,
+      image_url: image_url,
+      recording_url: recording_url
+    }
+
+    var newConcert = new db.Concert(newConcertEntry);
+
+    newConcert.save(function ConcertSaved(err, savedConcert) {
+      if (err) {
+       return console.log("Could not save concert. Error:" + err);
+     }
+      res.json(savedConcert);
+    });
   });
 }
 
@@ -80,8 +106,7 @@ function update(req, res) {
     if(err) { console.log('concertsController.update error', err); }
 
     foundConcert.eventName = req.body.eventName;
-    foundConcert.bandId = req.body.bandId;
-    foundConcert.date = req.body.date;
+    foundConcert.date = req.body.concertDate;
     foundConcert.location = req.body.location;
     foundConcert.description = req.body.description;
     foundConcert.setlist = req.body.setlist;
