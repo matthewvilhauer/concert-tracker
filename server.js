@@ -58,6 +58,8 @@ app.put('/api/bands/:bandId', controllers.bands.update);
 //Delete a band
 app.delete('/api/bands/:bandId', controllers.bands.destroy);
 
+//Get all banss and all concertss to populate select list on the add band form
+app.get('/api/bandsList', controllers.bands.list);
 
 // CONCERT CRUD
 
@@ -74,6 +76,7 @@ app.delete('/api/concerts/:concertId', controllers.concerts.destroy);
 
 //Get all concerts and all bands to populate select list on the add concert form
 app.get('/api/concertsList', controllers.concerts.list);
+
 
 /**********
 * SERVER *

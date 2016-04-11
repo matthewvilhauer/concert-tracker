@@ -5,7 +5,10 @@
 
 var template;
 var $bandsList;
+var $addBandForm;
+var addBandFormTemplate;
 var allBands = {};
+var allConcerts = {};
 
 
 //************* Document Ready *********************
@@ -14,52 +17,37 @@ $(document).ready(function() {
 
     console.log('bands.js loaded!');
 
-    $bandsList = $('#bands');
+    // compile Concert List template
+    compileBandListTemplate();
+    // compile Add Band Form template
+    compileAddBandFormTemplate();
 
-    // compile handlebars template
-    var source = $('#band-template').html();
-    template = Handlebars.compile(source);
+    showBandList();
+    showBandForm();
 
-    renderBandIndex();
-
-    //Add an Band
-    $('#add-band-form').on('submit', handleAddBandClick);
-
+    // $bandsList = $('#bands');
+    //
+    // // compile handlebars template
+    // var source = $('#band-template').html();
+    // template = Handlebars.compile(source);
+    //
+    // renderBandIndex();
+    //
+    // //Add an Band
+    // $('#add-band-form').on('submit', handleAddBandClick);
 });
 
-/**********
-* INDEX *
-**********/
-
-//Get all Bands
-function renderBandIndex() {
-
-  $.ajax({
-    method: 'GET',
-    url: '/api/bands',
-    success: renderBandIndexSuccess,
-    error: renderBandIndexError
-  });
+function compileBandListTemplate() {
+  $bandsList = $('#bands');
+  var source = $('#band-list-template').html();
+  template = Handlebars.compile(source);
 }
-
-//Display Index of all the Bands in the Bands array
-function renderBandIndexSuccess(bands) {
-
-  //Empty the old list of bands
-  $bandsList.empty();
-
-  bands.forEach( function(band) {
-    allBands[band._id] = band;
-  });
-
-  console.log('renderBandIndex allBands value: ', allBands);
-  // pass the band into the template function
-  var bandHtml = template({ bands: bands});
-  // append html to the view
-  $bandsList.append(bandHtml);
-
-  //************* Add click handlers for each band button *********************
-
+function compileAddBandFormTemplate() {
+  $addBandForm = $('#add-band-form-container');
+  var addBandForm = $('#add-band-form-template').html();
+  addBandFormTemplate = Handlebars.compile(addBandForm);
+}
+function addClickHandlers() {
   //Show single band click handler
   $('.show-single-band').on('click', handleSingleBandClick);
   //Delete band click handler
@@ -69,8 +57,66 @@ function renderBandIndexSuccess(bands) {
   //Save band click handler
   $('.save-band-button').on('click', handleSaveChangesClick);
 }
-function renderBandIndexError(e) {
+
+/**********
+* INDEX *
+**********/
+
+//Get all Bands
+function showBandList() {
+  $.get('/api/bandsList').success( function(response) {
+    $bands = response.bands;
+    //Add bands to the hash map
+    $bands.forEach( function(band) {
+      allBands[band._id] = band;
+    });
+    renderBandList(allBands);
+  });
+}
+
+//Render all Bands
+function renderBandList (bands) {
+  //Empty the old list of bands
+  //Set the object for the template
+  var bandHtml = template({
+    bands: allBands
+  });
+
+  console.info('renderBandList allBands value: ', allBands);
+  // append band list html to the view
+  $bandsList.html(bandHtml);
+  addClickHandlers();
+}
+function renderBandListError(e) {
   console.log('Error loading bands');
+}
+
+/**********
+* SHOW BAND FORM *
+**********/
+
+//Get the add band form
+function showBandForm() {
+  $.get('/api/concerts').success( function(concerts) {
+
+    concerts.forEach( function(concert) {
+      allConcerts[concert._id] = concert;
+    });
+    renderAddBandForm(allConcerts);
+  });
+}
+//Render the Add Band Form
+function renderAddBandForm (concerts) {
+
+  // pass the concerts into the Add Band template function
+  var addBandFormHtml = addBandFormTemplate({
+    concerts: allConcerts
+  });
+  $addBandForm.html(addBandFormHtml);
+  console.info("Added Add Band Form to the page!");
+}
+function renderAddBandFormError(e) {
+  console.log('Error loading concerts');
 }
 
 
@@ -78,23 +124,23 @@ function renderBandIndexError(e) {
 * CREATE *
 **********/
 
-// Send the new band data to the server when the Add Band button is clicked
-function handleAddBandClick(e) {
+// Send the new band data to the server when the Add Concert button is clicked
 
-  console.log("All bands before add:", allBands);
-  // e.preventDefault();
+function handleAddBandClick() {
+  var formData = $('#add-band-form').serialize();
+
+  console.log("Form data to be added: ", formData);
 
   $.ajax({
     method: 'POST',
     url: '/api/bands',
-    data: $(this).serialize(),
-    success: createBandSuccess,
+    data: formData,
+    success: createBand,
     error: createBandError
   });
-
 }
 // On creation of a single Band, re-render the list of bands
-function createBandSuccess(band) {
+function createBand(band) {
 
   console.log("Band: ", band);
 
@@ -102,15 +148,14 @@ function createBandSuccess(band) {
   $('#add-band-form textarea').val('');
 
   allBands[band._id] = band;
-  renderBandIndex();
+
+  renderBandList(allBands);
 
   console.log("On createBandSuccess allBands value: ", allBands);
-
 }
 function createBandError(e) {
   console.log('Error creating band');
 }
-
 
 /**********
 * DELETE *
@@ -121,10 +166,8 @@ function handleDeleteBandClick(e) {
   var $bandRow = $(this).closest('.band');
   var bandId = $bandRow.data('band-id');
 
-  delete allBands[bandId];
-
-  console.log("On handleDeleteBandClick allBands value: ", allBands);
   console.log('someone wants to delete band id=' + bandId );
+  console.log("On handleDeleteBandClick allBands value: ", allBands);
 
   $.ajax({
     method: 'DELETE',
@@ -140,8 +183,8 @@ function deleteBandSuccess(band) {
 
   console.log("On deleteBandSuccess allBands value: ", allBands);
 
-  renderBandIndex();
-  // location.reload();
+  renderBandList(allBands);
+
 }
 function deleteBandError(e) {
   console.log('Error deleting band');
@@ -165,13 +208,157 @@ function handleSingleBandClick(e) {
     error: showBandError
   });
 }
-
 function showBandSuccess(band) {
   console.log("Success - show band: ", band);
 }
 function showBandError(e) {
   console.log('Error showing single band');
 }
+
+
+
+
+// //Get all Bands
+// function renderBandIndex() {
+//
+//   $.ajax({
+//     method: 'GET',
+//     url: '/api/bands',
+//     success: renderBandIndexSuccess,
+//     error: renderBandIndexError
+//   });
+// }
+//
+// //Display Index of all the Bands in the Bands array
+// function renderBandIndexSuccess(bands) {
+//
+//   //Empty the old list of bands
+//   $bandsList.empty();
+//
+//   bands.forEach( function(band) {
+//     allBands[band._id] = band;
+//   });
+//
+//   console.log('renderBandIndex allBands value: ', allBands);
+//   // pass the band into the template function
+//   var bandHtml = template({ bands: bands});
+//   // append html to the view
+//   $bandsList.append(bandHtml);
+//
+//   //************* Add click handlers for each band button *********************
+//
+//   //Show single band click handler
+//   $('.show-single-band').on('click', handleSingleBandClick);
+//   //Delete band click handler
+//   $('.delete-band-button').on('click', handleDeleteBandClick);
+//   //Update band click handler
+//   $('.update-band-button').on('click', handleUpdateBandClick);
+//   //Save band click handler
+//   $('.save-band-button').on('click', handleSaveChangesClick);
+// }
+// function renderBandIndexError(e) {
+//   console.log('Error loading bands');
+// }
+//
+//
+// /**********
+// * CREATE *
+// **********/
+//
+// // Send the new band data to the server when the Add Band button is clicked
+// function handleAddBandClick(e) {
+//
+//   console.log("All bands before add:", allBands);
+//   // e.preventDefault();
+//
+//   $.ajax({
+//     method: 'POST',
+//     url: '/api/bands',
+//     data: $(this).serialize(),
+//     success: createBandSuccess,
+//     error: createBandError
+//   });
+//
+// }
+// // On creation of a single Band, re-render the list of bands
+// function createBandSuccess(band) {
+//
+//   console.log("Band: ", band);
+//
+//   $('#add-band-form input').val('');
+//   $('#add-band-form textarea').val('');
+//
+//   allBands[band._id] = band;
+//   renderBandIndex();
+//
+//   console.log("On createBandSuccess allBands value: ", allBands);
+//
+// }
+// function createBandError(e) {
+//   console.log('Error creating band');
+// }
+
+
+/**********
+* DELETE *
+**********/
+
+// // Send the ID of the band to be deleted to the server
+// function handleDeleteBandClick(e) {
+//   var $bandRow = $(this).closest('.band');
+//   var bandId = $bandRow.data('band-id');
+//
+//   delete allBands[bandId];
+//
+//   console.log("On handleDeleteBandClick allBands value: ", allBands);
+//   console.log('someone wants to delete band id=' + bandId );
+//
+//   $.ajax({
+//     method: 'DELETE',
+//     url: '/api/bands/' + bandId,
+//     success: deleteBandSuccess,
+//     error: deleteBandError
+//   });
+// }
+// // Remove the deleted band from allBands and re-render the list of bands
+// function deleteBandSuccess(band) {
+//
+//   delete allBands[band._id];
+//
+//   console.log("On deleteBandSuccess allBands value: ", allBands);
+//
+//   renderBandIndex();
+//   // location.reload();
+// }
+// function deleteBandError(e) {
+//   console.log('Error deleting band');
+// }
+//
+// /**********
+// * SHOW *
+// **********/
+//
+// function handleSingleBandClick(e) {
+//
+//   var $bandRow = $(this).closest('.band');
+//   var bandId = $bandRow.data('band-id');
+//
+//   console.log('someone wants to show band id=' + bandId );
+//
+//   $.ajax({
+//     method: 'GET',
+//     url: '/api/bands/' + bandId,
+//     success: showBandSuccess,
+//     error: showBandError
+//   });
+// }
+//
+// function showBandSuccess(band) {
+//   console.log("Success - show band: ", band);
+// }
+// function showBandError(e) {
+//   console.log('Error showing single band');
+// }
 
 /**********
 * UPDATE *
@@ -204,10 +391,9 @@ function handleUpdateBandClick(e) {
   $bandRow.find('span.band-genres').html('<textarea class="update-band update-band-genres">' + genres + '</textarea>');
   var imageURL = $bandRow.find('span.band-image-url').text();
   $bandRow.find('span.band-image-url').html('<input class="update-band update-band-image-url" value="' + imageURL + '"></input>');
-  var concerts = $bandRow.find('span.band-concerts').text();
+  var concerts = $bandRow.find('span.band-concerts').val();
   $bandRow.find('span.band-concerts').html('<input class="update-band update-band-concerts" value="' + concerts + '"></input>');
 }
-
 
 // after editing an band, when the save changes button is clicked
 function handleSaveChangesClick(e) {
@@ -238,14 +424,11 @@ function handleUpdatedBandResponse(band) {
   console.log('response to update', band);
   allBands[band._id] = band;
   var bandId = band._id;
-  renderBandIndex();
-  // scratch this band from the page
-  $('[data-band-id=' + bandId + ']').remove();
-  // and then re-draw it with the updates ;-)
 
+  renderBandList();
 
   // BONUS: scroll the change into view ;-)
-  // $('[data-band-id=' + bandId + ']')[0].scrollIntoView();
+  $('[data-band-id=' + bandId + ']')[0].scrollIntoView();
 }
 function handleUpdatedBandError(err) {
   console.log('Error updating band: ', err);

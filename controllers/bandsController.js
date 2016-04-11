@@ -12,6 +12,28 @@ function index(req, res) {
   });
 }
 
+function list(req, res) {
+  var allBands;
+  var allConcerts;
+
+  db.Band.find(function(err, bands) {
+      if (err) { console.log("Error retrieving all bands", err); }
+      allBands = bands;
+
+      // find Bands to use to populate band select options on concerts index.
+      db.Concert.find(function(err, concerts) {
+          if (err) { console.log("Error retrieving all concerts", err); }
+          allConcerts = concerts;
+
+          // return concerts and bands as JSON
+          res.json({
+            bands: allBands,
+            concerts: allConcerts
+          });
+      });
+  });
+}
+
 function create(req, res) {
 
   console.log('bands create', req.body);
@@ -86,5 +108,6 @@ module.exports = {
   create: create,
   show: show,
   destroy: destroy,
-  update: update
+  update: update,
+  list: list
 };
