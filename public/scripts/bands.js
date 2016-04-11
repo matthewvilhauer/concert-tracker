@@ -280,9 +280,6 @@ function handleSaveChangesClick(e) {
     concerts: $bandRow.find('span.band-concerts').val()
   };
 
-  var newConcert = {
-    eventName: $bandRow.find('.update-band-concerts').val()
-  };
   console.log('PUTing data for band', bandId, 'with data', data);
 
   $.ajax({
@@ -292,25 +289,6 @@ function handleSaveChangesClick(e) {
     success: handleUpdatedBandResponse,
     error: handleUpdatedBandError
   });
-
-  $.ajax({
-    method: 'POST',
-    url: '/api/bands/' + bandId + '/concerts',
-    data: newConcert,
-    success: AddedConcertToBand,
-    error: AddedConcertToBandError
-  });
-}
-
-function AddedConcertToBand(addedConcert) {
-
-  console.log('response to update', band);
-
-  renderBandList(allBands);
-
-}
-function AddedConcertToBandError(err) {
-  console.log('Error updating a bands concerts: ', err);
 }
 
 function handleUpdatedBandResponse(band) {

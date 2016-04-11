@@ -41,11 +41,11 @@
             <li class="active"><a href="#">Artists<span class="sr-only">(current)</span></a></li>
             <li><a href="/concerts">Concerts</a></li>
           </ul>
-          <ul class="nav navbar-nav navbar-right">
+          <!-- <ul class="nav navbar-nav navbar-right">
             <li>
               <li><a href="/myprofile">My Profile</a></li>
             </li>
-          </ul>
+          </ul> -->
         </div><!-- /.navbar-collapse -->
       </div><!-- /.container-fluid -->
     </nav>
@@ -107,7 +107,7 @@
                             <span class='band-concerts'>
                               {{#each concerts}}
                               <ul>
-                                <a href="/concerts/{{_id}}"><li>{{eventName}}</li></a>
+                                <a href="/concerts/{{_id}}"><li class='band-concerts'>{{eventName}}</li></a>
                               </ul>
                               {{/each}}
                             </span>
