@@ -8,22 +8,16 @@
 
     <!-- bootstrap css -->
     <link type="text/css" rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/css/bootstrap.min.css">
-
     <!-- custom styles -->
-    <link rel="stylesheet" type="text/css" href="css/style.css">
-
+    <link rel="stylesheet" type="text/css" href="css/styles.css">
     <!-- jquery -->
     <!-- Note: using subresource integrity; see: https://en.wikipedia.org/wiki/Subresource_Integrity -->
     <script type="text/javascript" src="http://code.jquery.com/jquery-2.2.2.min.js" integrity="sha256-36cp2Co+/62rEAAYHLmRCPIych47CvdM+uTBJwSzWjI=" crossorigin="anonymous"></script>
-
     <!-- handlebars -->
     <script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/handlebars.js/4.0.5/handlebars.min.js"></script>
-
-    <!-- custom script -->
-    <script type="text/javascript" src="js/app.js"></script>
-
     <!-- APPLICATION SCRIPTS -->
-    <script src="scripts/bands.js"></script>
+    <script type="text/javascript" src="/scripts/bands.js"></script>
+
   </head>
 
   <body>
@@ -44,28 +38,175 @@
         <!-- Collect the nav links, forms, and other content for toggling -->
         <div class="collapse navbar-collapse" id="bs-example-navbar-collapse-1">
           <ul class="nav navbar-nav">
-            <li class="active"><a href="/bands">Bands<span class="sr-only">(current)</span></a></li>
+            <li class="active"><a href="#">Artists<span class="sr-only">(current)</span></a></li>
             <li><a href="/concerts">Concerts</a></li>
-            <li><a href="/members">Members</a></li>
           </ul>
-          <ul class="nav navbar-nav navbar-right">
-            <li class="dropdown">
-              <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false">Username<span class="caret"></span></a>
-              <ul class="dropdown-menu">
-                <li><a href="#">Profile</a></li>
-                <li role="separator" class="divider"></li>
-                <li><a href="#">My Bands</a></li>
-                <li role="separator" class="divider"></li>
-                <li><a href="#">My Concerts</a></li>
-                <li role="separator" class="divider"></li>
-              </ul>
+          <!-- <ul class="nav navbar-nav navbar-right">
+            <li>
+              <li><a href="/myprofile">My Profile</a></li>
             </li>
-          </ul>
+          </ul> -->
         </div><!-- /.navbar-collapse -->
       </div><!-- /.container-fluid -->
     </nav>
 
-    <h1>Bands Index</h1>
+    <h1 id="bands-header">Bands</h1>
+
+    <section>
+      <!-- bands! -->
+      <div id='bands'>
+        <!-- handlebars template -->
+        <script id="band-list-template" type="text/x-handlebars-template">
+
+          {{#each bands}}
+            <!-- one band -->
+            <div class="row band" data-band-id="{{_id}}">
+
+              <div class="col-md-10 col-md-offset-1">
+                <div class="panel panel-default">
+                  <div class="panel-body">
+
+
+                  <!-- begin band internal row -->
+                    <div class="row">
+
+                      <!-- band image column -->
+                      <div class="col-md-3 col-xs-12 thumbnail band-art">
+                        <span class='band-image'><img class="img-responsive band-image" src="{{image_url}}"/></span>
+                      </div>
+
+                      <!-- band information column -->
+                      <div class="col-md-9 col-xs-12">
+                        <ul class="list-group">
+                          <li class="list-group-item">
+                            <h3><span class='band-name'><a class ="show-single-band" href="/api/bands/{{_id}}">{{name}}</a></span></h3>
+                            <span class='band-Id'>{{_id}}</span>
+                          </li>
+                          <li class="list-group-item">
+                            <h4 class='inline-header'>Formation Date:</h4>
+                            <span class='band-formationDate'>{{formationDate}}</span>
+                          </li>
+                          <li class="list-group-item">
+                            <h4 class='inline-header'>Record Label:</h4>
+                            <span class='band-recordLabel'>{{recordLabel}}</span>
+                          </li>
+                          <li class="list-group-item">
+                            <h4 class='inline-header'>Description:</h4>
+                            <span class='band-description'>{{description}}</span>
+                          </li>
+                          <li class="list-group-item">
+                            <h4 class='inline-header'>Genres:</h4>
+                            <span class='band-genres'>{{genres}}</span>
+                          </li>
+                          <li class="list-group-item edit-band-image hidden">
+                            <h4 class='inline-header'>Image URL</h4>
+                            <span class='band-image-url'>{{image_url}}</span>
+                          </li>
+                          <li class="list-group-item">
+                            <h4 class='inline-header'>Concerts:</h4>
+                            <span class='band-concerts'>
+                              {{#each concerts}}
+                              <ul>
+                                <a href="/concerts/{{_id}}"><li class='band-concerts'>{{eventName}}</li></a>
+                              </ul>
+                              {{/each}}
+                            </span>
+                          </li>
+                        </ul>
+                      </div>
+                    </div>
+                  </div>
+                  <div class='panel-footer'>
+                    <button class="delete-band-button btn btn-md btn-danger pull-right" data-band-id="{{ _id }}">Delete</button>
+                    <button class="update-band-button btn btn-md btn-primary pull-right" data-band-id="{{ _id }}">Update</button>
+                    <button class="save-band-button btn btn-success pull-right hidden" data-band-id="{{ _id }}">Save Changes</button>
+                    <button type="button" class="add-concerts-button btn btn-success pull-right" data-band-id="{{ _id }}">Add Concerts</button>
+                  </div>
+                </div>
+              </div>
+            </div>
+            <!-- end of band internal row -->
+          {{/each}}
+        </script>
+      </div>
+
+      <!-- end one band -->
+    </section>
+
+    <section class="container">
+      <div class="row">
+        <div class="col-md-10 col-md-offset-1">
+          <div id=add-band-form-container>
+            <script id="add-band-form-template" type="text/x-handlebars-template">
+
+              <form id='add-band-form' class="form-horizontal">
+                <fieldset>
+
+                  <!-- Form Name -->
+                  <legend>Add New Artist</legend>
+
+                  <!-- Text input-->
+                  <div class="form-group">
+                    <label class="col-md-2 col-md-offset-1 control-label" for="name">Artist Name</label>
+                    <div class="col-md-8">
+                      <input id="band-name" name="name" type="text" placeholder="" class="form-control input-md" required="">
+                    </div>
+                  </div>
+                  <!-- Text input-->
+                  <div class="form-group">
+                    <label class="col-md-2 col-md-offset-1 control-label" for="formationDate">Formation Date</label>
+                    <div class="col-md-8">
+                      <input id="band-formationDate" name="formationDate" type="text" placeholder="" class="form-control input-md">
+                    </div>
+                  </div>
+                  <!-- Text input-->
+                  <div class="form-group">
+                    <label class="col-md-2 col-md-offset-1 control-label" for="recordLabal">Record Label</label>
+                    <div class="col-md-8">
+                      <input id="band-recordLabel" name="recordLabel" type="text" placeholder="Enter Record Label here" class="form-control input-md">
+                    </div>
+                  </div>
+                  <!-- Text input-->
+                  <div class="form-group">
+                    <label class="col-md-2 col-md-offset-1 control-label" for="image_url">Image URL</label>
+                    <div class="col-md-8">
+                      <input id="band-image" name="image_url" type="text" placeholder="Enter Image URL here" class="form-control input-md">
+                    </div>
+                  </div>
+                  <!-- Textarea-->
+                  <div class="form-group">
+                    <label class="col-md-2 col-md-offset-1 control-label" for="description">Description</label>
+                    <div class="col-md-8">
+                      <textarea id="band-description" name="description" type="text" placeholder="Enter Description here" class="form-control input-md"></textarea>
+                    </div>
+                  </div>
+                  <!-- Textarea -->
+                  <div class="form-group">
+                    <label class="col-md-2 col-md-offset-1 control-label" for="genres">Genres</label>
+                    <div class="col-md-8">
+                      <textarea class="form-control input-md" id="band-genres" name="genres" placeholder="Enter Genres (separated by commas)"></textarea>
+                    </div>
+                  </div>
+
+                  <!-- Button -->
+                  <div class="form-group">
+                    <div class="col-md-4">
+                      <a id="add-band-button"
+                        onclick="handleAddBandClick(this.form)"
+                        name="submit"
+                        class="btn btn-lg btn-primary add-band-button">
+                        Submit
+                      </a>
+                    </div>
+                  </div>
+                </fieldset>
+              </form>
+            </script>
+          </div>
+        </div>
+      </div>
+    </section>
 
   </body>
+
 </html>

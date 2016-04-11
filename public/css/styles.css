@@ -1,0 +1,65 @@
+.jumbotron {
+  background-image: url(../images/cheese_front_row.jpg);
+  background-size: cover;
+  background-repeat: no-repeat;
+}
+.jumbotron .container {
+  height: 550px;
+}
+
+#site-header {
+  color: white;
+}
+#site-sub-header {
+  color: white;
+}
+#bands-header {
+  text-align: center;
+}
+.band-name {
+  text-align: center;
+}
+.band-image {
+  width:100%;
+  margin-bottom: 30px;
+}
+.band-row {
+  padding-left: 10px;
+}
+.update-band-button {
+  margin-right: 10px;
+}
+.save-band-button {
+  margin-right: 10px;
+}
+.panel-footer {
+  height: 55px;
+}
+.update-band {
+  width: 100%;
+}
+
+
+/* Refactor to share class with band*/
+.concert-row {
+  padding-left: 10px;
+}
+.update-concert-button {
+  margin-right: 10px;
+}
+.save-concert-button {
+  margin-right: 10px;
+}
+.update-concert {
+  width: 100%;
+}
+iframe {
+  width: 100%;
+  height: 350px;
+}
+#concert-select {
+  width:100%;
+}
+.add-concerts-button {
+  margin-right: 10px;
+}

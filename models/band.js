@@ -2,17 +2,15 @@ var mongoose = require("mongoose");
 var Schema = mongoose.Schema;
 
 var Concert = require("./concert.js");
-var User = require("./user.js");
 
 var BandSchema = new Schema({
     name: String,
-    artistName: String,
     formationDate: String,
-    label: String,
+    recordLabel: String,
     description: String,
-    genres: Array,
-    concerts: [Concert.schema],
-    followers: [User.schema]
+    image_url: String,
+    genres: String,
+    concerts: [ {type : Schema.Types.ObjectId, ref : 'Concert'} ],
 });
 
 var Band = mongoose.model('Band', BandSchema);
