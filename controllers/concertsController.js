@@ -8,6 +8,16 @@ function index(req, res) {
 
   db.Concert.find(function(err, concerts) {
       if (err) { console.log("Error retrieving all concerts", err); }
+      res.json(concerts);
+    });
+}
+
+function list(req, res) {
+  var allConcerts;
+  var allBands;
+
+  db.Concert.find(function(err, concerts) {
+      if (err) { console.log("Error retrieving all concerts", err); }
       allConcerts = concerts;
 
       // find Bands to use to populate band select options on concerts index.
@@ -91,5 +101,7 @@ module.exports = {
   create: create,
   show: show,
   destroy: destroy,
-  update: update
+  update: update,
+  //custom endpoints. Helps us consolidate viewModel logic
+  list: list
 };

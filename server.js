@@ -63,6 +63,7 @@ app.delete('/api/bands/:bandId', controllers.bands.destroy);
 
 //Get all bands
 app.get('/api/concerts', controllers.concerts.index);
+app.get('/api/concertsList', controllers.concerts.list);
 //Create a concert
 app.post('/api/concerts', controllers.concerts.create);
 //Show a concert
