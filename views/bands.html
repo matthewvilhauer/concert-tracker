@@ -8,17 +8,13 @@
 
     <!-- bootstrap css -->
     <link type="text/css" rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/css/bootstrap.min.css">
-
     <!-- custom styles -->
     <link rel="stylesheet" type="text/css" href="css/styles.css">
-
     <!-- jquery -->
     <!-- Note: using subresource integrity; see: https://en.wikipedia.org/wiki/Subresource_Integrity -->
     <script type="text/javascript" src="http://code.jquery.com/jquery-2.2.2.min.js" integrity="sha256-36cp2Co+/62rEAAYHLmRCPIych47CvdM+uTBJwSzWjI=" crossorigin="anonymous"></script>
-
     <!-- handlebars -->
     <script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/handlebars.js/4.0.5/handlebars.min.js"></script>
-
     <!-- APPLICATION SCRIPTS -->
     <script type="text/javascript" src="/scripts/bands.js"></script>
 
@@ -62,7 +58,7 @@
 
         <!-- handlebars template -->
         <script id="band-list-template" type="text/x-handlebars-template">
-
+          <span class='band-concerts'>{{concerts}}</span>
           {{#each bands}}
             <!-- one band -->
             <div class="row band" data-band-id="{{_id}}">
@@ -109,8 +105,8 @@
                           </li>
                           <li class="list-group-item">
                             <h4 class='inline-header'>Concerts:</h4>
-                            <span id="concert-list"></span>
                             <span class='band-concerts'>{{concerts}}</span>
+
                           </li>
                         </ul>
                       </div>
@@ -206,30 +202,6 @@
         </div>
       </div>
     </section>
-    <!-- Add Concerts to Band Modal -->
-    <div class="modal hide fade" id="addConcertsToBandModal" tabindex="-1" role="dialog" aria-labelledby="addConcertsToBandModalTitle">
-      <div class="modal-dialog" role="document">
-        <div class="modal-content">
-          <div class="modal-header">
-            <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
-            <h4 class="modal-title" id="addConcertsToBandModalTitle">Add Concerts</h4>
-          </div>
-          <div class="modal-body" id='addConcertsToBandModalBody'>
-            <p>It works</p>
-            <!-- <select id="concert-select" name="concerts" multiple="true">
-              {{#each concerts}}
-                <option value="{{this._id}}">{{this._id}}</option>
-              {{/each}}
-            </select> -->
-
-          </div>
-          <div class="modal-footer">
-            <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
-            <button type="button" class="btn btn-primary" id='addConcertsToBandModalSubmit'>Save changes</button>
-          </div>
-        </div><!-- /.modal-content -->
-      </div><!-- /.modal-dialog -->
-    </div><!-- /.modal -->
 
   </body>
 

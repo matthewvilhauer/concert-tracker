@@ -30,8 +30,8 @@ function list(req, res) {
             concerts: allConcerts,
             bands: allBands
           });
-        });
-    });
+      });
+  });
 }
 
 function create(req, res) {
@@ -49,6 +49,7 @@ function create(req, res) {
 
   // find band in db by id
   db.Band.findOne({ _id: bandId }, function (err, foundBand) {
+
     var updatedBand = foundBand;
     var updatedBandId = updatedBand._id;
 
@@ -61,7 +62,7 @@ function create(req, res) {
       description: description,
       image_url: image_url,
       recording_url: recording_url
-    }
+    };
 
     var newConcert = new db.Concert(newConcertEntry);
 
@@ -70,8 +71,11 @@ function create(req, res) {
        return console.log("Could not save concert. Error:" + err);
       }
       updatedBand.concerts.push(savedConcert._id);
-      console.log("Updated band: ", updatedBand);
-      res.json(savedConcert);
+      updatedBand.save(function(err, savedBand){
+        console.log("Updated band: ", updatedBand);
+        res.json(savedConcert);
+      });
+
     });
   });
 }

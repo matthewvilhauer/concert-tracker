@@ -9,12 +9,14 @@ var $addBandForm;
 var addBandFormTemplate;
 var allBands = {};
 var allConcerts = {};
-var bandConcerts;
+var bandConcerts= {};
 
 
 //************* Document Ready *********************
 
 $(document).ready(function() {
+
+    $('.add-concerts-button').on('click', handleAddConcertsToBandClick);
 
     console.log('bands.js loaded!');
 
@@ -26,16 +28,6 @@ $(document).ready(function() {
     showBandList();
     showBandForm();
 
-    // $bandsList = $('#bands');
-    //
-    // // compile handlebars template
-    // var source = $('#band-template').html();
-    // template = Handlebars.compile(source);
-    //
-    // renderBandIndex();
-    //
-    // //Add an Band
-    // $('#add-band-form').on('submit', handleAddBandClick);
 });
 
 function compileBandListTemplate() {
@@ -58,7 +50,7 @@ function addClickHandlers() {
   //Save band click handler
   $('.save-band-button').on('click', handleSaveChangesClick);
   //Add Concerts to Band click handler
-  // $('.add-concerts-button').on('click', handleAddConcertsToBandClick);
+  $('.add-concerts-button').on('click', handleAddConcertsToBandClick);
 }
 
 /**********
@@ -72,16 +64,19 @@ function showBandList() {
     $concerts = response.concerts;
     console.log("ShowBandList: "+$bands);
     console.log("ShowConcertList: "+$concerts);
-    //Add bands to the hash map
+
+    for (var concerts in $bands) {
+      $bands.forEach(function(band) {
+        bandConcerts[band._id] = $bands[concerts].concerts;
+        console.log(bandConcerts);
+      });
+    }
+    //Add bands to the bands hash map
     $bands.forEach( function(band) {
-      // console.log(band.concerts);
       allBands[band._id] = band;
     });
 
-    // $bands.forEach( function(band) {
-    //   bandConcerts[band._id] = $concerts;
-    // });
-    //Add bands to the hash map
+    //Add concerts to the concerts hash map
     $concerts.forEach( function(concert) {
       allConcerts[concert._id] = concert;
     });
@@ -91,7 +86,7 @@ function showBandList() {
 
 //Render all Bands
 function renderBandList (bands, bandConcerts) {
-  //Empty the old list of bands
+
   //Set the object for the template
   var bandHtml = template({
     bands: allBands,
@@ -280,7 +275,10 @@ function handleSaveChangesClick(e) {
     description: $bandRow.find('.update-band-description').val(),
     genres: $bandRow.find('.update-band-genres').val(),
     image_url: $bandRow.find('.update-band-image-url').val(),
-    concerts: $bandRow.find('.update-band-concerts').val(),
+  };
+
+  var newConcert = {
+    eventName: $bandRow.find('.update-band-concerts').val()
   };
   console.log('PUTing data for band', bandId, 'with data', data);
 
@@ -291,6 +289,25 @@ function handleSaveChangesClick(e) {
     success: handleUpdatedBandResponse,
     error: handleUpdatedBandError
   });
+
+  $.ajax({
+    method: 'POST',
+    url: '/api/bands/' + bandId + '/concerts',
+    data: newConcert,
+    success: AddedConcertToBand,
+    error: AddedConcertToBandError
+  });
+}
+
+function AddedConcertToBand(addedConcert) {
+
+  console.log('response to update', band);
+
+  renderBandList(allBands);
+
+}
+function AddedConcertToBandError(err) {
+  console.log('Error updating a bands concerts: ', err);
 }
 
 function handleUpdatedBandResponse(band) {
@@ -308,10 +325,10 @@ function handleUpdatedBandError(err) {
 }
 
 // when the add concerts button is clicked, display the modal
-// function handleAddConcertsToBandClick(e) {
-//   console.log('add-concerts clicked!');
-//   var currentBandId = $(this).closest('.band').data('band-id'); // "5665ff1678209c64e51b4e7b"
-//   console.log('id',currentBandId);
-//   $('#addConcertsToBandModal').data('band-id', currentBandId);
-//   $('#addConcertsToBandModal').modal('show');  // display the modal!
-// }
+function handleAddConcertsToBandClick(e) {
+  console.log('add-concerts clicked!');
+  var currentBandId = $(this).closest('.band').data('band-id'); // "5665ff1678209c64e51b4e7b"
+  console.log('id',currentBandId);
+  $('#addConcertsToBandModal').data('band-id', currentBandId);
+  $('#addConcertsToBandModal').modal('show');  // display the modal!
+}

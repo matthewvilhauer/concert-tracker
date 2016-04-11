@@ -61,6 +61,8 @@ app.delete('/api/bands/:bandId', controllers.bands.destroy);
 //Get all banss and all concertss to populate select list on the add band form
 app.get('/api/bandsList', controllers.bands.list);
 
+app.get('/api/bands/:bandId/concerts', controllers.bands.concerts);
+
 // CONCERT CRUD
 
 //Get all concerts
