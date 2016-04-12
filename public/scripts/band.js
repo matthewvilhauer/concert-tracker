@@ -13,7 +13,7 @@ var $bandId;
 
 $(document).ready(function() {
 
-    // $('.add-concerts-button').on('click', handleAddConcertsToBandClick);
+    // $('.add-concerts-button').on('click', handleAddConcertsToBandClick); test
 
     console.log('bands.js loaded!');
 
