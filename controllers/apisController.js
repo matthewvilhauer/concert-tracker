@@ -8,7 +8,7 @@ function index(req, res) {
       {method: "GET", path: "/api", description: "Describes available endpoints"}
     ]
   });
-  
+
 }
 
 module.exports.index = index;
