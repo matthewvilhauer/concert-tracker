@@ -39,7 +39,30 @@ function addClickHandlers() {
   $('.update-concert-button').on('click', handleUpdateConcertClick);
   //Save concert click handler
   $('.save-concert-button').on('click', handleSaveChangesClick);
+  $('.add-favorite-concert').on('click', handleFavoriteConcertClick);
+
 }
+
+function handleFavoriteConcertClick(e){
+  e.preventDefault();
+  //TODO: Refactor - replace this userId, send it from server instead.
+  var userId = localStorage.getItem('userId');
+  var concertId = $(".add-favorite-concert").data('concert-id');
+  $.ajax({
+    method: 'POST',
+    url: '/api/users/'+userId+'/concerts/'+concertId,
+    success: addedFavoriteConcert,
+    error: addedFavoriteConcertError
+  });
+}
+
+function addedFavoriteConcert(response){
+  $(this).addClass('.favorite');
+}
+function addedFavoriteConcertError(e) {
+  console.log('Error favoriting the concert');
+}
+
 
 /**********
 * INDEX *

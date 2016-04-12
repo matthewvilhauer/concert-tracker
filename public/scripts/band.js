@@ -33,14 +33,14 @@ function compileSingleBandTemplate() {
 function addClickHandlers() {
   //Show single band click handler
   // $('.show-single-band').on('click', handleSingleBandClick);
-  // //Delete band click handler
-  // $('.delete-band-button').on('click', handleDeleteBandClick);
-  // //Update band click handler
-  // $('.update-band-button').on('click', handleUpdateBandClick);
-  // //Save band click handler
-  // $('.save-band-button').on('click', handleSaveChangesClick);
-  // //Add Concerts to Band click handler
-  // $('.add-concerts-button').on('click', handleAddConcertsToBandClick);
+  //Delete band click handler
+  $('.delete-band-button').on('click', handleDeleteBandClick);
+  //Update band click handler
+  $('.update-band-button').on('click', handleUpdateBandClick);
+  //Save band click handler
+  $('.save-band-button').on('click', handleSaveChangesClick);
+  //Add Concerts to Band click handler
+  $('.add-concerts-button').on('click', handleAddConcertsToBandClick);
 }
 
 /**********

@@ -121,8 +121,6 @@ function update(req, res) {
     foundConcert.image_url = req.body.image_url;
     foundConcert.recording_url = req.body.recording_url;
 
-
-
     foundConcert.save(function(err, savedConcert) {
 
       var concertBandId = savedConcert.band;

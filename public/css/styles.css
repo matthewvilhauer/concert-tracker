@@ -26,6 +26,11 @@
 .band-row {
   padding-left: 10px;
 }
+
+.bands-index-fields {
+  font-size: 18px;
+}
+
 .update-band-button {
   margin-right: 10px;
 }
@@ -65,8 +70,8 @@ iframe {
 }
 
 #concerts .thumbnail {
-  height: 100px;
-  width: 100px;
+  height: 150px;
+  width: 150px;
   }
 
 #concerts .col-xs-12 {
@@ -78,4 +83,36 @@ iframe {
 }
 pre {
   text-align: justify;
+}
+.glyphicon .glyphicon-star {
+
+}
+
+
+.all-concerts-band-name {
+  margin-top: 45px;
+  font-size: 20px;
+}
+.all-concerts-event-name {
+  margin-top: 35px;
+}
+.all-concerts-image .col-md-2 {
+  margin-right: 10px;
+}
+
+
+.star {
+  margin-top: 45px;
+  font-size: 40px;
+}
+.page-title {
+  text-align: center;
+  margin-bottom: 30px;
+  margin-top: 30px;
+}
+.favorite {
+  color: gold;
+}
+.update-profile-fields {
+  width: 100%;
 }

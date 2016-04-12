@@ -44,17 +44,20 @@
             <li><a href="/bands">Artists</a></li>
             <li class="active"><a href="#">Concerts<span class="sr-only">(current)</span></a></li>
           </ul>
-          <!-- <ul class="nav navbar-nav navbar-right">
+          <ul class="nav navbar-nav navbar-right">
             <li>
-              <li><a href="/myprofile">My Profile</a></li>
+              <li><a href="/login">Login</a></li>
+              <li><a href="/logout">Logut</a></li>
+              <li><a href="/signup">Signup</a></li>
             </li>
-          </ul> -->
+          </ul>
         </div><!-- /.navbar-collapse -->
       </div><!-- /.container-fluid -->
     </nav>
 
-    <h1>All Concerts</h1>
-
+    <div class="page-title">
+      <h1>All Concerts</h1>
+    </div>
     <section>
       <!-- concerts! -->
       <div id='concerts'>
@@ -73,15 +76,16 @@
 
                   <!-- begin concert internal row -->
                     <div class='row concert-row'>
-                      <div class="col-md-3 col-xs-12 concert-art">
+                      <div class="col-md-2 col-sm-1 col-xs-12 all-concerts-image">
                         <img class="concert-image thumbnail" src="{{image_url}}"/>
                       </div>
-                      <div class="col-md-9 col-xs-12">
-                             <h3><span class='concert-eventName'><a href="/concerts/{{_id}}">{{eventName}}</a></span></h3>
-                             <a href="/bands/{{band._id}}"><span class='concert-bandId'>{{band.name}}</span></a>
+                      <div class="col-md-8 col-sm-10 col-xs-12 all-concerts-band-info">
+                        <div class="col-md-4 col-xs-12 all-concerts-band-name"><h4><a href="/bands/{{band._id}}"><span class="all-concerts-band-name">{{band.name}}</span></a></h4></div>
+                        <div class="col-md-8 col-xs-12 all-concerts-event-name"><h3><span class="all-concerts-event-name"><a href="/concerts/{{_id}}">{{eventName}}</a></span></h3></div>
                             <!-- <span class='concertId'>{{_id}}</span> -->
                       </div>
 
+                      <div class="col-md-1 col-sm-1 col-xs-12 star"><button class="add-favorite-concert" data-concert-id="{{_id}}"><span class="glyphicon glyphicon-star"></span></button></div>
                     </div>
                   </div>
                   <!-- <div class="panel-footer">
