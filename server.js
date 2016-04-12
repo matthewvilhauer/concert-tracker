@@ -4,6 +4,27 @@
 var express = require('express'),
     db = require('./models'),
     bodyParser = require('body-parser');
+
+//Authentication modules
+var cookieParser = require('cookie-parser');
+var session = require('express-session');
+var passport = require('passport');
+var localStrategy = require('passport-local').strategy;
+
+//Middleware for Authentication
+app.use(cookieParser());
+app.use(session({
+  secret: "UIFVEYFIUCYVIUAEYCVOIBCIPOUNDXIXUQOW231r5r",
+  resave: false,
+  saveUninitialized: false,
+}));
+app.use(passport.initialize());
+app.use(passport.session());
+//Passport Config
+passport.use(new localStrategy(User.authenticate()));
+passport.serializeUser(User.serializeUser());
+passport.deserializeUser(User.deserializeUser());
+
 // generate a new express app and call it 'app'
 var app = express();
 
