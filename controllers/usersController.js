@@ -27,48 +27,9 @@ function show(req, res) {
 function profile(req, res) {
   var userId = req.params.userId;
   var user;
-
-  // find user in db by id
-  db.User.findOne({ _id: userId }, function (err, foundUser) {
-    if (err) {
-      if (err.name === "CastError") {
-        res.status(404).json({ error: "Nothing found by this ID." });
-      } else { res.status(500).json({ error: err.message }); }
-      } else {
-        user = foundUser;
-
-          //Concerts and bands
-          var allConcerts;
-          var allBands;
-          db.Concert.find()
-          .populate('band')
-          .exec(function(err, concerts) {
-              if (err) { console.log("Error retrieving all concerts", err); }
-              allConcerts = concerts;
-
-              // find Bands to use to populate band select options on concerts index.
-              db.Band.find(function(err, bands) {
-                  if (err) { console.log("Error retrieving all bands", err); }
-                  allBands = bands;
-                  console.log('HHHHHHHHHHHHH');
-
-                  // return concerts and bands as JSON
-                  res.render('profile', {
-                    concerts: allConcerts,
-                    bands: allBands,
-                    user: user
-                  });
-              });
-          });
-      }
-  });
-}
-
-function showProfile(req, res) {
-  var userId = req.params.userId;
-  var user;
   var userConcerts;
-
+  var allConcerts;
+  var allBands;
   // find user in db by id
   db.User.findOne({ _id: userId }, function (err, foundUser) {
     if (err) {
@@ -77,16 +38,14 @@ function showProfile(req, res) {
       } else { res.status(500).json({ error: err.message }); }
       } else {
         user = foundUser;
+        userConcerts = user.concerts;
 
           //Concerts and bands
-          var allConcerts;
-          var allBands;
           db.Concert.find()
           .populate('band')
           .exec(function(err, concerts) {
               if (err) { console.log("Error retrieving all concerts", err); }
               allConcerts = concerts;
-              userConcerts = foundUser.concerts;
 
               // find Bands to use to populate band select options on concerts index.
               db.Band.find(function(err, bands) {
@@ -95,7 +54,7 @@ function showProfile(req, res) {
                   console.log('HHHHHHHHHHHHH');
 
                   // return concerts and bands as JSON
-                  res.render('profile', {
+                  res.json('profile', {
                     userConcerts: userConcerts,
                     concerts: allConcerts,
                     bands: allBands,
@@ -106,7 +65,6 @@ function showProfile(req, res) {
       }
   });
 }
-
 function createFavoriteConcert(req, res) {
 
   var clickedUserId = req.params.userId;
@@ -114,14 +72,13 @@ function createFavoriteConcert(req, res) {
 
   console.log('updating concert: ', clickedConcertId, "for User: ", clickedUserId);
 
-  db.Concert.findById(concertId, function(err, foundConcert) {
+  db.User.findOne({ _id: userId }, function (err, foundUser) {
 
-    if(err) { console.log('concertsController.favorite error', err); }
+    var currentUser = foundUser;
 
-    db.User.findOne({ _id: userId }, function (err, foundUser) {
+    db.Concert.findById(concertId, function(err, foundConcert) {
 
-      var currentUser = foundUser;
-
+      if(err) { console.log('concertsController.favorite error', err); }
       // from concertsController 126
       currentUser.concerts.push(foundConcert._id);
 
@@ -170,6 +127,5 @@ module.exports = {
   update: update,
   //profile page
   profile: profile,
-  createFavoriteConcert: createFavoriteConcert,
-  showProfile: showProfile
+  createFavoriteConcert: createFavoriteConcert
 };

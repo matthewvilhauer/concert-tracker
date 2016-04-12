@@ -25,6 +25,8 @@
 
   <body>
 
+
+
     <nav class="navbar navbar-default">
       <div class="container-fluid">
         <!-- Brand and toggle get grouped for better mobile display -->
@@ -46,10 +48,11 @@
           </ul>
           <ul class="nav navbar-nav navbar-right">
             <li>
-              <li><a href="/users/{{ user._id }}">{{ user.username }}</a></li>
+              <li><a href="/profile">{{ username }}</a></li>
               <li><a class="hidden" href="/login">Login</a></li>
               <li><a href="/logout">Logut</a></li>
-              <!-- <li><a class="hidden" href="/signup">Signup</a></li> -->
+              <li><a class="hidden" href="/signup">Signup</a></li>
+
             </li>
           </ul>
         </div><!-- /.navbar-collapse -->
@@ -88,8 +91,8 @@
                 </div>
               </div>
               <div class="panel-footer">
-                <button class="update-profile-button btn btn-md btn-success pull-right" data-profile-id="{{ user._id }}">Update Profile</button>
-                <button class="save-profile-button btn btn-success pull-right hidden" data-profile-id="{{ user._id }}">Save Changes</button>
+                <button class="update-profile-button btn btn-md btn-success pull-right" data-profile-id="{{ user }}">Update Profile</button>
+                <button class="save-profile-button btn btn-success pull-right hidden" data-profile-id="{{ user }}">Save Changes</button>
               </div>
             </div>
           </div>
@@ -107,6 +110,5 @@
           </div>
       </div>
     </div>
-
   </body>
 </html>

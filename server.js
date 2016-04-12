@@ -7,7 +7,6 @@ var express = require('express'),
     User = db.User,
     bodyParser = require('body-parser'),
     mongoose = require('mongoose');
-var port = process.env.PORT || 3000;
 
 //Authentication modules
 var cookieParser = require('cookie-parser');
@@ -24,12 +23,6 @@ app.use(session({
 }));
 app.use(passport.initialize());
 app.use(passport.session());
-
-app.use(function(req, res, next) {
-  res.header("Access-Control-Allow-Origin", "*");
-  res.header("Access-Control-Allow-Headers", "Origin, X-Requested-With, Content-Type, Accept");
-  next();
-});
 
 // passport config
 passport.use(new LocalStrategy(User.authenticate()));
@@ -56,7 +49,6 @@ app.get('/', function homepage (req, res) {
   // res.render('index', {user: JSON.stringify(req.user)} );
   res.render('index', {user: JSON.stringify(req.user) + ' || null'});
 });
-
 app.get('/bands', function homepage (req, res) {
   res.sendFile(__dirname + '/views/bands.html');
 });
@@ -113,7 +105,7 @@ app.get('/api/users/:userId', controllers.users.show);
 //Show a User
 app.put('/api/users/:userId', controllers.users.update);
 //Add a cncert to myConcerts
-app.post('/api/users/:userId/concerts/:concertId', controllers.users.createFavoriteConcert);
+app.post('api/users/:userId/concerts/:concertId', controllers.users.createFavoriteConcert);
 // AUTH ROUTES
 // show signup view
 app.get('/signup', function (req, res) {
@@ -148,11 +140,12 @@ app.get('/logout', function (req, res) {
   res.redirect('/');
 });
 
+
 /**********
 * SERVER *
 **********/
 
 // listen on port 3000
-app.listen(port, function () {
+app.listen(process.env.PORT || 3000, function () {
  console.log('Express server is running on http://localhost:3000/');
 });

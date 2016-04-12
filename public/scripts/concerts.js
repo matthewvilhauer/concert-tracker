@@ -6,13 +6,6 @@ var addConcertFormTemplate;
 var allConcerts = {};
 var allBands = {};
 
-//TODO: replace heroku url
-var baseUrl = 'http://concert-tracker.herokuapp.com';
-
-if(/^http\:\/\/localhost/.test(window.location.href)){
-  baseUrl = 'http://localhost:3000'; // for running/testing locally
-}
-
 $(document).ready(function() {
 
     console.log('concerts.js loaded!');
@@ -51,24 +44,16 @@ function addClickHandlers() {
 }
 
 function handleFavoriteConcertClick(e){
-  // e.preventDefault();
+  e.preventDefault();
   //TODO: Refactor - replace this userId, send it from server instead.
-  //TODO: Refactor - hard-coded userId needs to go bye-bye.
-  var userId = localStorage.getItem('userId') || '570cfbda56314498d4e1f435';
-  var concertId = $(this).data('concert-id');
-  var favoriteConcertUrl = 'http://localhost:3000/api/users/' + userId +'/concerts/' + concertId;
-  var fData = JSON.stringify({concertId: concertId, userId: userId});
-  $.support.cors = true;
+  var userId = localStorage.getItem('userId');
+  var concertId = $(".add-favorite-concert").data('concert-id');
   $.ajax({
     method: 'POST',
-    url: favoriteConcertUrl,
-    // header: {'Access-Control-Allow-Origin':'Access-Control-Allow-Origin'},
-    contentType: 'application/x-www-form-urlencoded',
-    data: null,
+    url: '/api/users/'+userId+'/concerts/'+concertId,
     success: addedFavoriteConcert,
     error: addedFavoriteConcertError
   });
-  // $.post(favoriteConcertUrl, fData, addedFavoriteConcert, 'json');
 }
 
 function addedFavoriteConcert(response){
@@ -330,27 +315,27 @@ function renderRecording(concert) {
 }
 
 // GET Request from Archive.org
-// function getRecordingLink() {
-//
-//   var archiveEndpoint = "https://archive.org/embed/";
-//   var outputJSON = "?output=json";
-//
-//   $.ajax({
-//     method: "GET",
-//     header: {'Access-Control-Allow-Origin':'Access-Control-Allow-Origin'},
-//     url: archiveEndpoint,
-//     data: outputJSON,
-//     success: onRecordingSuccess,
-//     error: onRecordingError
-//   });
-//
-//   function onRecordingSuccess(archiveJSON) {
-//     var concertIdentifier = archiveJSON.metadata.identifier;
-//     console.log(concertIdentifier);
-//     var concertLink = archiveEndpoint+concertIdentifier;
-//     renderRecording(concertLink);
-//   }
-//   function onRecordingError(err) {
-//     console.log("Error Retrieving Archive data: ", err);
-//   }
-// }
+function getRecordingLink() {
+
+  var archiveEndpoint = "https://archive.org/embed/";
+  var outputJSON = "?output=json";
+
+  $.ajax({
+    method: "GET",
+    header: {'Access-Control-Allow-Origin':'Access-Control-Allow-Origin'},
+    url: archiveEndpoint,
+    data: outputJSON,
+    success: onRecordingSuccess,
+    error: onRecordingError
+  });
+
+  function onRecordingSuccess(archiveJSON) {
+    var concertIdentifier = archiveJSON.metadata.identifier;
+    console.log(concertIdentifier);
+    var concertLink = archiveEndpoint+concertIdentifier;
+    renderRecording(concertLink);
+  }
+  function onRecordingError(err) {
+    console.log("Error Retrieving Archive data: ", err);
+  }
+}
