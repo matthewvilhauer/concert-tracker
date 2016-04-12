@@ -10,13 +10,13 @@ $(document).ready(function() {
 
     console.log('concerts.js loaded!');
 
-    // compile Concert List template
-    compileConcertListTemplate();
     // compile Add Concert Form template
     compileAddConcertFormTemplate();
+    // compile Concert List template
+    compileConcertListTemplate();
 
-    showConcertList();
     showConcertForm();
+    showConcertList();
 
 });
 

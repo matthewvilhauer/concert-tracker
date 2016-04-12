@@ -64,16 +64,16 @@ iframe {
   margin-right: 10px;
 }
 
-.thumbnail {
+#concerts .thumbnail {
   height: 100px;
   width: 100px;
   }
 
-.col-xs-12 {
+#concerts .col-xs-12 {
   text-align: center;
 }
 
-.col-xs-12 .concert-image {
+#concerts .col-xs-12 .concert-image {
   margin: 0 auto;
 }
 pre {

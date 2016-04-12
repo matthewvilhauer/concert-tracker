@@ -10,6 +10,7 @@ var addBandFormTemplate;
 var allBands = {};
 var allConcerts = {};
 var bandConcerts= {};
+var $bandSingle;
 
 
 //************* Document Ready *********************
@@ -202,7 +203,7 @@ function deleteBandError(e) {
 }
 
 /**********
-* SHOW *
+* SHOW SINGLE BAND *
 **********/
 
 function handleSingleBandClick(e) {
@@ -221,10 +222,31 @@ function handleSingleBandClick(e) {
 }
 function showBandSuccess(band) {
   console.log("Success - show band: ", band);
+  renderSingleBand(band);
 }
 function showBandError(e) {
   console.log('Error showing single band');
 }
+
+
+function renderSingleBand (band) {
+  console.log("Band passed back: ", band);
+  $bandSingle = $('#bands');
+  // $bandId = band._id;
+  var bandHtml = template({
+    band: band
+  });
+
+  console.info('renderSingleBand band value: ', band);
+  // append band list html to the view
+  $bandSingle.html(bandHtml);
+  addClickHandlers();
+}
+function renderSingleBandError(e) {
+  console.log('Error loading bands');
+}
+
+
 
 /**********
 * UPDATE *

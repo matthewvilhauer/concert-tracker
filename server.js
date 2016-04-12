@@ -33,12 +33,17 @@ app.get('/concerts', function homepage (req, res) {
   res.sendFile(__dirname + '/views/concerts.html');
 });
 
+app.get('/myprofile', function homepage (req, res) {
+  res.sendFile(__dirname + '/views/profile.html');
+});
+
+/* Single Templates */
 app.get('/concerts/:concertId', function homepage (req, res) {
   res.sendFile(__dirname + '/views/concert.html');
 });
 
-app.get('/myprofile', function homepage (req, res) {
-  res.sendFile(__dirname + '/views/profile.html');
+app.get('/bands/:bandId', function homepage (req, res) {
+  res.sendFile(__dirname + '/views/band.html');
 });
 
 /*
