@@ -1,4 +1,5 @@
 function index(req, res) {
+
   res.json({
     message: "Welcome to tunely!",
     documentation_url: "https://github.com/matthewvilhauer/concert-tracker/README.md",
@@ -7,6 +8,7 @@ function index(req, res) {
       {method: "GET", path: "/api", description: "Describes available endpoints"}
     ]
   });
+  
 }
 
 module.exports.index = index;
