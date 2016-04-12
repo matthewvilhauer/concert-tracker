@@ -45,28 +45,20 @@ var controllers = require('./controllers');
 /*
  * HTML Endpoints
  */
-
 app.get('/', function homepage (req, res) {
+  // res.render('index', {user: JSON.stringify(req.user)} );
   res.render('index', {user: JSON.stringify(req.user) + ' || null'});
 });
-
 app.get('/bands', function homepage (req, res) {
   res.sendFile(__dirname + '/views/bands.html');
 });
-
 app.get('/concerts', function homepage (req, res) {
   res.sendFile(__dirname + '/views/concerts.html');
 });
-
-app.get('/profile', function homepage (req, res) {
-  res.sendFile(__dirname + '/views/profile.html');
-});
-
 /* Single Templates */
 app.get('/concerts/:concertId', function homepage (req, res) {
   res.sendFile(__dirname + '/views/concert.html');
 });
-
 app.get('/bands/:bandId', function homepage (req, res) {
   res.sendFile(__dirname + '/views/band.html');
 });
@@ -74,12 +66,10 @@ app.get('/bands/:bandId', function homepage (req, res) {
 /*
  * JSON API Endpoints
  */
-
 // API endpoint for describing all endpoints
 app.get('/api', controllers.api.index);
 
 // BAND CRUD
-
 //Get all bands
 app.get('/api/bands', controllers.bands.index);
 //Create a band
@@ -90,14 +80,10 @@ app.get('/api/bands/:bandId', controllers.bands.show);
 app.put('/api/bands/:bandId', controllers.bands.update);
 //Delete a band
 app.delete('/api/bands/:bandId', controllers.bands.destroy);
-
 //Get all bands and all concerts to populate select list on the add band form
 app.get('/api/bandsList', controllers.bands.list);
 
-// app.get('/api/bands/:bandId/concerts', controllers.bands.concerts);
-
 // CONCERT CRUD
-
 //Get all concerts
 app.get('/api/concerts', controllers.concerts.index);
 //Create a concert
@@ -108,13 +94,19 @@ app.get('/api/concerts/:concertId', controllers.concerts.show);
 app.put('/api/concerts/:concertId', controllers.concerts.update);
 //Delete a concert
 app.delete('/api/concerts/:concertId', controllers.concerts.destroy);
-
 //Get all concerts and all bands to populate select list on the add concert form
 app.get('/api/concertsList', controllers.concerts.list);
+// USER CRUD
 
-
+//Show a User and their favorite Concerts
+app.get('/users/:userId', controllers.users.profile);
+//Show a User
+app.get('/api/users/:userId', controllers.users.show);
+//Show a User
+app.put('/api/users/:userId', controllers.users.update);
+//Add a cncert to myConcerts
+app.post('api/users/:userId/concerts/:concertId', controllers.users.createFavoriteConcert);
 // AUTH ROUTES
-
 // show signup view
 app.get('/signup', function (req, res) {
   res.render('signup'); // you can also use res.sendFile
@@ -136,8 +128,9 @@ app.get('/login', function (req, res) {
 });
 // log in user
 app.post('/login', passport.authenticate('local'), function (req, res) {
+  var userId = req.user._id;
   console.log(req.user);
-  res.redirect('/profile');
+  res.redirect('/users/'+userId);
 });
 // log out user
 app.get('/logout', function (req, res) {

@@ -81,7 +81,7 @@
                       <div class="col-md-9 col-xs-12">
                         <ul class="list-group">
                           <li class="list-group-item">
-                            <h3><span class='band-name'><a class ="show-single-band" href="/bands/{{_id}}">{{name}}</a></span></h3>
+                            <h2><span class='band-name'><a class ="show-single-band" href="/bands/{{_id}}">{{name}}</a></span></h2>
                             <!-- <span class='band-Id'>{{_id}}</span> -->
                           </li>
                           <!-- <li class="list-group-item">
@@ -89,24 +89,24 @@
                             <span class='band-formationDate'>{{formationDate}}</span>
                           </li> -->
                           <li class="list-group-item">
-                            <h4 class='inline-header'>Record Label:</h4>
-                            <span class='band-recordLabel'>{{recordLabel}}</span>
+                            <h3 class='inline-header'>Record Label:</h3>
+                            <span class='bands-index-fields band-recordLabel'>{{recordLabel}}</span>
                           </li>
                           <li class="list-group-item">
-                            <h4 class='inline-header'>Description:</h4>
-                            <span class='band-description'>{{description}}</span>
+                            <h3 class='inline-header'>Description:</h3>
+                            <span class='bands-index-fields band-description'>{{description}}</span>
                           </li>
                           <li class="list-group-item">
-                            <h4 class='inline-header'>Genres:</h4>
-                            <span class='band-genres'>{{genres}}</span>
+                            <h3 class='inline-header'>Genres:</h3>
+                            <span class='bands-index-fields band-genres'>{{genres}}</span>
                           </li>
                           <li class="list-group-item edit-band-image hidden">
-                            <h4 class='inline-header'>Image URL</h4>
-                            <span class='band-image-url'>{{image_url}}</span>
+                            <h3 class='inline-header'>Image URL</h3>
+                            <span class='bands-index-fields band-image-url'>{{image_url}}</span>
                           </li>
                           <li class="list-group-item">
-                            <h4 class='inline-header'>Concerts:</h4>
-                            <span class='band-concerts'>
+                            <h3 class='inline-header'>Concerts:</h3>
+                            <span class='bands-index-fields band-concerts'>
                               {{#each concerts}}
                               <ul>
                                 <a href="/concerts/{{_id}}"><li class='band-concerts'>{{eventName}}</li></a>

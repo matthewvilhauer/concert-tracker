@@ -66,13 +66,14 @@ function showBandList() {
     $concerts = response.concerts;
     console.log("ShowBandList: "+$bands);
     console.log("ShowConcertList: "+$concerts);
+    
 
-    for (var concerts in $bands) {
-      $bands.forEach(function(band) {
-        bandConcerts[band._id] = $bands[concerts].concerts;
-        console.log(bandConcerts);
-      });
-    }
+    // for (var concerts in $bands) {
+    //   $bands.forEach(function(band) {
+    //     bandConcerts[band._id] = $bands[concerts].concerts;
+    //     console.log(bandConcerts);
+    //   });
+    // }
     //Add bands to the bands hash map
     $bands.forEach( function(band) {
       allBands[band._id] = band;

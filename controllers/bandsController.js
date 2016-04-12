@@ -65,7 +65,7 @@ function show(req, res) {
     } else {
       res.json(foundBand);
     }
-  });
+  }).populate('concerts').exec();
 }
 
 function destroy(req, res) {

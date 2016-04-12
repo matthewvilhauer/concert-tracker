@@ -52,13 +52,13 @@
       </div><!-- /.container-fluid -->
     </nav>
 
-    <h1 id="bands-header">Bands</h1>
-
     <section>
-      <!-- bands! -->
+    <!-- bands! -->
       <div id='single-band'>
         <!-- handlebars template -->
         <script id="band-single-template" type="text/x-handlebars-template">
+
+          <h1 id="bands-header"><span class='band-name'>{{band.name}}</span></h1>
 
             <!-- one band -->
             <div class="row band" data-band-id="{{band._id}}">
@@ -80,14 +80,6 @@
                       <div class="col-md-9 col-xs-12">
                         <ul class="list-group">
                           <li class="list-group-item">
-                            <h3><span class='band-name'><a class ="show-single-band" href="/bands/{{band._id}}">{{band.name}}</a></span></h3>
-                            <!-- <span class='band-Id'>{{_id}}</span> -->
-                          </li>
-                          <!-- <li class="list-group-item">
-                            <h4 class='inline-header'>Formation Date:</h4>
-                            <span class='band-formationDate'>{{formationDate}}</span>
-                          </li> -->
-                          <li class="list-group-item">
                             <h4 class='inline-header'>Record Label:</h4>
                             <span class='band-recordLabel'>{{band.recordLabel}}</span>
                           </li>
@@ -105,13 +97,13 @@
                           </li>
                           <li class="list-group-item">
                             <h4 class='inline-header'>Concerts:</h4>
-                            <!-- <span class='band-concerts'>
-                              {{#each concerts}}
+                            <span class='band-concerts'>
+                              {{#each band.concerts}}
                               <ul>
-                                <a href="/concerts/{{_id}}"><li class='band-concerts'>{{eventName}}</li></a>
+                                <h5><a href="/concerts/{{_id}}"><li class='band-concerts'>{{eventName}}</li></a><h5>
                               </ul>
                               {{/each}}
-                            </span> -->
+                            </span>
                           </li>
                         </ul>
                       </div>

@@ -12,14 +12,10 @@ var UserSchema = new Schema({
     firstName: String,
     lastName: String,
     image: String,
-    myConcerts: [{
+    concerts: [{
       type: Schema.Types.ObjectId,
       ref: 'Concert'
     }],
-    myBands: [{
-      type: Schema.Types.ObjectId,
-      ref: 'Band'
-    }]
 });
 
 UserSchema.plugin(passportLocalMongoose);

@@ -1,0 +1,115 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+
+    <title>Concert Tracker</title>
+
+    <!-- bootstrap css -->
+    <link type="text/css" rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/css/bootstrap.min.css">
+
+    <!-- custom styles -->
+    <link rel="stylesheet" type="text/css" href="../css/styles.css">
+
+    <!-- jquery -->
+    <!-- Note: using subresource integrity; see: https://en.wikipedia.org/wiki/Subresource_Integrity -->
+    <script type="text/javascript" src="http://code.jquery.com/jquery-2.2.2.min.js" integrity="sha256-36cp2Co+/62rEAAYHLmRCPIych47CvdM+uTBJwSzWjI=" crossorigin="anonymous"></script>
+
+    <!-- handlebars -->
+    <script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/handlebars.js/4.0.5/handlebars.min.js"></script>
+
+    <!-- APPLICATION SCRIPTS -->
+    <script type="text/javascript" src="../scripts/user.js"></script>
+  </head>
+
+  <body>
+
+
+
+    <nav class="navbar navbar-default">
+      <div class="container-fluid">
+        <!-- Brand and toggle get grouped for better mobile display -->
+        <div class="navbar-header">
+          <button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-target="#bs-example-navbar-collapse-1" aria-expanded="false">
+            <span class="sr-only">Toggle navigation</span>
+            <span class="icon-bar"></span>
+            <span class="icon-bar"></span>
+            <span class="icon-bar"></span>
+          </button>
+          <a class="navbar-brand" href="/">Concert Tracker</a>
+        </div>
+
+        <!-- Collect the nav links, forms, and other content for toggling -->
+        <div class="collapse navbar-collapse" id="bs-example-navbar-collapse-1">
+          <ul class="nav navbar-nav">
+            <li><a href="/bands">Bands</a></li>
+            <li><a href="/concerts">Concerts</a></li>
+          </ul>
+          <ul class="nav navbar-nav navbar-right">
+            <li>
+              <li><a href="/profile">{{ username }}</a></li>
+              <li><a class="hidden" href="/login">Login</a></li>
+              <li><a href="/logout">Logut</a></li>
+              <li><a class="hidden" href="/signup">Signup</a></li>
+
+            </li>
+          </ul>
+        </div><!-- /.navbar-collapse -->
+      </div><!-- /.container-fluid -->
+    </nav>
+
+    <div class="container content">
+      <div class="col-md-12">
+          <div class="page-title"><h1>My Profile</h1></div>
+          <div class="profile" data-profile-id="{{{ user }}}">
+            <div class="panel panel-default">
+              <div class="panel-body">
+                <div class='row profile-image-row'>
+                  <div class="col-md-3 col-xs-12 profile-image-column">
+                    <img class="profile-image img-responsive thumbnail" src="{{ user.image }}"/>
+                  </div>
+                  <div class="col-md-9 col-xs-12 profile-info">
+                    <ul class="list-group" id="add-profiles">
+                      <li class="list-group-item">
+                        <h3>Username: <span class="profile-edit-fields profile-username">{{ user.username }}</span></h3>
+                      </li>
+                      <li class="list-group-item">
+                        <h3>Email: <span class="profile-edit-fields profile-email">{{ user.email }}</span></h3>
+                      </li>
+                      <li class="list-group-item">
+                        <h3>First Name: <span class="profile-edit-fields profile-firstName">{{ user.firstName }}</span></h3>
+                      </li>
+                      <li class="list-group-item">
+                        <h3>Last Name: <span class="profile-edit-fields profile-lastName">{{ user.lastName }}</span></h3>
+                      </li>
+                      <li class="list-group-item edit-profile-image hidden">
+                        <h3>Image: <span class="profile-edit-fields profile-image-url">{{ user.image }}</span></h3>
+                      </li>
+                    </ul>
+                  </div>
+                </div>
+              </div>
+              <div class="panel-footer">
+                <button class="update-profile-button btn btn-md btn-success pull-right" data-profile-id="{{ user }}">Update Profile</button>
+                <button class="save-profile-button btn btn-success pull-right hidden" data-profile-id="{{ user }}">Save Changes</button>
+              </div>
+            </div>
+          </div>
+          <div class="panel panel-default">
+            <div class="panel-body">
+              <h2>My Concerts</h2>
+              <span class= "user-concerts">
+                <ul>
+                  {{#each myConcerts}}
+                  <li>{{eventName}}</li>
+                  {{/each}}
+                </ul>
+              </span>
+            </div>
+          </div>
+      </div>
+    </div>
+
+  </body>
+</html>
