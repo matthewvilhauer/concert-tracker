@@ -82,12 +82,8 @@ function renderSingleConcert (concert) {
   } else {
     $('.concert-image').addClass('hidden');
   }
-
-
-
   addClickHandlers();
 }
-
 function renderSingleConcertError(e) {
   console.log('Error loading concerts');
 }
@@ -111,10 +107,10 @@ function getConcertList() {
 
 // Send the ID of the concert to be deleted to the server
 function handleDeleteConcertClick(e) {
-  // var $concertRow = $(this).closest('.concert-single');
-  // var concertId = $concertRow.data('concert-id');
+  var $concertRow = $(this).closest('.concert-single');
+  var concertId = $(this).data('concert-id');
 
-  console.log('someone wants to delete concert id=' + $concertId );
+  console.log('someone wants to delete concert id=' + concertId );
   // console.log("On handleDeleteConcertClick allConcerts value: ", allConcerts);
 
   $.ajax({
@@ -127,7 +123,11 @@ function handleDeleteConcertClick(e) {
 // Remove the deleted concert from allConcerts and re-render the list of concerts
 function deleteSingleConcertSuccess(concert) {
 
+  redirect();
+
   delete allConcerts[concert._id];
+
+
 
   // console.log("On deleteConcertSuccess allConcerts value: ", allConcerts);
 

@@ -66,7 +66,7 @@ function showBandList() {
     $concerts = response.concerts;
     console.log("ShowBandList: "+$bands);
     console.log("ShowConcertList: "+$concerts);
-    
+
 
     // for (var concerts in $bands) {
     //   $bands.forEach(function(band) {

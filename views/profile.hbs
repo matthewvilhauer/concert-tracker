@@ -50,7 +50,7 @@
             <li>
               <li><a href="/profile">{{ username }}</a></li>
               <li><a class="hidden" href="/login">Login</a></li>
-              <li><a href="/logout">Logut</a></li>
+              <li><a href="/logout">Logout</a></li>
               <li><a class="hidden" href="/signup">Signup</a></li>
 
             </li>
@@ -101,8 +101,8 @@
               <h2>My Concerts</h2>
               <span class= "user-concerts">
                 <ul>
-                  {{#each myConcerts}}
-                  <li>{{eventName}}</li>
+                  {{#each concerts}}
+                  <li><a href="/concerts/{{_id}}">{{eventName}}</a> - <a href="/bands/{{band._id}}">{{band.name}}</li></a>
                   {{/each}}
                 </ul>
               </span>

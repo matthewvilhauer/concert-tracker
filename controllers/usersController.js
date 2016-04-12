@@ -54,7 +54,7 @@ function profile(req, res) {
                   console.log('HHHHHHHHHHHHH');
 
                   // return concerts and bands as JSON
-                  res.json('profile', {
+                  res.render('profile', {
                     userConcerts: userConcerts,
                     concerts: allConcerts,
                     bands: allBands,
@@ -62,8 +62,8 @@ function profile(req, res) {
                   });
               });
           });
-      }
-  });
+        }
+      });
 }
 function createFavoriteConcert(req, res) {
 
@@ -89,6 +89,7 @@ function createFavoriteConcert(req, res) {
     });
   });
 }
+
 function destroy(req, res) {
 
 }

@@ -98,14 +98,18 @@ app.delete('/api/concerts/:concertId', controllers.concerts.destroy);
 app.get('/api/concertsList', controllers.concerts.list);
 // USER CRUD
 
-//Show a User and their favorite Concerts
-app.get('/users/:userId', controllers.users.profile);
 //Show a User
 app.get('/api/users/:userId', controllers.users.show);
 //Show a User
 app.put('/api/users/:userId', controllers.users.update);
 //Add a cncert to myConcerts
 app.post('api/users/:userId/concerts/:concertId', controllers.users.createFavoriteConcert);
+
+
+//Show a User and their favorite Concerts
+app.get('/users/:userId', controllers.users.profile);
+
+
 // AUTH ROUTES
 // show signup view
 app.get('/signup', function (req, res) {

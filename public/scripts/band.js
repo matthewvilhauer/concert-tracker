@@ -90,3 +90,32 @@ function getBandList() {
     console.log(allBands);
   });
 }
+
+// Send the ID of the band to be deleted to the server
+function handleDeleteBandClick(e) {
+  var $bandRow = $(this).closest('.band');
+  var bandId = $bandRow.data('band-id');
+
+  console.log('someone wants to delete band id=' + bandId );
+  console.log("On handleDeleteBandClick allBands value: ", allBands);
+
+  $.ajax({
+    method: 'DELETE',
+    url: '/api/bands/' + bandId,
+    success: deleteBandSuccess,
+    error: deleteBandError
+  });
+}
+// Remove the deleted band from allBands and re-render the list of bands
+function deleteBandSuccess(band) {
+
+  delete allBands[band._id];
+
+  console.log("On deleteBandSuccess allBands value: ", allBands);
+
+  renderBandList(allBands);
+
+}
+function deleteBandError(e) {
+  console.log('Error deleting band');
+}
