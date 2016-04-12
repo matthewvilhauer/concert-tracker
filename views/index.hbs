@@ -21,9 +21,14 @@
 
     <!-- APPLICATION SCRIPTS -->
     <script type="text/javascript" src="scripts/app.js"></script>
+
   </head>
 
   <body>
+
+    <script type="text/javascript">
+      window.user = {{{ user }}};
+    </script>
 
     <nav class="navbar navbar-default">
       <div class="container-fluid">
@@ -44,11 +49,14 @@
             <li><a href="/bands">Artists</a></li>
             <li><a href="/concerts">Concerts</a></li>
           </ul>
-          <!-- <ul class="nav navbar-nav navbar-right">
+          <ul class="nav navbar-nav navbar-right">
             <li>
+              <li><a href="/profile">My Profile</a></li>
               <li><a href="/login">Login</a></li>
+              <li><a href="/logout">Logut</a></li>
+              <li><a href="/signup">Signup</a></li>
             </li>
-          </ul> -->
+          </ul>
         </div><!-- /.navbar-collapse -->
       </div><!-- /.container-fluid -->
     </nav>
