@@ -15,12 +15,7 @@ $(document).ready(function() {
       window.user = response;
       localStorage.setItem('userId', response._id);
       localStorage.setItem('user', JSON.stringify(response));
-
-      $('.profile-user-id').text(userId);
-
     });
-
-    renderPage();
 
     $(".update-profile-button").on('click', handleUpdateProfileClick);
     $(".save-profile-button").on('click', handleSaveProfileClick);
@@ -29,17 +24,13 @@ $(document).ready(function() {
 
 
 function renderPage() {
-  $.get('/users/:userId').success( function(response) {
-    var user = response.user;
+  $.get('/api/users/:userId').success( function(response) {
+    var currentUser = response.user;
     var myConcerts = response.userConcerts;
 
     $('.user-concerts').val(myConcerts);
-    //Add concerts to the hash map
-    // $concerts.forEach( function(concert) {
-    //   allConcerts[concert._id] = concert;
-    // });
-    // renderConcertList(allConcerts);
-    // location.reload();
+    $('.user-concerts').append('<div class="currentuser">'+currentUser+'</div>');
+
   });
 }
 
@@ -72,7 +63,7 @@ function handleUpdateProfileClick(e) {
   $profile.find('span.profile-lastName').html('<input class="update-profile-fields update-profile-lastName" value="' + lastName + '"></input>');
   var image_url = $profile.find('span.profile-image-url').text();
   $profile.find('span.profile-image-url').html('<input class="update-profile-fields update-profile-image-url" value="' + image_url + '"></input>');
-  var concerts = $profile.find('span.user-concerts').val();
+  // var concerts = $profile.find('span.user-concerts').val();
 }
 
 // after editing an profile, when the save changes button is clicked
@@ -88,7 +79,7 @@ function handleSaveProfileClick(e) {
     firstName: $profile.find('.update-profile-firstName').val(),
     lastName: $profile.find('.update-profile-lastName').val(),
     image: $profile.find('.update-profile-image-url').val(),
-    concerts: $profile.find('span.user-concerts').val()
+    // concerts: $profile.find('span.user-concerts').val()
   };
   console.log('PUTing data for profile', userId, 'with data:', data);
 
@@ -104,7 +95,6 @@ function handleSaveProfileClick(e) {
 function handleUpdatedProfileResponse(profile) {
   // $('.profile-image-column').toggleClass('hidden');
   console.log('response to update', profile);
-  var profileId = profile._id;
 
   location.reload();
 
